@@ -343,6 +343,10 @@
             this.tileDNNCommunityForums.Text = "DNN Community Forums";
             this.tileDNNCommunityForums.Click += new System.EventHandler(this.tileDNNCommunityForums_Click);
             // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.WorkerReportsProgress = true;
+            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

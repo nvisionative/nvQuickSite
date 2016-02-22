@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Xml.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
@@ -20,6 +21,7 @@ namespace DNNQuickSite
         public Start()
         {
             InitializeComponent();
+            InitializeBackgroundWorker();
 
             tabControl.SelectedIndex = 0;
             tabSiteInfo.Enabled = false;
@@ -51,6 +53,19 @@ namespace DNNQuickSite
             cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
         }
 
+        // Set up the BackgroundWorker object by 
+        // attaching event handlers. 
+        private void InitializeBackgroundWorker()
+        {
+            backgroundWorker.DoWork +=
+                new DoWorkEventHandler(backgroundWorker_DoWork);
+            backgroundWorker.RunWorkerCompleted +=
+                new RunWorkerCompletedEventHandler(
+            backgroundWorker_RunWorkerCompleted);
+            backgroundWorker.ProgressChanged +=
+                new ProgressChangedEventHandler(
+            backgroundWorker_ProgressChanged);
+        }
 
         #region "Install Package"
         private void cboLatestReleases_SelectedIndexChanged(object sender, EventArgs e)
@@ -146,7 +161,7 @@ namespace DNNQuickSite
                 tabSiteInfo.Enabled = false;
                 tabControl.SelectedIndex = 2;
 
-                //backgroundWorker.RunWorkerAsync();
+                backgroundWorker.RunWorkerAsync();
 
                 CreateSite();
                 UpdateHostsFile();
@@ -253,11 +268,21 @@ namespace DNNQuickSite
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var backgroundWorker = sender as BackgroundWorker;
-            for (int j = 0; j < 100000; j++)
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            for (int i = 1; i <= 10; i++)
             {
-                Calculate(j);
-                backgroundWorker.ReportProgress((j * 100) / 100000);
+                if (worker.CancellationPending == true)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+                else
+                {
+                    // Perform a time consuming operation and report progress.
+                    System.Threading.Thread.Sleep(500);
+                    worker.ReportProgress(i * 10);
+                }
             }
         }
 
