@@ -1,0 +1,2 @@
+C:\Dev\DNNQuickStart\DNNQuickStart\obj\Debug\QuickDNN.exe
+C:\Dev\DNNQuickStart\DNNQuickStart\obj\Debug\QuickDNN.pdb
