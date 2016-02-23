@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
+using System.Data.SqlClient;using System.Linq;
 using System.Text;
 using System.Net;
 using System.Xml.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO;
+using System.Security.AccessControl;
 using System.Diagnostics;
 using MetroFramework.Controls;
 using Microsoft.Web.Administration;
+using Ionic.Zip;
 
 namespace DNNQuickSite
 {
@@ -161,10 +163,12 @@ namespace DNNQuickSite
                 tabSiteInfo.Enabled = false;
                 tabControl.SelectedIndex = 2;
 
-                backgroundWorker.RunWorkerAsync();
+                //backgroundWorker.RunWorkerAsync();
 
-                CreateSite();
+                CreateDirectories();
+                CreateSiteInIIS();
                 UpdateHostsFile();
+                ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website");
             }
             else
             {
@@ -172,7 +176,81 @@ namespace DNNQuickSite
             }
         }
 
-        private void CreateSite()
+        private void CreateDirectories()
+        {
+            var websiteDir = txtLocation.Text + "\\Website";
+            var logsDir = txtLocation.Text + "\\Logs";
+            var databaseDir = txtLocation.Text + "\\Database";
+
+            var appPoolName = @"IIS APPPOOL\DefaultAppPool";
+            if (chkSiteSpecificAppPool.Checked)
+            {
+                appPoolName = @"IIS APPPOOL\" + txtSiteName.Text + "_DNNQuickSite";
+            }
+
+            if (!Directory.Exists(websiteDir))
+            {
+                Directory.CreateDirectory(websiteDir);
+                SetFolderPermission(appPoolName, websiteDir);
+            }
+            else
+            {
+                Directory.Delete(websiteDir, true);
+                Directory.CreateDirectory(websiteDir);
+                SetFolderPermission(appPoolName, websiteDir);
+            }
+
+            if (!Directory.Exists(logsDir))
+            {
+                Directory.CreateDirectory(logsDir);
+            }
+            else
+            {
+                Directory.Delete(logsDir);
+                Directory.CreateDirectory(logsDir);
+            }
+
+            if (!Directory.Exists(databaseDir))
+            {
+                Directory.CreateDirectory(databaseDir);
+            }
+            else
+            {
+                Directory.Delete(databaseDir);
+                Directory.CreateDirectory(databaseDir);
+            }
+        }
+
+        private static void SetFolderPermission(String accountName, String folderPath)
+        {
+            try
+            {
+                FileSystemRights Rights;
+                Rights = FileSystemRights.Modify;
+                bool modified;
+                var none = new InheritanceFlags();
+                none = InheritanceFlags.None;
+
+                var accessRule = new FileSystemAccessRule(accountName, Rights, none, PropagationFlags.NoPropagateInherit, AccessControlType.Allow);
+                var dInfo = new DirectoryInfo(folderPath);
+                var dSecurity = dInfo.GetAccessControl();
+                dSecurity.ModifyAccessRule(AccessControlModification.Set, accessRule, out modified);
+
+                var iFlags = new InheritanceFlags();
+                iFlags = InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit;
+
+                var accessRule2 = new FileSystemAccessRule(accountName, Rights, iFlags, PropagationFlags.InheritOnly, AccessControlType.Allow);
+                dSecurity.ModifyAccessRule(AccessControlModification.Add, accessRule2, out modified);
+
+                dInfo.SetAccessControl(dSecurity);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void CreateSiteInIIS()
         {
             try
             {
@@ -184,7 +262,7 @@ namespace DNNQuickSite
                 Boolean siteExists = SiteExists(siteName);
                 if (!siteExists)
                 {
-                    Site mySite = iisManager.Sites.Add(siteName, "http", bindingInfo, txtLocation.Text);
+                    Site mySite = iisManager.Sites.Add(siteName, "http", bindingInfo, txtLocation.Text + "\\Website");
                     mySite.TraceFailedRequestsLogging.Enabled = true;
                     mySite.TraceFailedRequestsLogging.Directory = txtLocation.Text + "\\Logs";
 
@@ -195,7 +273,7 @@ namespace DNNQuickSite
                         mySite.ApplicationDefaults.ApplicationPoolName = appPoolName;
                     }
                     iisManager.CommitChanges();
-                    MessageBox.Show("New DNN site (" + siteName + ") added sucessfully!", "Success", MessageBoxButtons.OK);
+                    //MessageBox.Show("New DNN site (" + siteName + ") added sucessfully!", "Success", MessageBoxButtons.OK);
                 }
                 else
                 {
@@ -256,6 +334,66 @@ namespace DNNQuickSite
             }
         }
 
+        private void UnZipPackage()
+        {
+            using (ZipFile zip = ZipFile.Read(txtLocalInstallPackage.Text))
+            {
+                zip.ExtractProgress +=
+                   new EventHandler<ExtractProgressEventArgs>(zipExtractProgress);
+                zip.ExtractAll(txtLocation.Text + "/Website", ExtractExistingFileAction.OverwriteSilently);
+            }
+        }
+
+        private void zipExtractProgress(object sender, ExtractProgressEventArgs e)
+        {
+            if (e.TotalBytesToTransfer > 0)
+            {
+                progressBar.Value = Convert.ToInt32(100 * e.BytesTransferred / e.TotalBytesToTransfer);
+            }
+        }
+
+        int fileCount = 0;
+        long totalSize = 0, total = 0, lastVal = 0, sum = 0;
+
+        public void ReadAndExtract(string openPath, string savePath)
+        {
+            try
+            {
+                fileCount = 0;
+                ZipFile myZip = new ZipFile();
+                myZip = ZipFile.Read(openPath);
+                foreach (var entry in myZip)
+                {
+                    fileCount++;
+                    totalSize += entry.UncompressedSize;
+                }
+                progressBar.Maximum = (Int32)totalSize;
+                myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(myZip_ExtractProgress);
+                myZip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+        }
+
+        void myZip_ExtractProgress(object sender, Ionic.Zip.ExtractProgressEventArgs e)
+        {
+
+            System.Windows.Forms.Application.DoEvents();
+            if (total != e.TotalBytesToTransfer)
+            {
+                sum += total - lastVal + e.BytesTransferred;
+                total = e.TotalBytesToTransfer;
+            }
+            else
+                sum += e.BytesTransferred - lastVal;
+
+            lastVal = e.BytesTransferred;
+
+            progressBar.Value = (Int32)sum;
+        }
+
         #endregion
 
 
@@ -313,6 +451,45 @@ namespace DNNQuickSite
 
         #endregion
 
+        #region "Create Database"
+
+        private void createDatabase_Click(object sender, EventArgs e)
+        {
+            String str;
+            SqlConnection myConn = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
+
+            String myDB = "";
+            str = "CREATE DATABASE " + myDB + " ON PRIMARY " +
+            "(NAME = " + myDB + "_Data, " +
+            "FILENAME = 'C:\\" + myDB + "Data.mdf', " +
+            "SIZE = 2MB, MAXSIZE = 10MB, FILEGROWTH = 10%) " +
+            "LOG ON (NAME = " + myDB + "_Log, " +
+            "FILENAME = 'C:\\" + myDB + "Log.ldf', " +
+            "SIZE = 1MB, " +
+            "MAXSIZE = 5MB, " +
+            "FILEGROWTH = 10%)";
+
+            SqlCommand myCommand = new SqlCommand(str, myConn);
+            try 
+            {
+                myConn.Open();
+	            myCommand.ExecuteNonQuery();
+	            //MessageBox.Show("Database is created successfully", "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (System.Exception ex)
+                {
+    	            MessageBox.Show(ex.ToString(), "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            finally
+            {
+	            if (myConn.State == ConnectionState.Open)
+	            {
+	                myConn.Close();
+	            }
+            }
+        }
+
+        #endregion
 
     }
 }

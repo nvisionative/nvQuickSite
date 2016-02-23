@@ -4,10 +4,12 @@ C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.exe.manifest
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.application
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.exe
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.pdb
+C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Ionic.Zip.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\MetroFramework.Design.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\MetroFramework.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\MetroFramework.Fonts.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Microsoft.Web.Administration.dll
+C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.csprojResolveAssemblyReference.cache
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.Intro.resources
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.Start.resources
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.Main.resources
