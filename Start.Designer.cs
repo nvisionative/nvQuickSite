@@ -57,6 +57,7 @@
             this.tileDNNDocumentationCenter = new MetroFramework.Controls.MetroTile();
             this.tileDNNCommunityForums = new MetroFramework.Controls.MetroTile();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.tabDatabaseInfo = new MetroFramework.Controls.MetroTabPage();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -102,7 +103,7 @@
             this.btnInstall.Name = "btnInstall";
             this.btnInstall.Size = new System.Drawing.Size(90, 36);
             this.btnInstall.TabIndex = 10;
-            this.btnInstall.Text = "Install";
+            this.btnInstall.Text = "Next";
             this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
             // 
             // btnLocation
@@ -278,11 +279,12 @@
             // 
             this.tabControl.Controls.Add(this.tabInstallPackage);
             this.tabControl.Controls.Add(this.tabSiteInfo);
+            this.tabControl.Controls.Add(this.tabDatabaseInfo);
             this.tabControl.Controls.Add(this.tabProgress);
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
+            this.tabControl.SelectedIndex = 1;
             this.tabControl.Size = new System.Drawing.Size(607, 318);
             this.tabControl.TabIndex = 26;
             // 
@@ -347,6 +349,16 @@
             // 
             this.backgroundWorker.WorkerReportsProgress = true;
             // 
+            // tabDatabaseInfo
+            // 
+            this.tabDatabaseInfo.HorizontalScrollbarBarColor = true;
+            this.tabDatabaseInfo.Location = new System.Drawing.Point(4, 35);
+            this.tabDatabaseInfo.Name = "tabDatabaseInfo";
+            this.tabDatabaseInfo.Size = new System.Drawing.Size(599, 279);
+            this.tabDatabaseInfo.TabIndex = 3;
+            this.tabDatabaseInfo.Text = "Database Info";
+            this.tabDatabaseInfo.VerticalScrollbarBarColor = true;
+            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -398,5 +410,6 @@
         private MetroFramework.Controls.MetroTabPage tabProgress;
         private MetroFramework.Controls.MetroProgressBar progressBar;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
+        private MetroFramework.Controls.MetroTabPage tabDatabaseInfo;
     }
 }

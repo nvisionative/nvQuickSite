@@ -154,10 +154,24 @@ namespace DNNQuickSite
 
         private void btnInstall_Click(object sender, EventArgs e)
         {
-            var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
-                                     "Confirm Installation",
-                                     MessageBoxButtons.YesNo);
-            if (confirmResult == DialogResult.Yes)
+            bool proceed = false;
+
+            if (!IsDirectoryEmpty(txtLocation.Text))
+            {
+                var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
+                                         "Confirm Installation",
+                                         MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    proceed = true;
+                }
+            }
+            else
+            {
+                proceed = true;
+            }
+
+            if (proceed)
             {
                 tabProgress.Enabled = true;
                 tabSiteInfo.Enabled = false;
@@ -170,10 +184,11 @@ namespace DNNQuickSite
                 UpdateHostsFile();
                 ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website");
             }
-            else
-            {
-                // If 'No', do something here.
-            }
+        }
+
+        private bool IsDirectoryEmpty(string path)
+        {
+            return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 
         private void CreateDirectories()
