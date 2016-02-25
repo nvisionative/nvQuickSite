@@ -31,7 +31,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tabSiteInfo = new MetroFramework.Controls.MetroTabPage();
             this.btnSiteInfoBack = new MetroFramework.Controls.MetroButton();
-            this.btnInstall = new MetroFramework.Controls.MetroButton();
+            this.btnSiteInfoNext = new MetroFramework.Controls.MetroButton();
             this.btnLocation = new MetroFramework.Controls.MetroButton();
             this.lblLocation = new MetroFramework.Controls.MetroLabel();
             this.txtLocation = new MetroFramework.Controls.MetroTextBox();
@@ -49,6 +49,19 @@
             this.btnGetLatestRelease = new MetroFramework.Controls.MetroButton();
             this.btnViewAllReleases = new MetroFramework.Controls.MetroButton();
             this.tabControl = new MetroFramework.Controls.MetroTabControl();
+            this.tabDatabaseInfo = new MetroFramework.Controls.MetroTabPage();
+            this.btnDatabaseInfoBack = new MetroFramework.Controls.MetroButton();
+            this.btnDatabaseInfoNext = new MetroFramework.Controls.MetroButton();
+            this.lblDBName = new MetroFramework.Controls.MetroLabel();
+            this.txtDBName = new MetroFramework.Controls.MetroTextBox();
+            this.txtDBPassword = new MetroFramework.Controls.MetroTextBox();
+            this.lblDBPassword = new MetroFramework.Controls.MetroLabel();
+            this.lblDBUserName = new MetroFramework.Controls.MetroLabel();
+            this.txtDBUserName = new MetroFramework.Controls.MetroTextBox();
+            this.rdoSQLServerAuthentication = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoWindowsAuthentication = new MetroFramework.Controls.MetroRadioButton();
+            this.lblDBServerName = new MetroFramework.Controls.MetroLabel();
+            this.txtDBServerName = new MetroFramework.Controls.MetroTextBox();
             this.tabProgress = new MetroFramework.Controls.MetroTabPage();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
             this.tileQuickStartGuide = new MetroFramework.Controls.MetroTile();
@@ -57,10 +70,10 @@
             this.tileDNNDocumentationCenter = new MetroFramework.Controls.MetroTile();
             this.tileDNNCommunityForums = new MetroFramework.Controls.MetroTile();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.tabDatabaseInfo = new MetroFramework.Controls.MetroTabPage();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
+            this.tabDatabaseInfo.SuspendLayout();
             this.tabProgress.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,7 +84,7 @@
             // tabSiteInfo
             // 
             this.tabSiteInfo.Controls.Add(this.btnSiteInfoBack);
-            this.tabSiteInfo.Controls.Add(this.btnInstall);
+            this.tabSiteInfo.Controls.Add(this.btnSiteInfoNext);
             this.tabSiteInfo.Controls.Add(this.btnLocation);
             this.tabSiteInfo.Controls.Add(this.lblLocation);
             this.tabSiteInfo.Controls.Add(this.txtLocation);
@@ -96,15 +109,15 @@
             this.btnSiteInfoBack.Text = "Back";
             this.btnSiteInfoBack.Click += new System.EventHandler(this.btnSiteInfoBack_Click);
             // 
-            // btnInstall
+            // btnSiteInfoNext
             // 
-            this.btnInstall.Highlight = true;
-            this.btnInstall.Location = new System.Drawing.Point(507, 216);
-            this.btnInstall.Name = "btnInstall";
-            this.btnInstall.Size = new System.Drawing.Size(90, 36);
-            this.btnInstall.TabIndex = 10;
-            this.btnInstall.Text = "Next";
-            this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
+            this.btnSiteInfoNext.Highlight = true;
+            this.btnSiteInfoNext.Location = new System.Drawing.Point(507, 216);
+            this.btnSiteInfoNext.Name = "btnSiteInfoNext";
+            this.btnSiteInfoNext.Size = new System.Drawing.Size(90, 36);
+            this.btnSiteInfoNext.TabIndex = 10;
+            this.btnSiteInfoNext.Text = "Next";
+            this.btnSiteInfoNext.Click += new System.EventHandler(this.btnSiteInfoNext_Click);
             // 
             // btnLocation
             // 
@@ -195,7 +208,7 @@
             this.tabInstallPackage.Name = "tabInstallPackage";
             this.tabInstallPackage.Size = new System.Drawing.Size(599, 279);
             this.tabInstallPackage.TabIndex = 0;
-            this.tabInstallPackage.Text = "Install Package";
+            this.tabInstallPackage.Text = "Install Package Info";
             this.tabInstallPackage.VerticalScrollbarBarColor = true;
             // 
             // btnInstallPackageNext
@@ -284,9 +297,146 @@
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 1;
+            this.tabControl.SelectedIndex = 3;
             this.tabControl.Size = new System.Drawing.Size(607, 318);
             this.tabControl.TabIndex = 26;
+            // 
+            // tabDatabaseInfo
+            // 
+            this.tabDatabaseInfo.Controls.Add(this.btnDatabaseInfoBack);
+            this.tabDatabaseInfo.Controls.Add(this.btnDatabaseInfoNext);
+            this.tabDatabaseInfo.Controls.Add(this.lblDBName);
+            this.tabDatabaseInfo.Controls.Add(this.txtDBName);
+            this.tabDatabaseInfo.Controls.Add(this.txtDBPassword);
+            this.tabDatabaseInfo.Controls.Add(this.lblDBPassword);
+            this.tabDatabaseInfo.Controls.Add(this.lblDBUserName);
+            this.tabDatabaseInfo.Controls.Add(this.txtDBUserName);
+            this.tabDatabaseInfo.Controls.Add(this.rdoSQLServerAuthentication);
+            this.tabDatabaseInfo.Controls.Add(this.rdoWindowsAuthentication);
+            this.tabDatabaseInfo.Controls.Add(this.lblDBServerName);
+            this.tabDatabaseInfo.Controls.Add(this.txtDBServerName);
+            this.tabDatabaseInfo.HorizontalScrollbarBarColor = true;
+            this.tabDatabaseInfo.Location = new System.Drawing.Point(4, 35);
+            this.tabDatabaseInfo.Name = "tabDatabaseInfo";
+            this.tabDatabaseInfo.Size = new System.Drawing.Size(599, 279);
+            this.tabDatabaseInfo.TabIndex = 3;
+            this.tabDatabaseInfo.Text = "Database Info";
+            this.tabDatabaseInfo.VerticalScrollbarBarColor = true;
+            // 
+            // btnDatabaseInfoBack
+            // 
+            this.btnDatabaseInfoBack.Location = new System.Drawing.Point(0, 216);
+            this.btnDatabaseInfoBack.Name = "btnDatabaseInfoBack";
+            this.btnDatabaseInfoBack.Size = new System.Drawing.Size(90, 36);
+            this.btnDatabaseInfoBack.TabIndex = 13;
+            this.btnDatabaseInfoBack.Text = "Back";
+            this.btnDatabaseInfoBack.Click += new System.EventHandler(this.btnDatabaseInfoBack_Click);
+            // 
+            // btnDatabaseInfoNext
+            // 
+            this.btnDatabaseInfoNext.Highlight = true;
+            this.btnDatabaseInfoNext.Location = new System.Drawing.Point(507, 216);
+            this.btnDatabaseInfoNext.Name = "btnDatabaseInfoNext";
+            this.btnDatabaseInfoNext.Size = new System.Drawing.Size(90, 36);
+            this.btnDatabaseInfoNext.TabIndex = 12;
+            this.btnDatabaseInfoNext.Text = "Next";
+            this.btnDatabaseInfoNext.Click += new System.EventHandler(this.btnDatabaseInfoNext_Click);
+            // 
+            // lblDBName
+            // 
+            this.lblDBName.AutoSize = true;
+            this.lblDBName.Location = new System.Drawing.Point(0, 110);
+            this.lblDBName.Name = "lblDBName";
+            this.lblDBName.Size = new System.Drawing.Size(103, 19);
+            this.lblDBName.TabIndex = 11;
+            this.lblDBName.Text = "Database Name";
+            // 
+            // txtDBName
+            // 
+            this.txtDBName.Location = new System.Drawing.Point(0, 134);
+            this.txtDBName.Name = "txtDBName";
+            this.txtDBName.Size = new System.Drawing.Size(270, 23);
+            this.txtDBName.TabIndex = 10;
+            this.txtDBName.UseStyleColors = true;
+            // 
+            // txtDBPassword
+            // 
+            this.txtDBPassword.Enabled = false;
+            this.txtDBPassword.Location = new System.Drawing.Point(340, 134);
+            this.txtDBPassword.Name = "txtDBPassword";
+            this.txtDBPassword.Size = new System.Drawing.Size(257, 23);
+            this.txtDBPassword.TabIndex = 9;
+            // 
+            // lblDBPassword
+            // 
+            this.lblDBPassword.AutoSize = true;
+            this.lblDBPassword.Enabled = false;
+            this.lblDBPassword.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lblDBPassword.Location = new System.Drawing.Point(340, 111);
+            this.lblDBPassword.Name = "lblDBPassword";
+            this.lblDBPassword.Size = new System.Drawing.Size(55, 15);
+            this.lblDBPassword.TabIndex = 8;
+            this.lblDBPassword.Text = "Password";
+            // 
+            // lblDBUserName
+            // 
+            this.lblDBUserName.AutoSize = true;
+            this.lblDBUserName.Enabled = false;
+            this.lblDBUserName.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lblDBUserName.Location = new System.Drawing.Point(340, 63);
+            this.lblDBUserName.Name = "lblDBUserName";
+            this.lblDBUserName.Size = new System.Drawing.Size(64, 15);
+            this.lblDBUserName.TabIndex = 7;
+            this.lblDBUserName.Text = "User Name";
+            // 
+            // txtDBUserName
+            // 
+            this.txtDBUserName.Enabled = false;
+            this.txtDBUserName.Location = new System.Drawing.Point(340, 85);
+            this.txtDBUserName.Name = "txtDBUserName";
+            this.txtDBUserName.Size = new System.Drawing.Size(257, 23);
+            this.txtDBUserName.TabIndex = 6;
+            // 
+            // rdoSQLServerAuthentication
+            // 
+            this.rdoSQLServerAuthentication.AutoSize = true;
+            this.rdoSQLServerAuthentication.Location = new System.Drawing.Point(321, 45);
+            this.rdoSQLServerAuthentication.Name = "rdoSQLServerAuthentication";
+            this.rdoSQLServerAuthentication.Size = new System.Drawing.Size(161, 15);
+            this.rdoSQLServerAuthentication.TabIndex = 5;
+            this.rdoSQLServerAuthentication.Text = "SQL Server Authentication";
+            this.rdoSQLServerAuthentication.UseVisualStyleBackColor = true;
+            this.rdoSQLServerAuthentication.CheckedChanged += new System.EventHandler(this.rdoSQLServerAuthentication_CheckedChanged);
+            // 
+            // rdoWindowsAuthentication
+            // 
+            this.rdoWindowsAuthentication.AutoSize = true;
+            this.rdoWindowsAuthentication.Checked = true;
+            this.rdoWindowsAuthentication.Location = new System.Drawing.Point(321, 23);
+            this.rdoWindowsAuthentication.Name = "rdoWindowsAuthentication";
+            this.rdoWindowsAuthentication.Size = new System.Drawing.Size(154, 15);
+            this.rdoWindowsAuthentication.TabIndex = 4;
+            this.rdoWindowsAuthentication.TabStop = true;
+            this.rdoWindowsAuthentication.Text = "Windows Authentication";
+            this.rdoWindowsAuthentication.UseVisualStyleBackColor = true;
+            this.rdoWindowsAuthentication.CheckedChanged += new System.EventHandler(this.rdoWindowsAuthentication_CheckedChanged);
+            // 
+            // lblDBServerName
+            // 
+            this.lblDBServerName.AutoSize = true;
+            this.lblDBServerName.Location = new System.Drawing.Point(0, 12);
+            this.lblDBServerName.Name = "lblDBServerName";
+            this.lblDBServerName.Size = new System.Drawing.Size(145, 19);
+            this.lblDBServerName.TabIndex = 3;
+            this.lblDBServerName.Text = "Database Server Name";
+            // 
+            // txtDBServerName
+            // 
+            this.txtDBServerName.Location = new System.Drawing.Point(0, 37);
+            this.txtDBServerName.Name = "txtDBServerName";
+            this.txtDBServerName.Size = new System.Drawing.Size(270, 23);
+            this.txtDBServerName.TabIndex = 2;
+            this.txtDBServerName.UseStyleColors = true;
             // 
             // tabProgress
             // 
@@ -349,16 +499,6 @@
             // 
             this.backgroundWorker.WorkerReportsProgress = true;
             // 
-            // tabDatabaseInfo
-            // 
-            this.tabDatabaseInfo.HorizontalScrollbarBarColor = true;
-            this.tabDatabaseInfo.Location = new System.Drawing.Point(4, 35);
-            this.tabDatabaseInfo.Name = "tabDatabaseInfo";
-            this.tabDatabaseInfo.Size = new System.Drawing.Size(599, 279);
-            this.tabDatabaseInfo.TabIndex = 3;
-            this.tabDatabaseInfo.Text = "Database Info";
-            this.tabDatabaseInfo.VerticalScrollbarBarColor = true;
-            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -375,6 +515,8 @@
             this.tabInstallPackage.ResumeLayout(false);
             this.tabInstallPackage.PerformLayout();
             this.tabControl.ResumeLayout(false);
+            this.tabDatabaseInfo.ResumeLayout(false);
+            this.tabDatabaseInfo.PerformLayout();
             this.tabProgress.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -402,7 +544,7 @@
         private MetroFramework.Controls.MetroCheckBox chkSiteSpecificAppPool;
         private MetroFramework.Controls.MetroButton btnLocalInstallPackage;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private MetroFramework.Controls.MetroButton btnInstall;
+        private MetroFramework.Controls.MetroButton btnSiteInfoNext;
         private MetroFramework.Controls.MetroTile tileDNNDocumentationCenter;
         private MetroFramework.Controls.MetroTile tileDNNCommunityForums;
         private MetroFramework.Controls.MetroButton btnInstallPackageNext;
@@ -411,5 +553,17 @@
         private MetroFramework.Controls.MetroProgressBar progressBar;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private MetroFramework.Controls.MetroTabPage tabDatabaseInfo;
+        private MetroFramework.Controls.MetroLabel lblDBServerName;
+        private MetroFramework.Controls.MetroTextBox txtDBServerName;
+        private MetroFramework.Controls.MetroLabel lblDBName;
+        private MetroFramework.Controls.MetroTextBox txtDBName;
+        private MetroFramework.Controls.MetroTextBox txtDBPassword;
+        private MetroFramework.Controls.MetroLabel lblDBPassword;
+        private MetroFramework.Controls.MetroLabel lblDBUserName;
+        private MetroFramework.Controls.MetroTextBox txtDBUserName;
+        private MetroFramework.Controls.MetroRadioButton rdoSQLServerAuthentication;
+        private MetroFramework.Controls.MetroRadioButton rdoWindowsAuthentication;
+        private MetroFramework.Controls.MetroButton btnDatabaseInfoNext;
+        private MetroFramework.Controls.MetroButton btnDatabaseInfoBack;
     }
 }

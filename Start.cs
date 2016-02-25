@@ -27,6 +27,7 @@ namespace DNNQuickSite
 
             tabControl.SelectedIndex = 0;
             tabSiteInfo.Enabled = false;
+            tabDatabaseInfo.Enabled = false;
             tabProgress.Enabled = false;
 
             //FeedParser parser = new FeedParser();
@@ -59,14 +60,9 @@ namespace DNNQuickSite
         // attaching event handlers. 
         private void InitializeBackgroundWorker()
         {
-            backgroundWorker.DoWork +=
-                new DoWorkEventHandler(backgroundWorker_DoWork);
-            backgroundWorker.RunWorkerCompleted +=
-                new RunWorkerCompletedEventHandler(
-            backgroundWorker_RunWorkerCompleted);
-            backgroundWorker.ProgressChanged +=
-                new ProgressChangedEventHandler(
-            backgroundWorker_ProgressChanged);
+            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
+            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
+            backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
         }
 
         #region "Install Package"
@@ -98,21 +94,10 @@ namespace DNNQuickSite
 
         private void openFileDiag()
         {
-            int size = -1;
-            DialogResult result = openFileDialog.ShowDialog(); // Show dialog
-            if (result == DialogResult.OK) // Test result
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
             {
                 txtLocalInstallPackage.Text = openFileDialog.FileName;
-                //string file = openFileDialog.FileName;
-                //try
-                //{
-                //    string text = File.ReadAllText(file);
-                //    size = text.Length;
-                //    txtLocalInstallPackage.Text = file;
-                //}
-                //catch (IOException)
-                //{
-                //}
             }
         }
 
@@ -120,11 +105,12 @@ namespace DNNQuickSite
         {
             tabInstallPackage.Enabled = false;
             tabSiteInfo.Enabled = true;
+            tabDatabaseInfo.Enabled = false;
+            tabProgress.Enabled = false;
             tabControl.SelectedIndex = 1;
         }
 
         #endregion
-
 
         #region "Site Info"
         private void txtLocation_Click(object sender, EventArgs e)
@@ -152,11 +138,11 @@ namespace DNNQuickSite
             tabControl.SelectedIndex = 0;
         }
 
-        private void btnInstall_Click(object sender, EventArgs e)
+        private void btnSiteInfoNext_Click(object sender, EventArgs e)
         {
             bool proceed = false;
 
-            if (!IsDirectoryEmpty(txtLocation.Text))
+            if (!DirectoryEmpty(txtLocation.Text))
             {
                 var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
                                          "Confirm Installation",
@@ -173,22 +159,67 @@ namespace DNNQuickSite
 
             if (proceed)
             {
-                tabProgress.Enabled = true;
+                tabInstallPackage.Enabled = false;
                 tabSiteInfo.Enabled = false;
+                tabDatabaseInfo.Enabled = true;
+                tabProgress.Enabled = false;
                 tabControl.SelectedIndex = 2;
 
                 //backgroundWorker.RunWorkerAsync();
 
-                CreateDirectories();
-                CreateSiteInIIS();
-                UpdateHostsFile();
-                ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website");
             }
         }
 
-        private bool IsDirectoryEmpty(string path)
+        private bool DirectoryEmpty(string path)
         {
             return !Directory.EnumerateFileSystemEntries(path).Any();
+        }
+
+        #endregion
+
+        #region "Database Info"
+
+        private void rdoWindowsAuthentication_CheckedChanged(object sender, EventArgs e)
+        {
+            lblDBUserName.Enabled = false;
+            txtDBUserName.Enabled = false;
+            txtDBUserName.UseStyleColors = true;
+            lblDBPassword.Enabled = false;
+            txtDBPassword.Enabled = false;
+            txtDBPassword.UseStyleColors = true;
+        }
+
+        private void rdoSQLServerAuthentication_CheckedChanged(object sender, EventArgs e)
+        {
+            lblDBUserName.Enabled = true;
+            txtDBUserName.Enabled = true;
+            txtDBUserName.UseStyleColors = false;
+            lblDBPassword.Enabled = true;
+            txtDBPassword.Enabled = true;
+            txtDBPassword.UseStyleColors = false;
+        }
+
+        private void btnDatabaseInfoBack_Click(object sender, EventArgs e)
+        {
+            tabInstallPackage.Enabled = false;
+            tabSiteInfo.Enabled = true;
+            tabDatabaseInfo.Enabled = false;
+            tabControl.SelectedIndex = 1;
+        }
+
+        private void btnDatabaseInfoNext_Click(object sender, EventArgs e)
+        {
+            tabInstallPackage.Enabled = false;
+            tabSiteInfo.Enabled = false;
+            tabDatabaseInfo.Enabled = false;
+            tabProgress.Enabled = true;
+            tabControl.SelectedIndex = 3;
+
+            CreateSiteInIIS();
+            UpdateHostsFile();
+            CreateDirectories();
+            CreateDatabase();
+            ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website");
         }
 
         private void CreateDirectories()
@@ -198,6 +229,8 @@ namespace DNNQuickSite
             var databaseDir = txtLocation.Text + "\\Database";
 
             var appPoolName = @"IIS APPPOOL\DefaultAppPool";
+            var dbServiceAccount = @"NT Service\MSSQLSERVER";
+
             if (chkSiteSpecificAppPool.Checked)
             {
                 appPoolName = @"IIS APPPOOL\" + txtSiteName.Text + "_DNNQuickSite";
@@ -223,6 +256,7 @@ namespace DNNQuickSite
             {
                 Directory.Delete(logsDir);
                 Directory.CreateDirectory(logsDir);
+                SetFolderPermission(dbServiceAccount, logsDir);
             }
 
             if (!Directory.Exists(databaseDir))
@@ -233,6 +267,7 @@ namespace DNNQuickSite
             {
                 Directory.Delete(databaseDir);
                 Directory.CreateDirectory(databaseDir);
+                SetFolderPermission(dbServiceAccount, databaseDir);
             }
         }
 
@@ -411,7 +446,6 @@ namespace DNNQuickSite
 
         #endregion
 
-
         #region "Progress"
 
         private void Calculate(int i)
@@ -451,7 +485,6 @@ namespace DNNQuickSite
 
         #endregion
 
-
         #region "Tiles"
 
         private void tileDNNCommunityForums_Click(object sender, EventArgs e)
@@ -468,28 +501,39 @@ namespace DNNQuickSite
 
         #region "Create Database"
 
-        private void createDatabase_Click(object sender, EventArgs e)
+        private void CreateDatabase()
         {
-            String str;
-            SqlConnection myConn = new SqlConnection("Server=localhost;Integrated security=SSPI;database=master");
+            string myDBServerName = txtDBServerName.Text;
+            string connectionStringAuthSection = "";
+            if (rdoWindowsAuthentication.Checked)
+            {
+                connectionStringAuthSection = "Integrated Security=True;";
+            }
+            else
+            {
+                connectionStringAuthSection = "User ID=" + txtDBUserName.Text + ";Password=" + txtDBPassword.Text + ";";
+            }
 
-            String myDB = "";
-            str = "CREATE DATABASE " + myDB + " ON PRIMARY " +
-            "(NAME = " + myDB + "_Data, " +
-            "FILENAME = 'C:\\" + myDB + "Data.mdf', " +
-            "SIZE = 2MB, MAXSIZE = 10MB, FILEGROWTH = 10%) " +
-            "LOG ON (NAME = " + myDB + "_Log, " +
-            "FILENAME = 'C:\\" + myDB + "Log.ldf', " +
-            "SIZE = 1MB, " +
-            "MAXSIZE = 5MB, " +
-            "FILEGROWTH = 10%)";
+            SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection);
+
+            string myDBName = txtDBName.Text;
+
+            string str = "CREATE DATABASE " + myDBName + " ON PRIMARY " +
+                "(NAME = " + myDBName + "_Data, " +
+                "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "Data.mdf', " +
+                "SIZE = 4MB, MAXSIZE = 10MB, FILEGROWTH = 10%) " +
+                "LOG ON (NAME = " + myDBName + "_Log, " +
+                "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "Log.ldf', " +
+                "SIZE = 1MB, " +
+                "MAXSIZE = 5MB, " +
+                "FILEGROWTH = 10%)";
 
             SqlCommand myCommand = new SqlCommand(str, myConn);
             try 
             {
                 myConn.Open();
 	            myCommand.ExecuteNonQuery();
-	            //MessageBox.Show("Database is created successfully", "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
+	            //MessageBox.Show("Database created successfully", "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (System.Exception ex)
                 {

@@ -41,6 +41,7 @@
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Image = global::DNNQuickSite.Properties.Resources.DNN_company_logo;
             this.pictureBox2.ImageLocation = "C:\\Dev\\DNNQuickSite\\DNNQuickSite\\img\\DNN_company_logo.png";
             this.pictureBox2.Location = new System.Drawing.Point(23, 17);
             this.pictureBox2.Name = "pictureBox2";

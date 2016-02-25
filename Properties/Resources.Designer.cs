@@ -59,5 +59,15 @@ namespace DNNQuickSite.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DNN_company_logo {
+            get {
+                object obj = ResourceManager.GetObject("DNN_company_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
