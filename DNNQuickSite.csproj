@@ -22,7 +22,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -65,6 +65,9 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>DNNQuickSite_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>img\DNN.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\..\Users\dpoin\Downloads\DotNetZip Library\DotNetZipLib-DevKit-v1.9\zip-v1.9\Release\Ionic.Zip.dll</HintPath>
@@ -102,12 +105,6 @@
   <ItemGroup>
     <Compile Include="CodePlexRSS.cs" />
     <Compile Include="ComboItem.cs" />
-    <Compile Include="Intro.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Intro.Designer.cs">
-      <DependentUpon>Intro.cs</DependentUpon>
-    </Compile>
     <Compile Include="Start.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -122,9 +119,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Intro.resx">
-      <DependentUpon>Intro.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Start.resx">
       <DependentUpon>Start.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -156,10 +150,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\divider.png" />
-    <Content Include="img\DNN.ico" />
+    <Content Include="img\DNN.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="img\DNN_company_logo.png" />
     <Content Include="img\dnn_logo.png" />
     <Content Include="MetroFramework.txt" />
+    <None Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

@@ -16,6 +16,7 @@ namespace DNNQuickSite
         public Main()
         {
             InitializeComponent();
+            //this.Icon = DNNQuickSite.Properties.Resources.DNN;
 
             Start control = new Start();
             control.Dock = DockStyle.Fill;

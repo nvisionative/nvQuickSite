@@ -30,25 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::DNNQuickSite.Properties.Resources.DNN_company_logo;
-            this.pictureBox2.ImageLocation = "C:\\Dev\\DNNQuickSite\\DNNQuickSite\\img\\DNN_company_logo.png";
-            this.pictureBox2.Location = new System.Drawing.Point(23, 17);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
             // 
             // label1
             // 
@@ -59,6 +48,16 @@
             this.label1.Size = new System.Drawing.Size(153, 37);
             this.label1.TabIndex = 2;
             this.label1.Text = "QuickSite";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.ImageLocation = "C:\\Dev\\DNNQuickSite\\DNNQuickSite\\img\\DNN_company_logo.png";
+            this.pictureBox2.Location = new System.Drawing.Point(23, 17);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
             // 
             // Main
             // 
