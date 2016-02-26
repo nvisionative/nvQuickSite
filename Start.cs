@@ -125,9 +125,13 @@ namespace DNNQuickSite
 
         private void openFolderDiag()
         {
+            folderBrowserDialog.SelectedPath = Properties.Settings.Default.RecentFolder;
+
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 txtLocation.Text = folderBrowserDialog.SelectedPath;
+                Properties.Settings.Default.RecentFolder = folderBrowserDialog.SelectedPath;
+                Properties.Settings.Default.Save();
             }
         }
 

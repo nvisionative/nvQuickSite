@@ -61,11 +61,31 @@ namespace DNNQuickSite.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon DNN {
+            get {
+                object obj = ResourceManager.GetObject("DNN", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap DNN_company_logo {
             get {
                 object obj = ResourceManager.GetObject("DNN_company_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dnn_logo {
+            get {
+                object obj = ResourceManager.GetObject("dnn_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

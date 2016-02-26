@@ -22,7 +22,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>13</ApplicationRevision>
+    <SupportUrl>http://www.dnnquicksite.com</SupportUrl>
+    <ProductName>DNN QuickSite</ProductName>
+    <PublisherName>nvisionative, Inc.</PublisherName>
+    <ApplicationRevision>22</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -66,7 +69,7 @@
     <AssemblyOriginatorKeyFile>DNNQuickSite_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>img\DNN.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\DNN.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
@@ -105,6 +108,7 @@
   <ItemGroup>
     <Compile Include="CodePlexRSS.cs" />
     <Compile Include="ComboItem.cs" />
+    <Compile Include="FolderBrowserDialogExtensions.cs" />
     <Compile Include="Start.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -136,6 +140,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="DNNQuickSite_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -149,14 +154,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="img\divider.png" />
-    <Content Include="img\DNN.ico">
+    <Content Include="Resources\DNN.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="img\DNN_company_logo.png" />
-    <Content Include="img\dnn_logo.png" />
+    <Content Include="Resources\DNN_company_logo.png" />
+    <Content Include="Resources\dnn_logo.png" />
     <Content Include="MetroFramework.txt" />
-    <None Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
