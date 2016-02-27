@@ -538,12 +538,12 @@ namespace DNNQuickSite
 
             string myDBName = txtDBName.Text;
 
-            string str = "CREATE DATABASE " + myDBName + " ON PRIMARY " +
-                "(NAME = " + myDBName + "_Data, " +
-                "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "Data.mdf', " +
+            string str = "CREATE DATABASE [" + myDBName + "] ON PRIMARY " +
+                "(NAME = [" + myDBName + "_Data], " +
+                "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "_Data.mdf', " +
                 "SIZE = 4MB, MAXSIZE = 10MB, FILEGROWTH = 10%) " +
-                "LOG ON (NAME = " + myDBName + "_Log, " +
-                "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "Log.ldf', " +
+                "LOG ON (NAME = [" + myDBName + "_Log], " +
+                "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "_Log.ldf', " +
                 "SIZE = 1MB, " +
                 "MAXSIZE = 5MB, " +
                 "FILEGROWTH = 10%)";
