@@ -24,7 +24,6 @@ namespace DNNQuickSite
         public Start()
         {
             InitializeComponent();
-            InitializeBackgroundWorker();
 
             tabControl.SelectedIndex = 0;
             tabSiteInfo.Enabled = false;
@@ -55,15 +54,6 @@ namespace DNNQuickSite
             //}
             cboLatestReleases.SelectedIndex = 0;
             cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
-        }
-
-        // Set up the BackgroundWorker object by 
-        // attaching event handlers. 
-        private void InitializeBackgroundWorker()
-        {
-            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
-            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
-            backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
         }
 
         #region "Install Package"
@@ -240,6 +230,7 @@ namespace DNNQuickSite
             CreateDirectories();
             CreateDatabase();
             ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website");
+            btnVisitSite.Visible = true;
         }
 
         private void CreateDirectories()
@@ -470,39 +461,9 @@ namespace DNNQuickSite
 
         #region "Progress"
 
-        private void Calculate(int i)
+        private void btnVisitSite_Click(object sender, EventArgs e)
         {
-            double pow = Math.Pow(i, i);
-        }
-
-        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-
-            for (int i = 1; i <= 10; i++)
-            {
-                if (worker.CancellationPending == true)
-                {
-                    e.Cancel = true;
-                    break;
-                }
-                else
-                {
-                    // Perform a time consuming operation and report progress.
-                    System.Threading.Thread.Sleep(500);
-                    worker.ReportProgress(i * 10);
-                }
-            }
-        }
-
-        private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            progressBar.Value = e.ProgressPercentage;
-        }
-
-        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            // TODO: do something with final calculation.
+            Process.Start("http://" + txtSiteName.Text);
         }
 
         #endregion

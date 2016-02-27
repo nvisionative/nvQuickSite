@@ -72,6 +72,7 @@
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.lblProgress = new MetroFramework.Controls.MetroLabel();
             this.lblProgressStatus = new MetroFramework.Controls.MetroLabel();
+            this.btnVisitSite = new MetroFramework.Controls.MetroButton();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -442,6 +443,7 @@
             // 
             // tabProgress
             // 
+            this.tabProgress.Controls.Add(this.btnVisitSite);
             this.tabProgress.Controls.Add(this.lblProgressStatus);
             this.tabProgress.Controls.Add(this.lblProgress);
             this.tabProgress.Controls.Add(this.progressBar);
@@ -521,6 +523,17 @@
             this.lblProgressStatus.TabIndex = 4;
             this.lblProgressStatus.UseStyleColors = true;
             // 
+            // btnVisitSite
+            // 
+            this.btnVisitSite.Highlight = true;
+            this.btnVisitSite.Location = new System.Drawing.Point(506, 216);
+            this.btnVisitSite.Name = "btnVisitSite";
+            this.btnVisitSite.Size = new System.Drawing.Size(90, 36);
+            this.btnVisitSite.TabIndex = 5;
+            this.btnVisitSite.Text = "Visit Site";
+            this.btnVisitSite.Visible = false;
+            this.btnVisitSite.Click += new System.EventHandler(this.btnVisitSite_Click);
+            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -590,5 +603,6 @@
         private MetroFramework.Controls.MetroButton btnDatabaseInfoBack;
         private MetroFramework.Controls.MetroLabel lblProgressStatus;
         private MetroFramework.Controls.MetroLabel lblProgress;
+        private MetroFramework.Controls.MetroButton btnVisitSite;
     }
 }

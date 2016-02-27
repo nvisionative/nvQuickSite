@@ -25,7 +25,7 @@
     <SupportUrl>http://www.dnnquicksite.com</SupportUrl>
     <ProductName>DNN QuickSite</ProductName>
     <PublisherName>nvisionative, Inc.</PublisherName>
-    <ApplicationRevision>23</ApplicationRevision>
+    <ApplicationRevision>24</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
