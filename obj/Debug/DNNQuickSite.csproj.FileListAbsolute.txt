@@ -1,6 +1,7 @@
 C:\Dev\DNNQuickStart\DNNQuickStart\obj\Debug\QuickDNN.exe
 C:\Dev\DNNQuickStart\DNNQuickStart\obj\Debug\QuickDNN.pdb
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Resources\DNN.ico
+C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.exe.config
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.exe.manifest
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.application
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.exe
@@ -10,6 +11,8 @@ C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\MetroFramework.Design.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\MetroFramework.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\MetroFramework.Fonts.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Microsoft.Web.Administration.dll
+C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Ookii.Dialogs.dll
+C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Ookii.Dialogs.xml
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.Start.resources
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.Main.resources
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.Properties.Resources.resources
@@ -18,4 +21,3 @@ C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.exe.manifest
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.application
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.exe
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.pdb
-C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.exe.config

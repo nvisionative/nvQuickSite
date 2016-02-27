@@ -15,6 +15,7 @@ using System.Diagnostics;
 using MetroFramework.Controls;
 using Microsoft.Web.Administration;
 using Ionic.Zip;
+using Ookii.Dialogs;
 
 namespace DNNQuickSite
 {
@@ -94,10 +95,16 @@ namespace DNNQuickSite
 
         private void openFileDiag()
         {
-            DialogResult result = openFileDialog.ShowDialog();
+            OpenFileDialog fileDiag = new OpenFileDialog();
+            fileDiag.Filter = "ZIP Files|*.zip";
+            fileDiag.InitialDirectory = Properties.Settings.Default.LocalInstallPackageRecent;
+            DialogResult result = fileDiag.ShowDialog();
+
             if (result == DialogResult.OK)
             {
-                txtLocalInstallPackage.Text = openFileDialog.FileName;
+                txtLocalInstallPackage.Text = fileDiag.FileName;
+                Properties.Settings.Default.LocalInstallPackageRecent = Path.GetDirectoryName(fileDiag.FileName);
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -125,12 +132,21 @@ namespace DNNQuickSite
 
         private void openFolderDiag()
         {
-            folderBrowserDialog.SelectedPath = Properties.Settings.Default.RecentFolder;
+            VistaFolderBrowserDialog diag = new VistaFolderBrowserDialog();
+            diag.RootFolder = Environment.SpecialFolder.MyComputer;
+            diag.SelectedPath = Properties.Settings.Default.LocationRecent;
+            DialogResult result = diag.ShowDialog();
 
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            //folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
+            //folderBrowserDialog.SelectedPath = Properties.Settings.Default.RecentFolder;
+            //folderBrowserDialog.ShowNewFolderButton = false;
+            ////SendKeys.Send("{TAB}{TAB}{RIGHT}");
+            //DialogResult result = folderBrowserDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
             {
-                txtLocation.Text = folderBrowserDialog.SelectedPath;
-                Properties.Settings.Default.RecentFolder = folderBrowserDialog.SelectedPath;
+                txtLocation.Text = diag.SelectedPath;
+                Properties.Settings.Default.LocationRecent = diag.SelectedPath;
                 Properties.Settings.Default.Save();
             }
         }

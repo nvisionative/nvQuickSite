@@ -25,7 +25,7 @@
     <SupportUrl>http://www.dnnquicksite.com</SupportUrl>
     <ProductName>DNN QuickSite</ProductName>
     <PublisherName>nvisionative, Inc.</PublisherName>
-    <ApplicationRevision>22</ApplicationRevision>
+    <ApplicationRevision>23</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -92,6 +92,10 @@
       <HintPath>..\..\..\Windows\System32\inetsrv\Microsoft.Web.Administration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
+      <HintPath>packages\Ookii.Dialogs.WindowsForms.1.0\lib\net35\Ookii.Dialogs.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Messaging" />
@@ -108,7 +112,6 @@
   <ItemGroup>
     <Compile Include="CodePlexRSS.cs" />
     <Compile Include="ComboItem.cs" />
-    <Compile Include="FolderBrowserDialogExtensions.cs" />
     <Compile Include="Start.cs">
       <SubType>UserControl</SubType>
     </Compile>

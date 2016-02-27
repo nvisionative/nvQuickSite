@@ -26,12 +26,24 @@ namespace DNNQuickSite.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RecentFolder {
+        public string LocationRecent {
             get {
-                return ((string)(this["RecentFolder"]));
+                return ((string)(this["LocationRecent"]));
             }
             set {
-                this["RecentFolder"] = value;
+                this["LocationRecent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LocalInstallPackageRecent {
+            get {
+                return ((string)(this["LocalInstallPackageRecent"]));
+            }
+            set {
+                this["LocalInstallPackageRecent"] = value;
             }
         }
     }
