@@ -23,9 +23,11 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <SupportUrl>http://www.dnnquicksite.com</SupportUrl>
+    <ErrorReportUrl>http://www.dnnquicksite.com</ErrorReportUrl>
     <ProductName>DNN QuickSite</ProductName>
     <PublisherName>nvisionative, Inc.</PublisherName>
-    <ApplicationRevision>24</ApplicationRevision>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <ApplicationRevision>26</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>

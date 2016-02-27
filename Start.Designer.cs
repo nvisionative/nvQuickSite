@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tabSiteInfo = new MetroFramework.Controls.MetroTabPage();
             this.btnSiteInfoBack = new MetroFramework.Controls.MetroButton();
             this.btnSiteInfoNext = new MetroFramework.Controls.MetroButton();
@@ -66,10 +65,8 @@
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
             this.tileQuickStartGuide = new MetroFramework.Controls.MetroTile();
             this.tileDNNDevSpark = new MetroFramework.Controls.MetroTile();
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.tileDNNDocumentationCenter = new MetroFramework.Controls.MetroTile();
             this.tileDNNCommunityForums = new MetroFramework.Controls.MetroTile();
-            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.lblProgress = new MetroFramework.Controls.MetroLabel();
             this.lblProgressStatus = new MetroFramework.Controls.MetroLabel();
             this.btnVisitSite = new MetroFramework.Controls.MetroButton();
@@ -79,10 +76,6 @@
             this.tabDatabaseInfo.SuspendLayout();
             this.tabProgress.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.Filter = "ZIP Files|*.zip";
             // 
             // tabSiteInfo
             // 
@@ -300,7 +293,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 3;
+            this.tabControl.SelectedIndex = 2;
             this.tabControl.Size = new System.Drawing.Size(607, 318);
             this.tabControl.TabIndex = 26;
             // 
@@ -439,6 +432,7 @@
             this.txtDBServerName.Name = "txtDBServerName";
             this.txtDBServerName.Size = new System.Drawing.Size(270, 23);
             this.txtDBServerName.TabIndex = 2;
+            this.txtDBServerName.Text = "(local)";
             this.txtDBServerName.UseStyleColors = true;
             // 
             // tabProgress
@@ -501,10 +495,6 @@
             this.tileDNNCommunityForums.Text = "DNN Community Forums";
             this.tileDNNCommunityForums.Click += new System.EventHandler(this.tileDNNCommunityForums_Click);
             // 
-            // backgroundWorker
-            // 
-            this.backgroundWorker.WorkerReportsProgress = true;
-            // 
             // lblProgress
             // 
             this.lblProgress.AutoSize = true;
@@ -559,7 +549,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
         private MetroFramework.Controls.MetroTabPage tabSiteInfo;
         private MetroFramework.Controls.MetroTabPage tabInstallPackage;
         private MetroFramework.Controls.MetroTextBox txtLocalInstallPackage;
@@ -579,7 +568,6 @@
         private MetroFramework.Controls.MetroCheckBox chkDeleteSiteIfExists;
         private MetroFramework.Controls.MetroCheckBox chkSiteSpecificAppPool;
         private MetroFramework.Controls.MetroButton btnLocalInstallPackage;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private MetroFramework.Controls.MetroButton btnSiteInfoNext;
         private MetroFramework.Controls.MetroTile tileDNNDocumentationCenter;
         private MetroFramework.Controls.MetroTile tileDNNCommunityForums;
@@ -587,7 +575,6 @@
         private MetroFramework.Controls.MetroButton btnSiteInfoBack;
         private MetroFramework.Controls.MetroTabPage tabProgress;
         private MetroFramework.Controls.MetroProgressBar progressBar;
-        private System.ComponentModel.BackgroundWorker backgroundWorker;
         private MetroFramework.Controls.MetroTabPage tabDatabaseInfo;
         private MetroFramework.Controls.MetroLabel lblDBServerName;
         private MetroFramework.Controls.MetroTextBox txtDBServerName;

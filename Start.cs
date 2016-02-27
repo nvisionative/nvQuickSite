@@ -56,6 +56,8 @@ namespace DNNQuickSite
             cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
         }
 
+        #region "Tabs"
+
         #region "Install Package"
         private void cboLatestReleases_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -126,12 +128,6 @@ namespace DNNQuickSite
             diag.RootFolder = Environment.SpecialFolder.MyComputer;
             diag.SelectedPath = Properties.Settings.Default.LocationRecent;
             DialogResult result = diag.ShowDialog();
-
-            //folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
-            //folderBrowserDialog.SelectedPath = Properties.Settings.Default.RecentFolder;
-            //folderBrowserDialog.ShowNewFolderButton = false;
-            ////SendKeys.Send("{TAB}{TAB}{RIGHT}");
-            //DialogResult result = folderBrowserDialog.ShowDialog();
 
             if (result == DialogResult.OK)
             {
@@ -229,6 +225,7 @@ namespace DNNQuickSite
             UpdateHostsFile();
             CreateDirectories();
             CreateDatabase();
+            SetDatabasePermissions();
             ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website");
             btnVisitSite.Visible = true;
         }
@@ -431,7 +428,7 @@ namespace DNNQuickSite
                 progressBar.Maximum = (Int32)totalSize;
                 myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(myZip_ExtractProgress);
                 myZip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
-                lblProgressStatus.Text = "Completed";
+                lblProgressStatus.Text = "Congratulations! Your new site is now ready to visit!";
             }
             catch (Exception ex)
             {
@@ -468,6 +465,8 @@ namespace DNNQuickSite
 
         #endregion
 
+        #endregion
+
         #region "Tiles"
 
         private void tileDNNCommunityForums_Click(object sender, EventArgs e)
@@ -482,7 +481,7 @@ namespace DNNQuickSite
 
         #endregion
 
-        #region "Create Database"
+        #region "Database Actions"
 
         private void CreateDatabase()
         {
@@ -504,11 +503,11 @@ namespace DNNQuickSite
             string str = "CREATE DATABASE [" + myDBName + "] ON PRIMARY " +
                 "(NAME = [" + myDBName + "_Data], " +
                 "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "_Data.mdf', " +
-                "SIZE = 4MB, MAXSIZE = 10MB, FILEGROWTH = 10%) " +
+                "SIZE = 20MB, MAXSIZE = 200MB, FILEGROWTH = 10%) " +
                 "LOG ON (NAME = [" + myDBName + "_Log], " +
                 "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "_Log.ldf', " +
-                "SIZE = 1MB, " +
-                "MAXSIZE = 5MB, " +
+                "SIZE = 13MB, " +
+                "MAXSIZE = 50MB, " +
                 "FILEGROWTH = 10%)";
 
             SqlCommand myCommand = new SqlCommand(str, myConn);
@@ -528,6 +527,66 @@ namespace DNNQuickSite
 	            {
 	                myConn.Close();
 	            }
+            }
+        }
+
+        private void SetDatabasePermissions()
+        {
+            string myDBServerName = txtDBServerName.Text;
+            string connectionStringAuthSection = "";
+            if (rdoWindowsAuthentication.Checked)
+            {
+                connectionStringAuthSection = "Integrated Security=True;";
+            }
+            else
+            {
+                connectionStringAuthSection = "User ID=" + txtDBUserName.Text + ";Password=" + txtDBPassword.Text + ";";
+            }
+
+            SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection);
+
+            string myDBName = txtDBName.Text;
+
+            var appPoolNameFull = @"IIS APPPOOL\DefaultAppPool";
+            var appPoolName = "DefaultAppPool";
+
+            if (chkSiteSpecificAppPool.Checked)
+            {
+                appPoolNameFull = @"IIS APPPOOL\" + txtSiteName.Text + "_DNNQuickSite";
+                appPoolName = txtSiteName.Text + "_DNNQuickSite";
+            }
+
+            string str1 = "USE master";
+            string str2 = "sp_grantlogin '" + appPoolNameFull + "'";
+            string str3 = "USE " + txtDBName.Text;
+            string str4 = "sp_grantdbaccess '" + appPoolNameFull + "', '" + appPoolName + "'";
+            string str5 = "sp_addrolemember 'db_owner', '" + appPoolName + "'";
+
+            SqlCommand myCommand1 = new SqlCommand(str1, myConn);
+            SqlCommand myCommand2 = new SqlCommand(str2, myConn);
+            SqlCommand myCommand3 = new SqlCommand(str3, myConn);
+            SqlCommand myCommand4 = new SqlCommand(str4, myConn);
+            SqlCommand myCommand5 = new SqlCommand(str5, myConn);
+            try
+            {
+                myConn.Open();
+                myCommand1.ExecuteNonQuery();
+                myCommand2.ExecuteNonQuery();
+                myCommand3.ExecuteNonQuery();
+                myCommand4.ExecuteNonQuery();
+                myCommand5.ExecuteNonQuery();
+                //MessageBox.Show("Database created successfully", "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                if (myConn.State == ConnectionState.Open)
+                {
+                    myConn.Close();
+                }
             }
         }
 
