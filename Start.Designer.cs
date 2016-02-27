@@ -70,6 +70,8 @@
             this.tileDNNDocumentationCenter = new MetroFramework.Controls.MetroTile();
             this.tileDNNCommunityForums = new MetroFramework.Controls.MetroTile();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.lblProgress = new MetroFramework.Controls.MetroLabel();
+            this.lblProgressStatus = new MetroFramework.Controls.MetroLabel();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -440,6 +442,8 @@
             // 
             // tabProgress
             // 
+            this.tabProgress.Controls.Add(this.lblProgressStatus);
+            this.tabProgress.Controls.Add(this.lblProgress);
             this.tabProgress.Controls.Add(this.progressBar);
             this.tabProgress.HorizontalScrollbarBarColor = true;
             this.tabProgress.ImeMode = System.Windows.Forms.ImeMode.Disable;
@@ -499,6 +503,24 @@
             // 
             this.backgroundWorker.WorkerReportsProgress = true;
             // 
+            // lblProgress
+            // 
+            this.lblProgress.AutoSize = true;
+            this.lblProgress.Location = new System.Drawing.Point(0, 11);
+            this.lblProgress.Name = "lblProgress";
+            this.lblProgress.Size = new System.Drawing.Size(60, 19);
+            this.lblProgress.TabIndex = 3;
+            this.lblProgress.Text = "Progress";
+            // 
+            // lblProgressStatus
+            // 
+            this.lblProgressStatus.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblProgressStatus.Location = new System.Drawing.Point(0, 62);
+            this.lblProgressStatus.Name = "lblProgressStatus";
+            this.lblProgressStatus.Size = new System.Drawing.Size(597, 19);
+            this.lblProgressStatus.TabIndex = 4;
+            this.lblProgressStatus.UseStyleColors = true;
+            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -518,6 +540,7 @@
             this.tabDatabaseInfo.ResumeLayout(false);
             this.tabDatabaseInfo.PerformLayout();
             this.tabProgress.ResumeLayout(false);
+            this.tabProgress.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -565,5 +588,7 @@
         private MetroFramework.Controls.MetroRadioButton rdoWindowsAuthentication;
         private MetroFramework.Controls.MetroButton btnDatabaseInfoNext;
         private MetroFramework.Controls.MetroButton btnDatabaseInfoBack;
+        private MetroFramework.Controls.MetroLabel lblProgressStatus;
+        private MetroFramework.Controls.MetroLabel lblProgress;
     }
 }

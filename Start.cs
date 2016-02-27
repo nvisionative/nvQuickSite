@@ -440,6 +440,7 @@ namespace DNNQuickSite
                 progressBar.Maximum = (Int32)totalSize;
                 myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(myZip_ExtractProgress);
                 myZip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
+                lblProgressStatus.Text = "Completed";
             }
             catch (Exception ex)
             {
@@ -455,6 +456,7 @@ namespace DNNQuickSite
             {
                 sum += total - lastVal + e.BytesTransferred;
                 total = e.TotalBytesToTransfer;
+                lblProgressStatus.Text = "Copying: " + e.CurrentEntry.FileName;
             }
             else
                 sum += e.BytesTransferred - lastVal;
