@@ -62,14 +62,15 @@
             this.lblDBServerName = new MetroFramework.Controls.MetroLabel();
             this.txtDBServerName = new MetroFramework.Controls.MetroTextBox();
             this.tabProgress = new MetroFramework.Controls.MetroTabPage();
+            this.btnVisitSite = new MetroFramework.Controls.MetroButton();
+            this.lblProgressStatus = new MetroFramework.Controls.MetroLabel();
+            this.lblProgress = new MetroFramework.Controls.MetroLabel();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
             this.tileQuickStartGuide = new MetroFramework.Controls.MetroTile();
             this.tileDNNDevSpark = new MetroFramework.Controls.MetroTile();
             this.tileDNNDocumentationCenter = new MetroFramework.Controls.MetroTile();
             this.tileDNNCommunityForums = new MetroFramework.Controls.MetroTile();
-            this.lblProgress = new MetroFramework.Controls.MetroLabel();
-            this.lblProgressStatus = new MetroFramework.Controls.MetroLabel();
-            this.btnVisitSite = new MetroFramework.Controls.MetroButton();
+            this.progressBarDownload = new MetroFramework.Controls.MetroProgressBar();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -184,13 +185,14 @@
             this.txtSiteName.Location = new System.Drawing.Point(0, 37);
             this.txtSiteName.Name = "txtSiteName";
             this.txtSiteName.PromptText = "MySite.local";
-            this.txtSiteName.Size = new System.Drawing.Size(597, 23);
+            this.txtSiteName.Size = new System.Drawing.Size(540, 23);
             this.txtSiteName.TabIndex = 2;
             this.txtSiteName.Text = "MySite.local";
             this.txtSiteName.UseStyleColors = true;
             // 
             // tabInstallPackage
             // 
+            this.tabInstallPackage.Controls.Add(this.progressBarDownload);
             this.tabInstallPackage.Controls.Add(this.btnInstallPackageNext);
             this.tabInstallPackage.Controls.Add(this.btnLocalInstallPackage);
             this.tabInstallPackage.Controls.Add(this.txtLocalInstallPackage);
@@ -233,7 +235,7 @@
             this.txtLocalInstallPackage.Location = new System.Drawing.Point(1, 169);
             this.txtLocalInstallPackage.Name = "txtLocalInstallPackage";
             this.txtLocalInstallPackage.ReadOnly = true;
-            this.txtLocalInstallPackage.Size = new System.Drawing.Size(540, 23);
+            this.txtLocalInstallPackage.Size = new System.Drawing.Size(539, 23);
             this.txtLocalInstallPackage.TabIndex = 26;
             this.txtLocalInstallPackage.Click += new System.EventHandler(this.txtLocalInstallPackage_Click);
             // 
@@ -261,7 +263,7 @@
             this.cboLatestReleases.ItemHeight = 23;
             this.cboLatestReleases.Location = new System.Drawing.Point(1, 33);
             this.cboLatestReleases.Name = "cboLatestReleases";
-            this.cboLatestReleases.Size = new System.Drawing.Size(540, 29);
+            this.cboLatestReleases.Size = new System.Drawing.Size(539, 29);
             this.cboLatestReleases.TabIndex = 21;
             this.cboLatestReleases.SelectedIndexChanged += new System.EventHandler(this.cboLatestReleases_SelectedIndexChanged);
             // 
@@ -276,7 +278,7 @@
             // 
             // btnViewAllReleases
             // 
-            this.btnViewAllReleases.Location = new System.Drawing.Point(1, 81);
+            this.btnViewAllReleases.Location = new System.Drawing.Point(0, 95);
             this.btnViewAllReleases.Name = "btnViewAllReleases";
             this.btnViewAllReleases.Size = new System.Drawing.Size(540, 37);
             this.btnViewAllReleases.Style = MetroFramework.MetroColorStyle.Blue;
@@ -450,12 +452,43 @@
             this.tabProgress.Text = "Progress";
             this.tabProgress.VerticalScrollbarBarColor = true;
             // 
+            // btnVisitSite
+            // 
+            this.btnVisitSite.Highlight = true;
+            this.btnVisitSite.Location = new System.Drawing.Point(506, 216);
+            this.btnVisitSite.Name = "btnVisitSite";
+            this.btnVisitSite.Size = new System.Drawing.Size(90, 36);
+            this.btnVisitSite.TabIndex = 5;
+            this.btnVisitSite.Text = "Visit Site";
+            this.btnVisitSite.Visible = false;
+            this.btnVisitSite.Click += new System.EventHandler(this.btnVisitSite_Click);
+            // 
+            // lblProgressStatus
+            // 
+            this.lblProgressStatus.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblProgressStatus.Location = new System.Drawing.Point(0, 62);
+            this.lblProgressStatus.Name = "lblProgressStatus";
+            this.lblProgressStatus.Size = new System.Drawing.Size(597, 19);
+            this.lblProgressStatus.TabIndex = 4;
+            this.lblProgressStatus.UseStyleColors = true;
+            // 
+            // lblProgress
+            // 
+            this.lblProgress.AutoSize = true;
+            this.lblProgress.Location = new System.Drawing.Point(0, 11);
+            this.lblProgress.Name = "lblProgress";
+            this.lblProgress.Size = new System.Drawing.Size(60, 19);
+            this.lblProgress.TabIndex = 3;
+            this.lblProgress.Text = "Progress";
+            // 
             // progressBar
             // 
+            this.progressBar.HideProgressText = false;
             this.progressBar.Location = new System.Drawing.Point(0, 36);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(597, 23);
             this.progressBar.TabIndex = 2;
+            this.progressBar.Visible = false;
             // 
             // tileQuickStartGuide
             // 
@@ -495,34 +528,15 @@
             this.tileDNNCommunityForums.Text = "DNN Community Forums";
             this.tileDNNCommunityForums.Click += new System.EventHandler(this.tileDNNCommunityForums_Click);
             // 
-            // lblProgress
+            // progressBarDownload
             // 
-            this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(0, 11);
-            this.lblProgress.Name = "lblProgress";
-            this.lblProgress.Size = new System.Drawing.Size(60, 19);
-            this.lblProgress.TabIndex = 3;
-            this.lblProgress.Text = "Progress";
-            // 
-            // lblProgressStatus
-            // 
-            this.lblProgressStatus.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblProgressStatus.Location = new System.Drawing.Point(0, 62);
-            this.lblProgressStatus.Name = "lblProgressStatus";
-            this.lblProgressStatus.Size = new System.Drawing.Size(597, 19);
-            this.lblProgressStatus.TabIndex = 4;
-            this.lblProgressStatus.UseStyleColors = true;
-            // 
-            // btnVisitSite
-            // 
-            this.btnVisitSite.Highlight = true;
-            this.btnVisitSite.Location = new System.Drawing.Point(506, 216);
-            this.btnVisitSite.Name = "btnVisitSite";
-            this.btnVisitSite.Size = new System.Drawing.Size(90, 36);
-            this.btnVisitSite.TabIndex = 5;
-            this.btnVisitSite.Text = "Visit Site";
-            this.btnVisitSite.Visible = false;
-            this.btnVisitSite.Click += new System.EventHandler(this.btnVisitSite_Click);
+            this.progressBarDownload.HideProgressText = false;
+            this.progressBarDownload.Location = new System.Drawing.Point(1, 66);
+            this.progressBarDownload.Name = "progressBarDownload";
+            this.progressBarDownload.Size = new System.Drawing.Size(539, 23);
+            this.progressBarDownload.Style = MetroFramework.MetroColorStyle.Blue;
+            this.progressBarDownload.TabIndex = 29;
+            this.progressBarDownload.Visible = false;
             // 
             // Start
             // 
@@ -591,5 +605,6 @@
         private MetroFramework.Controls.MetroLabel lblProgressStatus;
         private MetroFramework.Controls.MetroLabel lblProgress;
         private MetroFramework.Controls.MetroButton btnVisitSite;
+        private MetroFramework.Controls.MetroProgressBar progressBarDownload;
     }
 }
