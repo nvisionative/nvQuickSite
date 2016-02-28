@@ -312,7 +312,7 @@ namespace DNNQuickSite
             }
             else
             {
-                Directory.Delete(logsDir);
+                Directory.Delete(logsDir, true);
                 Directory.CreateDirectory(logsDir);
                 SetFolderPermission(dbServiceAccount, logsDir);
             }
@@ -323,6 +323,8 @@ namespace DNNQuickSite
             }
             else
             {
+                var myDBFile = Directory.EnumerateFiles(databaseDir, "*.mdf").First().Split('_').First().Split('\\').Last();
+                DropDatabase(myDBFile);
                 Directory.Delete(databaseDir);
                 Directory.CreateDirectory(databaseDir);
                 SetFolderPermission(dbServiceAccount, databaseDir);
@@ -631,6 +633,47 @@ namespace DNNQuickSite
             catch (System.Exception ex)
             {
                 MessageBox.Show(ex.Message, "Set Database Permissions", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                if (myConn.State == ConnectionState.Open)
+                {
+                    myConn.Close();
+                }
+            }
+        }
+
+        private void DropDatabase(string myDBName)
+        {
+            string myDBServerName = txtDBServerName.Text;
+            string connectionStringAuthSection = "";
+            if (rdoWindowsAuthentication.Checked)
+            {
+                connectionStringAuthSection = "Integrated Security=True;";
+            }
+            else
+            {
+                connectionStringAuthSection = "User ID=" + txtDBUserName.Text + ";Password=" + txtDBPassword.Text + ";";
+            }
+
+            SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection);
+
+            string str1 = @"USE master";
+            string str2 = @"IF EXISTS(SELECT name FROM sys.databases WHERE name = '" + myDBName + "')" +
+                "DROP DATABASE [" + myDBName + "]";
+
+            SqlCommand myCommand1 = new SqlCommand(str1, myConn);
+            SqlCommand myCommand2 = new SqlCommand(str2, myConn);
+            try
+            {
+                myConn.Open();
+                myCommand1.ExecuteNonQuery();
+                myCommand2.ExecuteNonQuery();
+                //MessageBox.Show("Database created successfully", "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Drop Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
