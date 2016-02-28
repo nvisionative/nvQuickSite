@@ -21,4 +21,3 @@ C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.exe.manifest
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.application
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.exe
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.pdb
-C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.csprojResolveAssemblyReference.cache

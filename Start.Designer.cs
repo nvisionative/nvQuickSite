@@ -184,7 +184,6 @@
             this.txtSiteName.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
             this.txtSiteName.Location = new System.Drawing.Point(0, 37);
             this.txtSiteName.Name = "txtSiteName";
-            this.txtSiteName.PromptText = "MySite.local";
             this.txtSiteName.Size = new System.Drawing.Size(540, 23);
             this.txtSiteName.TabIndex = 2;
             this.txtSiteName.Text = "MySite.local";
@@ -354,7 +353,8 @@
             this.txtDBName.Location = new System.Drawing.Point(0, 134);
             this.txtDBName.Name = "txtDBName";
             this.txtDBName.Size = new System.Drawing.Size(270, 23);
-            this.txtDBName.TabIndex = 10;
+            this.txtDBName.TabIndex = 3;
+            this.txtDBName.Text = "MySite";
             this.txtDBName.UseStyleColors = true;
             // 
             // txtDBPassword
