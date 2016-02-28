@@ -153,12 +153,18 @@ namespace DNNQuickSite
 
         private void btnInstallPackageNext_Click(object sender, EventArgs e)
         {
-            if (txtLocalInstallPackage.Text == "")
-            tabInstallPackage.Enabled = false;
-            tabSiteInfo.Enabled = true;
-            tabDatabaseInfo.Enabled = false;
-            tabProgress.Enabled = false;
-            tabControl.SelectedIndex = 1;
+            if (txtLocalInstallPackage.Text != "")
+            {
+                tabInstallPackage.Enabled = false;
+                tabSiteInfo.Enabled = true;
+                tabDatabaseInfo.Enabled = false;
+                tabProgress.Enabled = false;
+                tabControl.SelectedIndex = 1;
+            }
+            else
+            {
+                MessageBox.Show("You must first Download or select a Local Install Package.", "Install Package", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         #endregion
@@ -200,28 +206,35 @@ namespace DNNQuickSite
         {
             bool proceed = false;
 
-            if (!DirectoryEmpty(txtLocation.Text))
+            if (txtLocation.Text != "" && txtSiteName.Text != "")
             {
-                var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
-                                         "Confirm Installation",
-                                         MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                if (confirmResult == DialogResult.Yes)
+                if (!DirectoryEmpty(txtLocation.Text))
+                {
+                    var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
+                                             "Confirm Installation",
+                                             MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        proceed = true;
+                    }
+                }
+                else
                 {
                     proceed = true;
+                }
+
+                if (proceed)
+                {
+                    tabInstallPackage.Enabled = false;
+                    tabSiteInfo.Enabled = false;
+                    tabDatabaseInfo.Enabled = true;
+                    tabProgress.Enabled = false;
+                    tabControl.SelectedIndex = 2;
                 }
             }
             else
             {
-                proceed = true;
-            }
-
-            if (proceed)
-            {
-                tabInstallPackage.Enabled = false;
-                tabSiteInfo.Enabled = false;
-                tabDatabaseInfo.Enabled = true;
-                tabProgress.Enabled = false;
-                tabControl.SelectedIndex = 2;
+                MessageBox.Show("Please make sure you have entered a Site Name and Location.", "Site Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -264,20 +277,27 @@ namespace DNNQuickSite
 
         private void btnDatabaseInfoNext_Click(object sender, EventArgs e)
         {
-            tabInstallPackage.Enabled = false;
-            tabSiteInfo.Enabled = false;
-            tabDatabaseInfo.Enabled = false;
-            tabProgress.Enabled = true;
-            progressBar.Visible = true;
-            tabControl.SelectedIndex = 3;
+            if (txtDBServerName.Text != "" && txtDBName.Text != "")
+            {
+                tabInstallPackage.Enabled = false;
+                tabSiteInfo.Enabled = false;
+                tabDatabaseInfo.Enabled = false;
+                tabProgress.Enabled = true;
+                progressBar.Visible = true;
+                tabControl.SelectedIndex = 3;
 
-            CreateSiteInIIS();
-            UpdateHostsFile();
-            CreateDirectories();
-            CreateDatabase();
-            SetDatabasePermissions();
-            ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website");
-            btnVisitSite.Visible = true;
+                CreateSiteInIIS();
+                UpdateHostsFile();
+                CreateDirectories();
+                CreateDatabase();
+                SetDatabasePermissions();
+                ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website");
+                btnVisitSite.Visible = true;
+            }
+            else
+            {
+                MessageBox.Show("Please make sure you have entered a Database Server Name and a Database Name.", "Database Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void CreateDirectories()
