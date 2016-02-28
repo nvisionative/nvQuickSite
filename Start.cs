@@ -153,6 +153,7 @@ namespace DNNQuickSite
 
         private void btnInstallPackageNext_Click(object sender, EventArgs e)
         {
+            if (txtLocalInstallPackage.Text == "")
             tabInstallPackage.Enabled = false;
             tabSiteInfo.Enabled = true;
             tabDatabaseInfo.Enabled = false;
@@ -510,6 +511,7 @@ namespace DNNQuickSite
         private void btnVisitSite_Click(object sender, EventArgs e)
         {
             Process.Start("http://" + txtSiteName.Text);
+            Main.ActiveForm.Close();
         }
 
         #endregion
