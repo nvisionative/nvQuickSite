@@ -1,6 +1,7 @@
 C:\Dev\DNNQuickStart\DNNQuickStart\obj\Debug\QuickDNN.exe
 C:\Dev\DNNQuickStart\DNNQuickStart\obj\Debug\QuickDNN.pdb
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Resources\DNN.ico
+C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Resources\DNN_company_logo.png
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.exe.config
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.exe.manifest
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\DNNQuickSite.application
