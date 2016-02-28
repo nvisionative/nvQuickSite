@@ -67,13 +67,64 @@ namespace DNNQuickSite
         private void btnGetLatestRelease_Click(object sender, EventArgs e)
         {
             ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
-            Process.Start(item.Name);
+            //Process.Start(item.Name);
+
+            WebClient client = new WebClient();
+            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+            var fileName = item.Name.Split('/').Last();
+            var downloadDirectory = Directory.GetCurrentDirectory() + @"\Downloads\";
+            if (!Directory.Exists(downloadDirectory)) 
+            {
+                Directory.CreateDirectory(downloadDirectory);
+            }
+
+            var dlContinue = true;
+            if (File.Exists(downloadDirectory + fileName))
+            {
+                DialogResult result = MessageBox.Show("Install Package is already downloaded. Would you like to download it again? This will replace the existing download.",
+                    "Download Install Package", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.No)
+                {
+                    dlContinue = false;
+                }
+            }
+
+            if (dlContinue)
+            {
+                client.DownloadFileAsync(new Uri(item.Name), downloadDirectory + fileName);
+                progressBarDownload.BackColor = Color.WhiteSmoke;
+                progressBarDownload.Visible = true;
+            }
+            else
+            {
+                txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(item.Name);
+                Properties.Settings.Default.LocalInstallPackageRecent = downloadDirectory;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            double bytesIn = double.Parse(e.BytesReceived.ToString());
+            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
+            double percentage = bytesIn / totalBytes * 100;
+            progressBarDownload.Value = int.Parse(Math.Truncate(percentage).ToString());
+        }
+
+        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
+            MessageBox.Show("Download Completed", "Install Package Download", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + Path.GetFileName(item.Name);
+            Properties.Settings.Default.LocalInstallPackageRecent = Directory.GetCurrentDirectory() + @"\Downloads\";
+            Properties.Settings.Default.Save();
         }
 
         private void btnViewAllReleases_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://dotnetnuke.codeplex.com/");
-        }
+                {
+                    Process.Start("https://dotnetnuke.codeplex.com/");
+                }
 
         private void txtLocalInstallPackage_Click(object sender, EventArgs e)
         {
@@ -152,7 +203,7 @@ namespace DNNQuickSite
             {
                 var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
                                          "Confirm Installation",
-                                         MessageBoxButtons.YesNo);
+                                         MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (confirmResult == DialogResult.Yes)
                 {
                     proceed = true;
@@ -170,9 +221,6 @@ namespace DNNQuickSite
                 tabDatabaseInfo.Enabled = true;
                 tabProgress.Enabled = false;
                 tabControl.SelectedIndex = 2;
-
-                //backgroundWorker.RunWorkerAsync();
-
             }
         }
 
@@ -219,6 +267,7 @@ namespace DNNQuickSite
             tabSiteInfo.Enabled = false;
             tabDatabaseInfo.Enabled = false;
             tabProgress.Enabled = true;
+            progressBar.Visible = true;
             tabControl.SelectedIndex = 3;
 
             CreateSiteInIIS();
@@ -304,7 +353,7 @@ namespace DNNQuickSite
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message, "DNN QuickSite - Set Folder Permissions", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -331,16 +380,16 @@ namespace DNNQuickSite
                         mySite.ApplicationDefaults.ApplicationPoolName = appPoolName;
                     }
                     iisManager.CommitChanges();
-                    //MessageBox.Show("New DNN site (" + siteName + ") added sucessfully!", "Success", MessageBoxButtons.OK);
+                    //MessageBox.Show("New DNN site (" + siteName + ") added sucessfully!", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Site name (" + siteName + ") already exists.", "Alert", MessageBoxButtons.OK);
+                    MessageBox.Show("Site name (" + siteName + ") already exists.", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK);
+                MessageBox.Show(ex.Message, "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -432,7 +481,7 @@ namespace DNNQuickSite
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Read And Extract Install Package", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -515,11 +564,11 @@ namespace DNNQuickSite
             {
                 myConn.Open();
 	            myCommand.ExecuteNonQuery();
-	            //MessageBox.Show("Database created successfully", "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
+	            //MessageBox.Show("Database created successfully", "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (System.Exception ex)
                 {
-    	            MessageBox.Show(ex.ToString(), "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    	            MessageBox.Show(ex.Message, "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             finally
             {
@@ -575,11 +624,11 @@ namespace DNNQuickSite
                 myCommand3.ExecuteNonQuery();
                 myCommand4.ExecuteNonQuery();
                 myCommand5.ExecuteNonQuery();
-                //MessageBox.Show("Database created successfully", "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Database created successfully", "Set Database Permissions", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "DNN QuickSite", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(ex.Message, "Set Database Permissions", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             finally
             {
