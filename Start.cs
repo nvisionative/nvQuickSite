@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
+using System.Reflection;
 using System.Drawing;
 using System.Data;
 using System.Data.SqlClient;using System.Linq;
@@ -292,6 +294,7 @@ namespace DNNQuickSite
                 CreateDatabase();
                 SetDatabasePermissions();
                 ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website");
+                ModifyConfig();
                 btnVisitSite.Visible = true;
             }
             else
@@ -524,6 +527,60 @@ namespace DNNQuickSite
             lastVal = e.BytesTransferred;
 
             progressBar.Value = (Int32)sum;
+        }
+
+        private void ModifyConfig()
+        {
+            string myDBServerName = txtDBServerName.Text;
+            string connectionStringAuthSection = "";
+            if (rdoWindowsAuthentication.Checked)
+            {
+                connectionStringAuthSection = "Integrated Security=True;";
+            }
+            else
+            {
+                connectionStringAuthSection = "User ID=" + txtDBUserName.Text + ";Password=" + txtDBPassword.Text + ";";
+            }
+
+            string key = "SiteSqlServer";
+            string value = @"Server=" + myDBServerName + ";Database=" + txtDBName.Text + ";" + connectionStringAuthSection;
+            string providerName = "System.Data.SqlClient";
+
+            string path = txtLocation.Text + @"\Website\web.config";
+
+            //// open web.config, so far this is the ONLY way i've found to do this without it wanting a virtual directory or some nonsense
+            //// even "OpenExeConfiguration" will not work
+            //var config = ConfigurationManager.OpenMappedExeConfiguration(new ExeConfigurationFileMap() { ExeConfigFilename = path }, ConfigurationUserLevel.None);
+
+            //var element = config.ConnectionStrings.ConnectionStrings[key].ConnectionString;
+
+            //if (element == null)
+            //{
+            //    ConnectionStringSettings settings = new ConnectionStringSettings();
+            //    settings.Name = key;
+            //    settings.ConnectionString = value;
+            //    settings.ProviderName = providerName;
+            //    config.ConnectionStrings.ConnectionStrings.Add(settings);
+            //}
+            //else
+            //{
+            //    element = value;
+            //}
+
+            //config.Save();
+            
+            var config = XDocument.Load(path);
+            var targetNode = config.Root.Element("connectionStrings").Element("add").Attribute("connectionString");
+            targetNode.Value = value;
+
+            var list = from appNode in config.Descendants("appSettings").Elements()
+               where appNode.Attribute("key").Value == key
+               select appNode;
+
+            var e = list.FirstOrDefault();
+            e.Attribute("value").SetValue(value);
+            
+            config.Save(path);
         }
 
         #endregion
