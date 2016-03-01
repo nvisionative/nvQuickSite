@@ -56,6 +56,16 @@ namespace DNNQuickSite
             //}
             cboLatestReleases.SelectedIndex = 0;
             cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
+
+            if (Properties.Settings.Default.RememberFieldValues)
+            {
+                txtSiteName.Text = Properties.Settings.Default.SiteNameRecent;
+                chkSiteSpecificAppPool.Checked = Properties.Settings.Default.AppPoolRecent;
+                chkDeleteSiteIfExists.Checked = Properties.Settings.Default.DeleteSiteInIISRecent;
+
+                txtDBServerName.Text = Properties.Settings.Default.DatabaseServerNameRecent;
+                txtDBName.Text = Properties.Settings.Default.DatabaseNameRecent;
+            }
         }
 
         #region "Tabs"
@@ -232,6 +242,13 @@ namespace DNNQuickSite
                     tabDatabaseInfo.Enabled = true;
                     tabProgress.Enabled = false;
                     tabControl.SelectedIndex = 2;
+                    if (Properties.Settings.Default.RememberFieldValues)
+                    {
+                        Properties.Settings.Default.SiteNameRecent = txtSiteName.Text;
+                        Properties.Settings.Default.AppPoolRecent = chkSiteSpecificAppPool.Checked;
+                        Properties.Settings.Default.DeleteSiteInIISRecent = chkDeleteSiteIfExists.Checked;
+                        Properties.Settings.Default.Save();
+                    }
                 }
             }
             else
@@ -287,6 +304,13 @@ namespace DNNQuickSite
                 tabProgress.Enabled = true;
                 progressBar.Visible = true;
                 tabControl.SelectedIndex = 3;
+
+                if (Properties.Settings.Default.RememberFieldValues)
+                {
+                    Properties.Settings.Default.DatabaseServerNameRecent = txtDBServerName.Text;
+                    Properties.Settings.Default.DatabaseNameRecent = txtDBName.Text;
+                    Properties.Settings.Default.Save();
+                }
 
                 CreateSiteInIIS();
                 UpdateHostsFile();
@@ -598,6 +622,11 @@ namespace DNNQuickSite
         #endregion
 
         #region "Tiles"
+
+        private void toggleSiteInfoRemember_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.RememberFieldValues = !Properties.Settings.Default.RememberFieldValues;
+        }
 
         private void tileDNNCommunityForums_Click(object sender, EventArgs e)
         {

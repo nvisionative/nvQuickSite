@@ -46,5 +46,77 @@ namespace DNNQuickSite.Properties {
                 this["LocalInstallPackageRecent"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MySite.local")]
+        public string SiteNameRecent {
+            get {
+                return ((string)(this["SiteNameRecent"]));
+            }
+            set {
+                this["SiteNameRecent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AppPoolRecent {
+            get {
+                return ((bool)(this["AppPoolRecent"]));
+            }
+            set {
+                this["AppPoolRecent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DeleteSiteInIISRecent {
+            get {
+                return ((bool)(this["DeleteSiteInIISRecent"]));
+            }
+            set {
+                this["DeleteSiteInIISRecent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("(local)")]
+        public string DatabaseServerNameRecent {
+            get {
+                return ((string)(this["DatabaseServerNameRecent"]));
+            }
+            set {
+                this["DatabaseServerNameRecent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MySite")]
+        public string DatabaseNameRecent {
+            get {
+                return ((string)(this["DatabaseNameRecent"]));
+            }
+            set {
+                this["DatabaseNameRecent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RememberFieldValues {
+            get {
+                return ((bool)(this["RememberFieldValues"]));
+            }
+            set {
+                this["RememberFieldValues"] = value;
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\MetroFramework.Fonts.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Microsoft.Web.Administration.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Ookii.Dialogs.dll
 C:\Dev\DNNQuickSite\DNNQuickSite\bin\Debug\Ookii.Dialogs.xml
+C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.csprojResolveAssemblyReference.cache
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.Start.resources
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.Main.resources
 C:\Dev\DNNQuickSite\DNNQuickSite\obj\Debug\DNNQuickSite.Properties.Resources.resources

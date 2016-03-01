@@ -8,5 +8,23 @@
     <Setting Name="LocalInstallPackageRecent" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="SiteNameRecent" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MySite.local</Value>
+    </Setting>
+    <Setting Name="AppPoolRecent" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DeleteSiteInIISRecent" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DatabaseServerNameRecent" Type="System.String" Scope="User">
+      <Value Profile="(Default)">(local)</Value>
+    </Setting>
+    <Setting Name="DatabaseNameRecent" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MySite</Value>
+    </Setting>
+    <Setting Name="RememberFieldValues" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
