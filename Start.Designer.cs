@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.tabSiteInfo = new MetroFramework.Controls.MetroTabPage();
+            this.toggleSiteInfoRemember = new MetroFramework.Controls.MetroToggle();
             this.btnSiteInfoBack = new MetroFramework.Controls.MetroButton();
             this.btnSiteInfoNext = new MetroFramework.Controls.MetroButton();
             this.btnLocation = new MetroFramework.Controls.MetroButton();
@@ -39,6 +40,7 @@
             this.lblSiteName = new MetroFramework.Controls.MetroLabel();
             this.txtSiteName = new MetroFramework.Controls.MetroTextBox();
             this.tabInstallPackage = new MetroFramework.Controls.MetroTabPage();
+            this.progressBarDownload = new MetroFramework.Controls.MetroProgressBar();
             this.btnInstallPackageNext = new MetroFramework.Controls.MetroButton();
             this.btnLocalInstallPackage = new MetroFramework.Controls.MetroButton();
             this.txtLocalInstallPackage = new MetroFramework.Controls.MetroTextBox();
@@ -70,7 +72,7 @@
             this.tileDNNDevSpark = new MetroFramework.Controls.MetroTile();
             this.tileDNNDocumentationCenter = new MetroFramework.Controls.MetroTile();
             this.tileDNNCommunityForums = new MetroFramework.Controls.MetroTile();
-            this.progressBarDownload = new MetroFramework.Controls.MetroProgressBar();
+            this.lblRemember = new MetroFramework.Controls.MetroLabel();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -92,14 +94,28 @@
             this.tabSiteInfo.HorizontalScrollbarBarColor = true;
             this.tabSiteInfo.Location = new System.Drawing.Point(4, 35);
             this.tabSiteInfo.Name = "tabSiteInfo";
-            this.tabSiteInfo.Size = new System.Drawing.Size(599, 279);
+            this.tabSiteInfo.Size = new System.Drawing.Size(599, 255);
             this.tabSiteInfo.TabIndex = 1;
             this.tabSiteInfo.Text = "Site Info";
             this.tabSiteInfo.VerticalScrollbarBarColor = true;
             // 
+            // toggleSiteInfoRemember
+            // 
+            this.toggleSiteInfoRemember.AutoSize = true;
+            this.toggleSiteInfoRemember.Checked = true;
+            this.toggleSiteInfoRemember.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleSiteInfoRemember.Location = new System.Drawing.Point(387, 312);
+            this.toggleSiteInfoRemember.Name = "toggleSiteInfoRemember";
+            this.toggleSiteInfoRemember.Size = new System.Drawing.Size(80, 17);
+            this.toggleSiteInfoRemember.TabIndex = 12;
+            this.toggleSiteInfoRemember.Text = "On";
+            this.toggleSiteInfoRemember.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.toggleSiteInfoRemember.UseVisualStyleBackColor = true;
+            this.toggleSiteInfoRemember.CheckedChanged += new System.EventHandler(this.toggleSiteInfoRemember_CheckedChanged);
+            // 
             // btnSiteInfoBack
             // 
-            this.btnSiteInfoBack.Location = new System.Drawing.Point(0, 216);
+            this.btnSiteInfoBack.Location = new System.Drawing.Point(0, 215);
             this.btnSiteInfoBack.Name = "btnSiteInfoBack";
             this.btnSiteInfoBack.Size = new System.Drawing.Size(90, 36);
             this.btnSiteInfoBack.TabIndex = 11;
@@ -203,10 +219,20 @@
             this.tabInstallPackage.HorizontalScrollbarBarColor = true;
             this.tabInstallPackage.Location = new System.Drawing.Point(4, 35);
             this.tabInstallPackage.Name = "tabInstallPackage";
-            this.tabInstallPackage.Size = new System.Drawing.Size(599, 279);
+            this.tabInstallPackage.Size = new System.Drawing.Size(599, 255);
             this.tabInstallPackage.TabIndex = 0;
             this.tabInstallPackage.Text = "Install Package Info";
             this.tabInstallPackage.VerticalScrollbarBarColor = true;
+            // 
+            // progressBarDownload
+            // 
+            this.progressBarDownload.HideProgressText = false;
+            this.progressBarDownload.Location = new System.Drawing.Point(1, 66);
+            this.progressBarDownload.Name = "progressBarDownload";
+            this.progressBarDownload.Size = new System.Drawing.Size(539, 23);
+            this.progressBarDownload.Style = MetroFramework.MetroColorStyle.Blue;
+            this.progressBarDownload.TabIndex = 29;
+            this.progressBarDownload.Visible = false;
             // 
             // btnInstallPackageNext
             // 
@@ -283,6 +309,7 @@
             this.btnViewAllReleases.Style = MetroFramework.MetroColorStyle.Blue;
             this.btnViewAllReleases.TabIndex = 23;
             this.btnViewAllReleases.Text = "View ALL Releases";
+            this.btnViewAllReleases.Visible = false;
             this.btnViewAllReleases.Click += new System.EventHandler(this.btnViewAllReleases_Click);
             // 
             // tabControl
@@ -294,8 +321,8 @@
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 2;
-            this.tabControl.Size = new System.Drawing.Size(607, 318);
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(607, 294);
             this.tabControl.TabIndex = 26;
             // 
             // tabDatabaseInfo
@@ -315,7 +342,7 @@
             this.tabDatabaseInfo.HorizontalScrollbarBarColor = true;
             this.tabDatabaseInfo.Location = new System.Drawing.Point(4, 35);
             this.tabDatabaseInfo.Name = "tabDatabaseInfo";
-            this.tabDatabaseInfo.Size = new System.Drawing.Size(599, 279);
+            this.tabDatabaseInfo.Size = new System.Drawing.Size(599, 255);
             this.tabDatabaseInfo.TabIndex = 3;
             this.tabDatabaseInfo.Text = "Database Info";
             this.tabDatabaseInfo.VerticalScrollbarBarColor = true;
@@ -447,7 +474,7 @@
             this.tabProgress.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.tabProgress.Location = new System.Drawing.Point(4, 35);
             this.tabProgress.Name = "tabProgress";
-            this.tabProgress.Size = new System.Drawing.Size(599, 279);
+            this.tabProgress.Size = new System.Drawing.Size(599, 255);
             this.tabProgress.TabIndex = 2;
             this.tabProgress.Text = "Progress";
             this.tabProgress.VerticalScrollbarBarColor = true;
@@ -528,23 +555,25 @@
             this.tileDNNCommunityForums.Text = "DNN Community Forums";
             this.tileDNNCommunityForums.Click += new System.EventHandler(this.tileDNNCommunityForums_Click);
             // 
-            // progressBarDownload
+            // lblRemember
             // 
-            this.progressBarDownload.HideProgressText = false;
-            this.progressBarDownload.Location = new System.Drawing.Point(1, 66);
-            this.progressBarDownload.Name = "progressBarDownload";
-            this.progressBarDownload.Size = new System.Drawing.Size(539, 23);
-            this.progressBarDownload.Style = MetroFramework.MetroColorStyle.Blue;
-            this.progressBarDownload.TabIndex = 29;
-            this.progressBarDownload.Visible = false;
+            this.lblRemember.AutoSize = true;
+            this.lblRemember.Location = new System.Drawing.Point(176, 310);
+            this.lblRemember.Name = "lblRemember";
+            this.lblRemember.Size = new System.Drawing.Size(146, 19);
+            this.lblRemember.TabIndex = 13;
+            this.lblRemember.Text = "Remember Field Values";
+            this.lblRemember.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblRemember);
             this.Controls.Add(this.tileDNNCommunityForums);
             this.Controls.Add(this.tileDNNDocumentationCenter);
             this.Controls.Add(this.tileDNNDevSpark);
+            this.Controls.Add(this.toggleSiteInfoRemember);
             this.Controls.Add(this.tileQuickStartGuide);
             this.Controls.Add(this.tabControl);
             this.Name = "Start";
@@ -559,6 +588,7 @@
             this.tabProgress.ResumeLayout(false);
             this.tabProgress.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -606,5 +636,7 @@
         private MetroFramework.Controls.MetroLabel lblProgress;
         private MetroFramework.Controls.MetroButton btnVisitSite;
         private MetroFramework.Controls.MetroProgressBar progressBarDownload;
+        private MetroFramework.Controls.MetroToggle toggleSiteInfoRemember;
+        private MetroFramework.Controls.MetroLabel lblRemember;
     }
 }
