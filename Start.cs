@@ -302,6 +302,7 @@ namespace DNNQuickSite
                 tabSiteInfo.Enabled = false;
                 tabDatabaseInfo.Enabled = false;
                 tabProgress.Enabled = true;
+                lblProgress.Visible = true;
                 progressBar.Visible = true;
                 tabControl.SelectedIndex = 3;
 
@@ -602,8 +603,11 @@ namespace DNNQuickSite
                select appNode;
 
             var e = list.FirstOrDefault();
-            e.Attribute("value").SetValue(value);
-            
+            if (e != null)
+            {
+                e.Attribute("value").SetValue(value);
+            }
+
             config.Save(path);
         }
 

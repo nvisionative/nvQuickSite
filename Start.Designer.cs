@@ -104,7 +104,7 @@
             this.toggleSiteInfoRemember.AutoSize = true;
             this.toggleSiteInfoRemember.Checked = true;
             this.toggleSiteInfoRemember.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toggleSiteInfoRemember.Location = new System.Drawing.Point(387, 312);
+            this.toggleSiteInfoRemember.Location = new System.Drawing.Point(4, 452);
             this.toggleSiteInfoRemember.Name = "toggleSiteInfoRemember";
             this.toggleSiteInfoRemember.Size = new System.Drawing.Size(80, 17);
             this.toggleSiteInfoRemember.TabIndex = 12;
@@ -321,7 +321,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
+            this.tabControl.SelectedIndex = 3;
             this.tabControl.Size = new System.Drawing.Size(607, 294);
             this.tabControl.TabIndex = 26;
             // 
@@ -507,6 +507,7 @@
             this.lblProgress.Size = new System.Drawing.Size(60, 19);
             this.lblProgress.TabIndex = 3;
             this.lblProgress.Text = "Progress";
+            this.lblProgress.Visible = false;
             // 
             // progressBar
             // 
@@ -558,7 +559,7 @@
             // lblRemember
             // 
             this.lblRemember.AutoSize = true;
-            this.lblRemember.Location = new System.Drawing.Point(176, 310);
+            this.lblRemember.Location = new System.Drawing.Point(90, 450);
             this.lblRemember.Name = "lblRemember";
             this.lblRemember.Size = new System.Drawing.Size(146, 19);
             this.lblRemember.TabIndex = 13;
@@ -577,7 +578,7 @@
             this.Controls.Add(this.tileQuickStartGuide);
             this.Controls.Add(this.tabControl);
             this.Name = "Start";
-            this.Size = new System.Drawing.Size(610, 447);
+            this.Size = new System.Drawing.Size(610, 470);
             this.tabSiteInfo.ResumeLayout(false);
             this.tabSiteInfo.PerformLayout();
             this.tabInstallPackage.ResumeLayout(false);
