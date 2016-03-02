@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.tabSiteInfo = new MetroFramework.Controls.MetroTabPage();
-            this.toggleSiteInfoRemember = new MetroFramework.Controls.MetroToggle();
             this.btnSiteInfoBack = new MetroFramework.Controls.MetroButton();
             this.btnSiteInfoNext = new MetroFramework.Controls.MetroButton();
             this.btnLocation = new MetroFramework.Controls.MetroButton();
@@ -39,6 +38,7 @@
             this.chkSiteSpecificAppPool = new MetroFramework.Controls.MetroCheckBox();
             this.lblSiteName = new MetroFramework.Controls.MetroLabel();
             this.txtSiteName = new MetroFramework.Controls.MetroTextBox();
+            this.toggleSiteInfoRemember = new MetroFramework.Controls.MetroToggle();
             this.tabInstallPackage = new MetroFramework.Controls.MetroTabPage();
             this.progressBarDownload = new MetroFramework.Controls.MetroProgressBar();
             this.btnInstallPackageNext = new MetroFramework.Controls.MetroButton();
@@ -98,20 +98,6 @@
             this.tabSiteInfo.TabIndex = 1;
             this.tabSiteInfo.Text = "Site Info";
             this.tabSiteInfo.VerticalScrollbarBarColor = true;
-            // 
-            // toggleSiteInfoRemember
-            // 
-            this.toggleSiteInfoRemember.AutoSize = true;
-            this.toggleSiteInfoRemember.Checked = true;
-            this.toggleSiteInfoRemember.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toggleSiteInfoRemember.Location = new System.Drawing.Point(4, 452);
-            this.toggleSiteInfoRemember.Name = "toggleSiteInfoRemember";
-            this.toggleSiteInfoRemember.Size = new System.Drawing.Size(80, 17);
-            this.toggleSiteInfoRemember.TabIndex = 12;
-            this.toggleSiteInfoRemember.Text = "On";
-            this.toggleSiteInfoRemember.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.toggleSiteInfoRemember.UseVisualStyleBackColor = true;
-            this.toggleSiteInfoRemember.CheckedChanged += new System.EventHandler(this.toggleSiteInfoRemember_CheckedChanged);
             // 
             // btnSiteInfoBack
             // 
@@ -204,6 +190,21 @@
             this.txtSiteName.TabIndex = 2;
             this.txtSiteName.Text = "MySite.local";
             this.txtSiteName.UseStyleColors = true;
+            // 
+            // toggleSiteInfoRemember
+            // 
+            this.toggleSiteInfoRemember.AutoSize = true;
+            this.toggleSiteInfoRemember.Checked = true;
+            this.toggleSiteInfoRemember.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleSiteInfoRemember.Location = new System.Drawing.Point(4, 452);
+            this.toggleSiteInfoRemember.Name = "toggleSiteInfoRemember";
+            this.toggleSiteInfoRemember.Size = new System.Drawing.Size(80, 17);
+            this.toggleSiteInfoRemember.TabIndex = 12;
+            this.toggleSiteInfoRemember.Text = "On";
+            this.toggleSiteInfoRemember.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.toggleSiteInfoRemember.UseVisualStyleBackColor = true;
+            this.toggleSiteInfoRemember.Visible = false;
+            this.toggleSiteInfoRemember.CheckedChanged += new System.EventHandler(this.toggleSiteInfoRemember_CheckedChanged);
             // 
             // tabInstallPackage
             // 
@@ -565,6 +566,7 @@
             this.lblRemember.TabIndex = 13;
             this.lblRemember.Text = "Remember Field Values";
             this.lblRemember.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblRemember.Visible = false;
             // 
             // Start
             // 
