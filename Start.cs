@@ -29,8 +29,11 @@ namespace DNNQuickSite
 
             tabControl.SelectedIndex = 0;
             tabSiteInfo.Enabled = false;
+            tabControl.TabPages.Remove(tabSiteInfo);
             tabDatabaseInfo.Enabled = false;
+            tabControl.TabPages.Remove(tabDatabaseInfo);
             tabProgress.Enabled = false;
+            tabControl.TabPages.Remove(tabProgress);
 
             //FeedParser parser = new FeedParser();
             //var releases = parser.Parse("http://dotnetnuke.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2frelease%2fdotnetnuke", FeedType.RSS);
@@ -168,6 +171,7 @@ namespace DNNQuickSite
             if (txtLocalInstallPackage.Text != "")
             {
                 tabInstallPackage.Enabled = false;
+                tabControl.TabPages.Insert(1, tabSiteInfo);
                 tabSiteInfo.Enabled = true;
                 tabDatabaseInfo.Enabled = false;
                 tabProgress.Enabled = false;
@@ -210,6 +214,7 @@ namespace DNNQuickSite
         private void btnSiteInfoBack_Click(object sender, EventArgs e)
         {
             tabSiteInfo.Enabled = false;
+            tabControl.TabPages.Remove(tabSiteInfo);
             tabInstallPackage.Enabled = true;
             tabControl.SelectedIndex = 0;
         }
@@ -239,6 +244,7 @@ namespace DNNQuickSite
                 {
                     tabInstallPackage.Enabled = false;
                     tabSiteInfo.Enabled = false;
+                    tabControl.TabPages.Insert(2, tabDatabaseInfo);
                     tabDatabaseInfo.Enabled = true;
                     tabProgress.Enabled = false;
                     tabControl.SelectedIndex = 2;
@@ -291,6 +297,7 @@ namespace DNNQuickSite
             tabInstallPackage.Enabled = false;
             tabSiteInfo.Enabled = true;
             tabDatabaseInfo.Enabled = false;
+            tabControl.TabPages.Remove(tabDatabaseInfo);
             tabControl.SelectedIndex = 1;
         }
 
@@ -301,6 +308,7 @@ namespace DNNQuickSite
                 tabInstallPackage.Enabled = false;
                 tabSiteInfo.Enabled = false;
                 tabDatabaseInfo.Enabled = false;
+                tabControl.TabPages.Insert(3, tabProgress);
                 tabProgress.Enabled = true;
                 lblProgress.Visible = true;
                 progressBar.Visible = true;
