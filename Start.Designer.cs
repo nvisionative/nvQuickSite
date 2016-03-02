@@ -105,7 +105,7 @@
             this.btnSiteInfoBack.Name = "btnSiteInfoBack";
             this.btnSiteInfoBack.Size = new System.Drawing.Size(90, 36);
             this.btnSiteInfoBack.TabIndex = 11;
-            this.btnSiteInfoBack.Text = "Back";
+            this.btnSiteInfoBack.Text = "&Back";
             this.btnSiteInfoBack.Click += new System.EventHandler(this.btnSiteInfoBack_Click);
             // 
             // btnSiteInfoNext
@@ -115,7 +115,7 @@
             this.btnSiteInfoNext.Name = "btnSiteInfoNext";
             this.btnSiteInfoNext.Size = new System.Drawing.Size(90, 36);
             this.btnSiteInfoNext.TabIndex = 10;
-            this.btnSiteInfoNext.Text = "Next";
+            this.btnSiteInfoNext.Text = "&Next";
             this.btnSiteInfoNext.Click += new System.EventHandler(this.btnSiteInfoNext_Click);
             // 
             // btnLocation
@@ -242,7 +242,7 @@
             this.btnInstallPackageNext.Name = "btnInstallPackageNext";
             this.btnInstallPackageNext.Size = new System.Drawing.Size(90, 36);
             this.btnInstallPackageNext.TabIndex = 28;
-            this.btnInstallPackageNext.Text = "Next";
+            this.btnInstallPackageNext.Text = "&Next";
             this.btnInstallPackageNext.Click += new System.EventHandler(this.btnInstallPackageNext_Click);
             // 
             // btnLocalInstallPackage
@@ -354,7 +354,7 @@
             this.btnDatabaseInfoBack.Name = "btnDatabaseInfoBack";
             this.btnDatabaseInfoBack.Size = new System.Drawing.Size(90, 36);
             this.btnDatabaseInfoBack.TabIndex = 13;
-            this.btnDatabaseInfoBack.Text = "Back";
+            this.btnDatabaseInfoBack.Text = "&Back";
             this.btnDatabaseInfoBack.Click += new System.EventHandler(this.btnDatabaseInfoBack_Click);
             // 
             // btnDatabaseInfoNext
@@ -364,7 +364,7 @@
             this.btnDatabaseInfoNext.Name = "btnDatabaseInfoNext";
             this.btnDatabaseInfoNext.Size = new System.Drawing.Size(90, 36);
             this.btnDatabaseInfoNext.TabIndex = 12;
-            this.btnDatabaseInfoNext.Text = "Next";
+            this.btnDatabaseInfoNext.Text = "&Next";
             this.btnDatabaseInfoNext.Click += new System.EventHandler(this.btnDatabaseInfoNext_Click);
             // 
             // lblDBName
@@ -483,11 +483,12 @@
             // btnVisitSite
             // 
             this.btnVisitSite.Highlight = true;
-            this.btnVisitSite.Location = new System.Drawing.Point(506, 216);
+            this.btnVisitSite.Location = new System.Drawing.Point(3, 192);
             this.btnVisitSite.Name = "btnVisitSite";
-            this.btnVisitSite.Size = new System.Drawing.Size(90, 36);
+            this.btnVisitSite.Size = new System.Drawing.Size(593, 60);
+            this.btnVisitSite.Style = MetroFramework.MetroColorStyle.Purple;
             this.btnVisitSite.TabIndex = 5;
-            this.btnVisitSite.Text = "Visit Site";
+            this.btnVisitSite.Text = "&Visit Site";
             this.btnVisitSite.Visible = false;
             this.btnVisitSite.Click += new System.EventHandler(this.btnVisitSite_Click);
             // 
