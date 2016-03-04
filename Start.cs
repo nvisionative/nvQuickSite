@@ -39,7 +39,7 @@ namespace nvQuickSite
             //FeedParser parser = new FeedParser();
             //var releases = parser.Parse("http://dotnetnuke.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2frelease%2fdotnetnuke", FeedType.RSS);
 
-            var url = "http://www.dnnquicksite.com/downloads/";
+            var url = "http://www.nvquicksite.com/downloads/";
             WebClient client = new WebClient();
             string result = client.DownloadString(url + "PackageManifest.xml");
 
@@ -348,7 +348,7 @@ namespace nvQuickSite
 
             if (chkSiteSpecificAppPool.Checked)
             {
-                appPoolName = @"IIS APPPOOL\" + txtSiteName.Text + "_DNNQuickSite";
+                appPoolName = @"IIS APPPOOL\" + txtSiteName.Text + "_nvQuickSite";
             }
 
             if (!Directory.Exists(websiteDir))
@@ -413,7 +413,7 @@ namespace nvQuickSite
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "DNN QuickSite - Set Folder Permissions", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message, "Set Folder Permissions", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -435,7 +435,7 @@ namespace nvQuickSite
 
                     if (chkSiteSpecificAppPool.Checked)
                     {
-                        var appPoolName = siteName + "_DNNQuickSite";
+                        var appPoolName = siteName + "_nvQuickSite";
                         iisManager.ApplicationPools.Add(appPoolName);
                         mySite.ApplicationDefaults.ApplicationPoolName = appPoolName;
                     }
@@ -466,12 +466,12 @@ namespace nvQuickSite
                     flag = true;
                     if (chkDeleteSiteIfExists.Checked)
                     {
-                        if (site.ApplicationDefaults.ApplicationPoolName == siteName + "_DNNQuickSite")
+                        if (site.ApplicationDefaults.ApplicationPoolName == siteName + "_nvQuickSite")
                         {
                             ApplicationPoolCollection appPools = iisManager.ApplicationPools;
                             foreach (ApplicationPool appPool in appPools)
                             {
-                                if (appPool.Name == siteName + "_DNNQuickSite")
+                                if (appPool.Name == siteName + "_nvQuickSite")
                                 {
                                     iisManager.ApplicationPools.Remove(appPool);
                                     break;
@@ -724,8 +724,8 @@ namespace nvQuickSite
 
             if (chkSiteSpecificAppPool.Checked)
             {
-                appPoolNameFull = @"IIS APPPOOL\" + txtSiteName.Text + "_DNNQuickSite";
-                appPoolName = txtSiteName.Text + "_DNNQuickSite";
+                appPoolNameFull = @"IIS APPPOOL\" + txtSiteName.Text + "_nvQuickSite";
+                appPoolName = txtSiteName.Text + "_nvQuickSite";
             }
 
             string str1 = "USE master";
