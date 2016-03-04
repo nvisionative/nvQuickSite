@@ -495,9 +495,12 @@ namespace nvQuickSite
 
         private void UpdateHostsFile()
         {
-            using (StreamWriter w = File.AppendText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers/etc/hosts")))
+            string hostsFile = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\drivers\etc\hosts";
+
+            var newEntry = Environment.NewLine + "\t127.0.0.1 \t" + txtSiteName.Text;
+            if (!File.ReadAllLines(hostsFile).Contains(newEntry))
             {
-                w.WriteLine("\t127.0.0.1 \t" + txtSiteName.Text);
+                File.AppendAllLines(hostsFile, new String[] { newEntry });
             }
         }
 
