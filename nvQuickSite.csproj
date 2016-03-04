@@ -26,7 +26,7 @@
     <ErrorReportUrl>http://www.nvquicksite.com</ErrorReportUrl>
     <ProductName>nvQuickSite</ProductName>
     <PublisherName>nvisionative, Inc.</PublisherName>
-    <ApplicationRevision>39</ApplicationRevision>
+    <ApplicationRevision>40</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
