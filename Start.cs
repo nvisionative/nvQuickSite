@@ -5,7 +5,8 @@ using System.Configuration;
 using System.Reflection;
 using System.Drawing;
 using System.Data;
-using System.Data.SqlClient;using System.Linq;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Net;
 using System.Xml.Linq;
@@ -19,7 +20,7 @@ using Microsoft.Web.Administration;
 using Ionic.Zip;
 using Ookii.Dialogs;
 
-namespace DNNQuickSite
+namespace nvQuickSite
 {
     public partial class Start : MetroUserControl
     {

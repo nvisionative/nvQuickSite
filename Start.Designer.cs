@@ -1,4 +1,4 @@
-﻿namespace DNNQuickSite
+﻿namespace nvQuickSite
 {
     partial class Start
     {

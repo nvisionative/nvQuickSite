@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DNN QuickSite")]
+[assembly: AssemblyTitle("nvQuickSite")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("nvisionative, Inc.")]
-[assembly: AssemblyProduct("DNN QuickSite")]
+[assembly: AssemblyProduct("nvQuickSite")]
 [assembly: AssemblyCopyright("Copyright ©  2016 nvisionative, Inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
