@@ -26,7 +26,7 @@ namespace nvQuickSite
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            Process.Start("http://www.nvisionative.com");
+            Process.Start("http://www.nvisionative.com"); 
         }
     }
 }
