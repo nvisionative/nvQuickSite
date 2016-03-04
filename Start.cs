@@ -733,7 +733,7 @@ namespace nvQuickSite
 
             string str1 = "USE master";
             string str2 = "sp_grantlogin '" + appPoolNameFull + "'";
-            string str3 = "USE " + txtDBName.Text;
+            string str3 = "USE [" + txtDBName.Text +"]";
             string str4 = "sp_grantdbaccess '" + appPoolNameFull + "', '" + appPoolName + "'";
             string str5 = "sp_addrolemember 'db_owner', '" + appPoolName + "'";
 
