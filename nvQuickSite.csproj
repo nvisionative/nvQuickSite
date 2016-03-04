@@ -7,12 +7,12 @@
     <ProjectGuid>{3D661BAD-45EB-4524-9650-78805CD31682}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DNNQuickSite</RootNamespace>
-    <AssemblyName>DNNQuickSite</AssemblyName>
+    <RootNamespace>nvQuickSite</RootNamespace>
+    <AssemblyName>nvQuickSite</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Dev\DNNQuickSite\Publish\</PublishUrl>
+    <PublishUrl>C:\Dev\nvQuickSite\Publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -22,12 +22,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <SupportUrl>http://www.dnnquicksite.com</SupportUrl>
-    <ErrorReportUrl>http://www.dnnquicksite.com</ErrorReportUrl>
-    <ProductName>DNN QuickSite</ProductName>
+    <SupportUrl>http://www.nvquicksite.com</SupportUrl>
+    <ErrorReportUrl>http://www.nvquicksite.com</ErrorReportUrl>
+    <ProductName>nvQuickSite</ProductName>
     <PublisherName>nvisionative, Inc.</PublisherName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
-    <ApplicationRevision>34</ApplicationRevision>
+    <ApplicationRevision>39</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -71,7 +70,7 @@
     <AssemblyOriginatorKeyFile>DNNQuickSite_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\DNN.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\nvisionative.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
@@ -115,6 +114,7 @@
   <ItemGroup>
     <Compile Include="CodePlexRSS.cs" />
     <Compile Include="ComboItem.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Start.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -160,6 +160,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="nv128.ico" />
+    <Content Include="nvisionative.ico" />
     <Content Include="Resources\broughtBy-nvisionative.png" />
     <Content Include="Resources\DNN.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -169,6 +171,9 @@
     </Content>
     <Content Include="Resources\dnn_logo.png" />
     <Content Include="MetroFramework.txt" />
+    <Content Include="Resources\nvisionative.ico" />
+    <Content Include="Resources\nv_quicksite_logo.png" />
+    <Content Include="Resources\nv_quicksite_logo_on_white.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

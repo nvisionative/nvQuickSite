@@ -5,7 +5,7 @@ using System.Text;
 using System.ServiceModel.Syndication;
 using System.Xml.Linq;
 
-namespace DNNQuickSite
+namespace nvQuickSite
 {
     /// <summary>
     /// Represents a feed item.
