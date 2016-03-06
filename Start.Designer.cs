@@ -527,6 +527,7 @@
             this.tileQuickStartGuide.Size = new System.Drawing.Size(162, 104);
             this.tileQuickStartGuide.TabIndex = 27;
             this.tileQuickStartGuide.Text = "Quick Start Guide";
+            this.tileQuickStartGuide.Click += new System.EventHandler(this.tileQuickStartGuide_Click);
             // 
             // tileDNNDevSpark
             // 
@@ -536,6 +537,7 @@
             this.tileDNNDevSpark.Style = MetroFramework.MetroColorStyle.Purple;
             this.tileDNNDevSpark.TabIndex = 28;
             this.tileDNNDevSpark.Text = "DNN DevSpark";
+            this.tileDNNDevSpark.Click += new System.EventHandler(this.tileDNNDevSpark_Click);
             // 
             // tileDNNDocumentationCenter
             // 
