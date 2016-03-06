@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
-using System.Reflection;
 using System.Drawing;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Net;
 using System.Xml.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 using System.Security.AccessControl;
@@ -581,7 +576,7 @@ namespace nvQuickSite
 
             string key = "SiteSqlServer";
             string value = @"Server=" + myDBServerName + ";Database=" + txtDBName.Text + ";" + connectionStringAuthSection;
-            string providerName = "System.Data.SqlClient";
+            //string providerName = "System.Data.SqlClient";
 
             string path = txtLocation.Text + @"\Website\web.config";
 

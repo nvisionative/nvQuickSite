@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ServiceModel.Syndication;
 using System.Xml.Linq;
 
 namespace nvQuickSite
@@ -24,7 +22,7 @@ namespace nvQuickSite
             Title = "";
             Content = "";
             PublishDate = DateTime.Today;
-            FeedType = FeedType.RSS;
+            FeedType = FeedType.Rss;
         }
     }
     
@@ -41,9 +39,9 @@ namespace nvQuickSite
         {
             switch (feedType)
             {
-                case FeedType.RSS:
+                case FeedType.Rss:
                     return ParseRss(url);
-                case FeedType.RDF:
+                case FeedType.Rdf:
                     return ParseRdf(url);
                 case FeedType.Atom:
                     return ParseAtom(url);
@@ -90,7 +88,7 @@ namespace nvQuickSite
                 var entries = from item in doc.Root.Descendants().First(i => i.Name.LocalName == "channel").Elements().Where(i => i.Name.LocalName == "item")
                               select new Item
                               {
-                                  FeedType = FeedType.RSS,
+                                  FeedType = FeedType.Rss,
                                   Content = item.Elements().First(i => i.Name.LocalName == "description").Value,
                                   Link = item.Elements().First(i => i.Name.LocalName == "link").Value,
                                   PublishDate = ParseDate(item.Elements().First(i => i.Name.LocalName == "pubDate").Value),
@@ -116,7 +114,7 @@ namespace nvQuickSite
                 var entries = from item in doc.Root.Descendants().Where(i => i.Name.LocalName == "item")
                               select new Item
                               {
-                                  FeedType = FeedType.RDF,
+                                  FeedType = FeedType.Rdf,
                                   Content = item.Elements().First(i => i.Name.LocalName == "description").Value,
                                   Link = item.Elements().First(i => i.Name.LocalName == "link").Value,
                                   PublishDate = ParseDate(item.Elements().First(i => i.Name.LocalName == "date").Value),
@@ -147,11 +145,11 @@ namespace nvQuickSite
         /// <summary>
         /// Really Simple Syndication format.
         /// </summary>
-        RSS,
+        Rss,
         /// <summary>
         /// RDF site summary format.
         /// </summary>
-        RDF,
+        Rdf,
         /// <summary>
         /// Atom Syndication format.
         /// </summary>
