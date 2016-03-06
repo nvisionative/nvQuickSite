@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("nvQuickSite")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Windows application to help quickly perform a local DotNetNuke (DNN) installation.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("nvisionative, Inc.")]
 [assembly: AssemblyProduct("nvQuickSite")]
-[assembly: AssemblyCopyright("Copyright ©  2016 nvisionative, Inc.")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright © 2016 nvisionative, Inc.")]
+[assembly: AssemblyTrademark("TM")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
