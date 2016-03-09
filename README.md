@@ -1,5 +1,3 @@
-![nvQuickSite Logo](http://www.willstrohl.com/nvQuickSite/nv_quicksite_logo.png)
-
 nvQuickSite is a desktop installation app for DNN, the world's most popular ASP.NET-based CMS.  This app allows you to easily install DNN onto any environment that meets [the minimum system requirements for DNN to be installed](https://github.com/nvisionative/nvQuickSite/wiki/Minimum-System-Requirements).
 
 ![Step 4: Installation Complete](http://www.nvquicksite.com/Portals/0/nvq-install-dnn-09.png)
