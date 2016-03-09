@@ -16,6 +16,7 @@ using MetroFramework.Controls;
 using Microsoft.Web.Administration;
 using Ionic.Zip;
 using Ookii.Dialogs;
+using nvQuickSiteValidator;
 
 namespace nvQuickSite
 {
@@ -166,7 +167,7 @@ namespace nvQuickSite
 
         private void btnInstallPackageNext_Click(object sender, EventArgs e)
         {
-            if (txtLocalInstallPackage.Text != "")
+            if (Package.Validate(txtLocalInstallPackage.Text))
             {
                 tabInstallPackage.Enabled = false;
                 tabControl.TabPages.Insert(1, tabSiteInfo);
@@ -177,7 +178,7 @@ namespace nvQuickSite
             }
             else
             {
-                MessageBox.Show("You must first Download or select a Local Install Package.", "Install Package", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("You must first Download or select a valid Local Install Package.", "Install Package", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
