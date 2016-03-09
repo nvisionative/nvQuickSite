@@ -21,6 +21,6 @@ There's been many ways to install DNN over the years, but a cult favorite of man
 * [Install & Uninstall nvQuickSite](https://github.com/nvisionative/nvQuickSite/wiki/Install-&-Uninstall-nvQuickSite)
 * [Minimum System Requirements](https://github.com/nvisionative/nvQuickSite/wiki/Minimum-System-Requirements)
 * [nvQuickSite Footers](https://github.com/nvisionative/nvQuickSite/wiki/nvQuickSite-Footers)
-
-
+ 
+ 
 [![Brought to the DNN community by nvisionative](http://www.nvquicksite.com/Portals/0/broughtBy-nvisionative.png)](http://www.nvisionative.com)
