@@ -368,6 +368,7 @@ namespace nvQuickSite
                     Site mySite = iisManager.Sites.Add(siteName, "http", bindingInfo, txtLocation.Text + "\\Website");
                     mySite.TraceFailedRequestsLogging.Enabled = true;
                     mySite.TraceFailedRequestsLogging.Directory = txtLocation.Text + "\\Logs";
+                    mySite.LogFile.Directory = txtLocation.Text + "\\Logs" + "\\W3svc" + mySite.Id.ToString();
 
                     if (chkSiteSpecificAppPool.Checked)
                     {
