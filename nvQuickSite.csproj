@@ -87,7 +87,7 @@
     </Reference>
     <Reference Include="MetroFramework.Design, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>packages\MetroFramework.Design.1.2.0.3\lib\net40\MetroFramework.Design.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>packages\MetroFramework.Fonts.1.2.0.3\lib\net40\MetroFramework.Fonts.dll</HintPath>
@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\nvQuickSiteValidator.dll" />
+    <Content Include="MetroFramework.txt" />
     <Content Include="Resources\broughtBy-nvisionative.png" />
     <Content Include="Resources\DNN.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -179,7 +180,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\dnn_logo.png" />
-    <Content Include="MetroFramework.txt" />
     <Content Include="Resources\nvisionative.ico" />
     <Content Include="Resources\nv_quicksite_logo.png" />
     <Content Include="Resources\nv_quicksite_logo_on_white.png" />
