@@ -77,6 +77,10 @@
     <ApplicationIcon>Resources\nvisionative.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Analytics.NET, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Analytics.2.0.2\lib\Analytics.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
       <Private>True</Private>
@@ -98,12 +102,20 @@
       <HintPath>..\..\..\Windows\System32\inetsrv\Microsoft.Web.Administration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nvQuickSiteValidator">
       <HintPath>..\nvQuickSiteValidator\bin\Release\Dotfuscated\nvQuickSiteValidator.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <HintPath>packages\Ookii.Dialogs.WindowsForms.1.0\lib\net35\Ookii.Dialogs.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="OSVersionInfo, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\OSVersionInfo.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -171,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\nvQuickSiteValidator.dll" />
+    <Content Include="Libraries\OSVersionInfo.dll" />
     <Content Include="Resources\broughtBy-nvisionative.png" />
     <Content Include="Resources\DNN.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
