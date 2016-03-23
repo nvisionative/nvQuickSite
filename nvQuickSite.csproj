@@ -107,7 +107,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="nvQuickSiteValidator">
-      <HintPath>..\nvQuickSiteValidator\bin\Release\Dotfuscated\nvQuickSiteValidator.dll</HintPath>
+      <HintPath>Libraries\nvQuickSiteValidator.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <HintPath>packages\Ookii.Dialogs.WindowsForms.1.0\lib\net35\Ookii.Dialogs.dll</HintPath>
@@ -168,7 +168,7 @@
     </Compile>
     <None Include=".gitignore" />
     <None Include="app.config" />
-    <None Include="LICENSE" />
+    <None Include="LICENSE.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -184,8 +184,8 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Libraries\nvQuickSiteValidator.dll" />
-    <Content Include="Libraries\OSVersionInfo.dll" />
+    <EmbeddedResource Include="Libraries\nvQuickSiteValidator.dll" />
+    <EmbeddedResource Include="Libraries\OSVersionInfo.dll" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Resources\broughtBy-nvisionative.png" />
     <Content Include="Resources\DNN.ico">
