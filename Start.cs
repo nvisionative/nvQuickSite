@@ -491,6 +491,7 @@ namespace nvQuickSite
 
                 var appPoolName = @"IIS APPPOOL\DefaultAppPool";
                 var dbServiceAccount = @"NT Service\MSSQLSERVER";
+                var authenticatedUsers = "Authenticated Users";
 
                 if (chkSiteSpecificAppPool.Checked)
                 {
@@ -501,28 +502,35 @@ namespace nvQuickSite
                 {
                     Directory.CreateDirectory(websiteDir);
                     SetFolderPermission(appPoolName, websiteDir);
+                    SetFolderPermission(authenticatedUsers, websiteDir);
                 }
                 else
                 {
                     Directory.Delete(websiteDir, true);
                     Directory.CreateDirectory(websiteDir);
                     SetFolderPermission(appPoolName, websiteDir);
+                    SetFolderPermission(authenticatedUsers, websiteDir);
                 }
 
                 if (!Directory.Exists(logsDir))
                 {
                     Directory.CreateDirectory(logsDir);
+                    SetFolderPermission(dbServiceAccount, logsDir);
+                    SetFolderPermission(authenticatedUsers, logsDir);
                 }
                 else
                 {
                     Directory.Delete(logsDir, true);
                     Directory.CreateDirectory(logsDir);
                     SetFolderPermission(dbServiceAccount, logsDir);
+                    SetFolderPermission(authenticatedUsers, logsDir);
                 }
 
                 if (!Directory.Exists(databaseDir))
                 {
                     Directory.CreateDirectory(databaseDir);
+                    SetFolderPermission(dbServiceAccount, databaseDir);
+                    SetFolderPermission(authenticatedUsers, databaseDir);
                 }
                 else
                 {
@@ -532,6 +540,7 @@ namespace nvQuickSite
                     Directory.Delete(databaseDir);
                     Directory.CreateDirectory(databaseDir);
                     SetFolderPermission(dbServiceAccount, databaseDir);
+                    SetFolderPermission(authenticatedUsers, databaseDir);
                 }
                 return true;
             }
