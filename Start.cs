@@ -571,7 +571,7 @@ namespace nvQuickSite
 
                 var accessRule2 = new FileSystemAccessRule(accountName, Rights, iFlags, PropagationFlags.InheritOnly, AccessControlType.Allow);
                 dSecurity.ModifyAccessRule(AccessControlModification.Add, accessRule2, out modified);
-
+                 
                 dInfo.SetAccessControl(dSecurity);
             }
             catch (Exception ex)
