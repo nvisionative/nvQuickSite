@@ -55,25 +55,37 @@ namespace nvQuickSite
 
             var url = "http://www.nvquicksite.com/downloads/";
             WebClient client = new WebClient();
-            string result = client.DownloadString(url + "PackageManifest.xml");
+            try
+            {
+                string result = client.DownloadString(url + "PackageManifest.xml");
 
-            XDocument doc = XDocument.Parse(result);
-            var packages = from x in doc.Descendants("DNNPackage")
-                select new
-                {
-                    Name = x.Descendants("Name").First().Value,
-                    File = x.Descendants("File").First().Value
-                };
+                XDocument doc = XDocument.Parse(result);
+                var packages = from x in doc.Descendants("DNNPackage")
+                               select new
+                               {
+                                   Name = x.Descendants("Name").First().Value,
+                                   File = x.Descendants("File").First().Value
+                               };
 
-            foreach (var package in packages)
-                cboLatestReleases.Items.Add(new ComboItem(url + package.File, package.Name));
+                foreach (var package in packages)
+                    cboLatestReleases.Items.Add(new ComboItem(url + package.File, package.Name));
 
-            //foreach (var package in packages)
-            //{
-            //    cboLatestReleases.Items.Add(new ComboItem(release.Link, release.Title));
-            //}
-            cboLatestReleases.SelectedIndex = 0;
-            cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
+                //foreach (var package in packages)
+                //{
+                //    cboLatestReleases.Items.Add(new ComboItem(release.Link, release.Title));
+                //}
+                cboLatestReleases.SelectedIndex = 0;
+                cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
+
+            }
+            catch (Exception ex)
+            {
+                lblLatestReleases.Text = "INTERNET CURRENTLY UNAVAILABLE: Use Local Install Package Instead";
+                lblLatestReleases.CustomForeColor = true;
+                lblLatestReleases.ForeColor = Color.DarkRed;
+                cboLatestReleases.Enabled = false;
+                btnGetLatestRelease.Enabled = false;
+            }
 
             if (Properties.Settings.Default.RememberFieldValues)
             {

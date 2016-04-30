@@ -31,13 +31,12 @@ namespace nvQuickSite
         {
             InitializeComponent();
 
-            //var userGuid = System.Guid.NewGuid().ToString("B").ToUpper();
-            //var operatingSystem = Environment.OSVersion.ToString();
-            //Analytics.Initialize("pzNi0MJVC1P9tVZdnvDOyptvUwPov9BN", new Config().SetAsync(false));
-            //Analytics.Client.Track(userGuid, "Started App", new Segment.Model.Properties() {
+            var userGuid = System.Guid.NewGuid().ToString("B").ToUpper();
+            Analytics.Initialize("pzNi0MJVC1P9tVZdnvDOyptvUwPov9BN", new Config().SetAsync(false));
+            Analytics.Client.Track(userGuid, "Started App", new Segment.Model.Properties() {
             //    { "datetime", DateTime.Now },
-            //    { "os", OSVersionInfo.Name + " " + OSVersionInfo.Edition + " " + OSVersionInfo.ServicePack }
-            //});
+                { "dimension1", OSVersionInfo.Name + " " + OSVersionInfo.Edition + " " + OSVersionInfo.ServicePack }
+            });
 
             Start control = new Start();
             control.Dock = DockStyle.Fill;
