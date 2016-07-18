@@ -118,5 +118,17 @@ namespace nvQuickSite.Properties {
                 this["RememberFieldValues"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LocationDoNotWarnAgain {
+            get {
+                return ((bool)(this["LocationDoNotWarnAgain"]));
+            }
+            set {
+                this["LocationDoNotWarnAgain"] = value;
+            }
+        }
     }
 }

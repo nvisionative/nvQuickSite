@@ -143,10 +143,8 @@
             this.txtLocation.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
             this.txtLocation.Location = new System.Drawing.Point(0, 169);
             this.txtLocation.Name = "txtLocation";
-            this.txtLocation.ReadOnly = true;
             this.txtLocation.Size = new System.Drawing.Size(540, 23);
             this.txtLocation.TabIndex = 6;
-            this.txtLocation.Click += new System.EventHandler(this.txtLocation_Click);
             // 
             // chkDeleteSiteIfExists
             // 
@@ -322,7 +320,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
+            this.tabControl.SelectedIndex = 1;
             this.tabControl.Size = new System.Drawing.Size(607, 294);
             this.tabControl.TabIndex = 26;
             // 

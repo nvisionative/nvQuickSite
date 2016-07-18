@@ -213,10 +213,10 @@ namespace nvQuickSite
         #endregion
 
         #region "Site Info"
-        private void txtLocation_Click(object sender, EventArgs e)
-        {
-            openFolderDiag();
-        }
+        //private void txtLocation_Click(object sender, EventArgs e)
+        //{
+        //    openFolderDiag();
+        //}
 
         private void btnLocation_Click(object sender, EventArgs e)
         {
@@ -252,19 +252,59 @@ namespace nvQuickSite
 
             if (txtLocation.Text != "" && txtSiteName.Text != "")
             {
-                if (!DirectoryEmpty(txtLocation.Text))
+                if (!Directory.Exists(txtLocation.Text))
                 {
-                    var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
-                                             "Confirm Installation",
-                                             MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                    if (confirmResult == DialogResult.Yes)
+                    var dialogMessage = "The entered location does not exist. Do you wish to create it?";
+                    var dialogIcon = SystemIcons.Warning.ToBitmap();
+                    var doNotWarnAgain = Properties.Settings.Default.LocationDoNotWarnAgain;
+                    var msgBoxYesNoIgnore = new MsgBoxYesNoIgnore(doNotWarnAgain, dialogMessage, dialogIcon);
+                    var result = msgBoxYesNoIgnore.ShowDialog();
+                    if (!msgBoxYesNoIgnore.DoNotWarnAgain)
                     {
-                        proceed = true;
+                        if (result == DialogResult.Yes)
+                        {
+                            Directory.CreateDirectory(txtLocation.Text);
+                            proceed = true;
+                        }
+                        else
+                        {
+                            proceed = false;
+                        }
                     }
+                    else
+                    {
+                        Directory.CreateDirectory(txtLocation.Text);
+                        proceed = true;
+
+                    }
+                    Properties.Settings.Default.LocationDoNotWarnAgain = msgBoxYesNoIgnore.DoNotWarnAgain;
+                    Properties.Settings.Default.Save();
                 }
                 else
                 {
                     proceed = true;
+                }
+
+                if (proceed)
+                {
+                    if (!DirectoryEmpty(txtLocation.Text))
+                    {
+                        var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
+                                                    "Confirm Installation",
+                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                        if (confirmResult == DialogResult.No)
+                        {
+                            proceed = false;
+                        }
+                        else
+                        {
+                            proceed = true;
+                        }
+                    }
+                    else
+                    {
+                        proceed = true;
+                    }
                 }
 
                 if (proceed)
@@ -546,9 +586,11 @@ namespace nvQuickSite
                 }
                 else
                 {
-                    var myDBFile =
-                        Directory.EnumerateFiles(databaseDir, "*.mdf").First().Split('_').First().Split('\\').Last();
-                    DropDatabase(myDBFile);
+                    if (!DirectoryEmpty(databaseDir))
+                    {
+                        var myDBFile = Directory.EnumerateFiles(databaseDir, "*.mdf").First().Split('_').First().Split('\\').Last();
+                        DropDatabase(myDBFile);
+                    }
                     Directory.Delete(databaseDir);
                     Directory.CreateDirectory(databaseDir);
                     SetFolderPermission(dbServiceAccount, databaseDir);
