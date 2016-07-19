@@ -28,6 +28,7 @@ using System.IO;
 using System.Security.AccessControl;
 using System.Net.Sockets;
 using System.Diagnostics;
+using System.Threading;
 using MetroFramework.Controls;
 using Microsoft.Web.Administration;
 using Ionic.Zip;
@@ -108,6 +109,11 @@ namespace nvQuickSite
 
         private void btnGetLatestRelease_Click(object sender, EventArgs e)
         {
+            GetOnlineVersion();
+        }
+
+        private void GetOnlineVersion()
+        {
             ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
             //Process.Start(item.Name);
 
@@ -116,7 +122,7 @@ namespace nvQuickSite
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
             var fileName = item.Name.Split('/').Last();
             var downloadDirectory = Directory.GetCurrentDirectory() + @"\Downloads\";
-            if (!Directory.Exists(downloadDirectory)) 
+            if (!Directory.Exists(downloadDirectory))
             {
                 Directory.CreateDirectory(downloadDirectory);
             }
@@ -143,6 +149,7 @@ namespace nvQuickSite
                 txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(item.Name);
                 Properties.Settings.Default.LocalInstallPackageRecent = downloadDirectory;
                 Properties.Settings.Default.Save();
+                ValidateInstallPackage();
             }
         }
 
@@ -157,10 +164,11 @@ namespace nvQuickSite
         void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
-            MessageBox.Show("Download Completed", "Install Package Download", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show("Download Completed", "Install Package Download", MessageBoxButtons.OK, MessageBoxIcon.Information);
             txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + Path.GetFileName(item.Name);
             Properties.Settings.Default.LocalInstallPackageRecent = Directory.GetCurrentDirectory() + @"\Downloads\";
             Properties.Settings.Default.Save();
+            ValidateInstallPackage();
         }
 
         private void btnViewAllReleases_Click(object sender, EventArgs e)
@@ -194,6 +202,28 @@ namespace nvQuickSite
         }
 
         private void btnInstallPackageNext_Click(object sender, EventArgs e)
+        {
+            if (txtLocalInstallPackage.Text == "")
+            {
+                GetOnlineVersion();
+            }
+            else
+            {
+                DialogResult result = MessageBox.Show("Local Install Package already defined. Use it?",
+                    "Use Local Install Package", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.No)
+                {
+                    GetOnlineVersion();
+                }
+                else
+                {
+                    progressBarDownload.Visible = false;
+                    ValidateInstallPackage();
+                }
+            }
+        }
+
+        private void ValidateInstallPackage()
         {
             if (Package.Validate(txtLocalInstallPackage.Text))
             {

@@ -298,6 +298,7 @@
             this.btnGetLatestRelease.Size = new System.Drawing.Size(38, 29);
             this.btnGetLatestRelease.TabIndex = 22;
             this.btnGetLatestRelease.Text = ">";
+            this.btnGetLatestRelease.Visible = false;
             this.btnGetLatestRelease.Click += new System.EventHandler(this.btnGetLatestRelease_Click);
             // 
             // btnViewAllReleases
@@ -320,7 +321,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 1;
+            this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(607, 294);
             this.tabControl.TabIndex = 26;
             // 
