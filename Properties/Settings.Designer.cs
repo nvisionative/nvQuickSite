@@ -26,12 +26,12 @@ namespace nvQuickSite.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LocationRecent {
+        public string InstallBaseFolderRecent {
             get {
-                return ((string)(this["LocationRecent"]));
+                return ((string)(this["InstallBaseFolderRecent"]));
             }
             set {
-                this["LocationRecent"] = value;
+                this["InstallBaseFolderRecent"] = value;
             }
         }
         
@@ -49,13 +49,13 @@ namespace nvQuickSite.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MySite.local")]
-        public string SiteNameRecent {
+        [global::System.Configuration.DefaultSettingValueAttribute("MySite")]
+        public string SiteNamePrefixRecent {
             get {
-                return ((string)(this["SiteNameRecent"]));
+                return ((string)(this["SiteNamePrefixRecent"]));
             }
             set {
-                this["SiteNameRecent"] = value;
+                this["SiteNamePrefixRecent"] = value;
             }
         }
         
@@ -128,6 +128,18 @@ namespace nvQuickSite.Properties {
             }
             set {
                 this["LocationDoNotWarnAgain"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".dnndev.me")]
+        public string SiteNameSuffixRecent {
+            get {
+                return ((string)(this["SiteNameSuffixRecent"]));
+            }
+            set {
+                this["SiteNameSuffixRecent"] = value;
             }
         }
     }

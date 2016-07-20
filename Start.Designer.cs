@@ -32,12 +32,12 @@
             this.btnSiteInfoBack = new MetroFramework.Controls.MetroButton();
             this.btnSiteInfoNext = new MetroFramework.Controls.MetroButton();
             this.btnLocation = new MetroFramework.Controls.MetroButton();
-            this.lblLocation = new MetroFramework.Controls.MetroLabel();
-            this.txtLocation = new MetroFramework.Controls.MetroTextBox();
+            this.lblInstallBaseFolder = new MetroFramework.Controls.MetroLabel();
+            this.txtInstallBaseFolder = new MetroFramework.Controls.MetroTextBox();
             this.chkDeleteSiteIfExists = new MetroFramework.Controls.MetroCheckBox();
             this.chkSiteSpecificAppPool = new MetroFramework.Controls.MetroCheckBox();
             this.lblSiteName = new MetroFramework.Controls.MetroLabel();
-            this.txtSiteName = new MetroFramework.Controls.MetroTextBox();
+            this.txtSiteNamePrefix = new MetroFramework.Controls.MetroTextBox();
             this.toggleSiteInfoRemember = new MetroFramework.Controls.MetroToggle();
             this.tabInstallPackage = new MetroFramework.Controls.MetroTabPage();
             this.progressBarDownload = new MetroFramework.Controls.MetroProgressBar();
@@ -73,6 +73,9 @@
             this.tileDNNDocumentationCenter = new MetroFramework.Controls.MetroTile();
             this.tileDNNCommunityForums = new MetroFramework.Controls.MetroTile();
             this.lblRemember = new MetroFramework.Controls.MetroLabel();
+            this.txtSiteNameSuffix = new MetroFramework.Controls.MetroTextBox();
+            this.txtInstallSubFolder = new MetroFramework.Controls.MetroTextBox();
+            this.lblInstallSubFolder = new MetroFramework.Controls.MetroLabel();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -82,15 +85,18 @@
             // 
             // tabSiteInfo
             // 
+            this.tabSiteInfo.Controls.Add(this.lblInstallSubFolder);
+            this.tabSiteInfo.Controls.Add(this.txtInstallSubFolder);
+            this.tabSiteInfo.Controls.Add(this.txtSiteNameSuffix);
             this.tabSiteInfo.Controls.Add(this.btnSiteInfoBack);
             this.tabSiteInfo.Controls.Add(this.btnSiteInfoNext);
             this.tabSiteInfo.Controls.Add(this.btnLocation);
-            this.tabSiteInfo.Controls.Add(this.lblLocation);
-            this.tabSiteInfo.Controls.Add(this.txtLocation);
+            this.tabSiteInfo.Controls.Add(this.lblInstallBaseFolder);
+            this.tabSiteInfo.Controls.Add(this.txtInstallBaseFolder);
             this.tabSiteInfo.Controls.Add(this.chkDeleteSiteIfExists);
             this.tabSiteInfo.Controls.Add(this.chkSiteSpecificAppPool);
             this.tabSiteInfo.Controls.Add(this.lblSiteName);
-            this.tabSiteInfo.Controls.Add(this.txtSiteName);
+            this.tabSiteInfo.Controls.Add(this.txtSiteNamePrefix);
             this.tabSiteInfo.HorizontalScrollbarBarColor = true;
             this.tabSiteInfo.Location = new System.Drawing.Point(4, 35);
             this.tabSiteInfo.Name = "tabSiteInfo";
@@ -121,7 +127,7 @@
             // btnLocation
             // 
             this.btnLocation.Highlight = true;
-            this.btnLocation.Location = new System.Drawing.Point(559, 169);
+            this.btnLocation.Location = new System.Drawing.Point(278, 169);
             this.btnLocation.Name = "btnLocation";
             this.btnLocation.Size = new System.Drawing.Size(38, 23);
             this.btnLocation.Style = MetroFramework.MetroColorStyle.Blue;
@@ -129,22 +135,22 @@
             this.btnLocation.Text = "...";
             this.btnLocation.Click += new System.EventHandler(this.btnLocation_Click);
             // 
-            // lblLocation
+            // lblInstallBaseFolder
             // 
-            this.lblLocation.AutoSize = true;
-            this.lblLocation.Location = new System.Drawing.Point(0, 144);
-            this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(58, 19);
-            this.lblLocation.TabIndex = 7;
-            this.lblLocation.Text = "Location";
+            this.lblInstallBaseFolder.AutoSize = true;
+            this.lblInstallBaseFolder.Location = new System.Drawing.Point(0, 144);
+            this.lblInstallBaseFolder.Name = "lblInstallBaseFolder";
+            this.lblInstallBaseFolder.Size = new System.Drawing.Size(114, 19);
+            this.lblInstallBaseFolder.TabIndex = 7;
+            this.lblInstallBaseFolder.Text = "Install Base Folder";
             // 
-            // txtLocation
+            // txtInstallBaseFolder
             // 
-            this.txtLocation.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
-            this.txtLocation.Location = new System.Drawing.Point(0, 169);
-            this.txtLocation.Name = "txtLocation";
-            this.txtLocation.Size = new System.Drawing.Size(540, 23);
-            this.txtLocation.TabIndex = 6;
+            this.txtInstallBaseFolder.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
+            this.txtInstallBaseFolder.Location = new System.Drawing.Point(0, 169);
+            this.txtInstallBaseFolder.Name = "txtInstallBaseFolder";
+            this.txtInstallBaseFolder.Size = new System.Drawing.Size(272, 23);
+            this.txtInstallBaseFolder.TabIndex = 6;
             // 
             // chkDeleteSiteIfExists
             // 
@@ -179,15 +185,16 @@
             this.lblSiteName.TabIndex = 3;
             this.lblSiteName.Text = "Site Name (URL)";
             // 
-            // txtSiteName
+            // txtSiteNamePrefix
             // 
-            this.txtSiteName.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
-            this.txtSiteName.Location = new System.Drawing.Point(0, 37);
-            this.txtSiteName.Name = "txtSiteName";
-            this.txtSiteName.Size = new System.Drawing.Size(540, 23);
-            this.txtSiteName.TabIndex = 2;
-            this.txtSiteName.Text = "MySite.local";
-            this.txtSiteName.UseStyleColors = true;
+            this.txtSiteNamePrefix.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
+            this.txtSiteNamePrefix.Location = new System.Drawing.Point(0, 37);
+            this.txtSiteNamePrefix.Name = "txtSiteNamePrefix";
+            this.txtSiteNamePrefix.Size = new System.Drawing.Size(316, 23);
+            this.txtSiteNamePrefix.TabIndex = 2;
+            this.txtSiteNamePrefix.Text = "MySite";
+            this.txtSiteNamePrefix.UseStyleColors = true;
+            this.txtSiteNamePrefix.TextChanged += new System.EventHandler(this.txtSiteNamePrefix_TextChanged);
             // 
             // toggleSiteInfoRemember
             // 
@@ -321,7 +328,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
+            this.tabControl.SelectedIndex = 1;
             this.tabControl.Size = new System.Drawing.Size(607, 294);
             this.tabControl.TabIndex = 26;
             // 
@@ -570,6 +577,31 @@
             this.lblRemember.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblRemember.Visible = false;
             // 
+            // txtSiteNameSuffix
+            // 
+            this.txtSiteNameSuffix.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
+            this.txtSiteNameSuffix.Location = new System.Drawing.Point(323, 37);
+            this.txtSiteNameSuffix.Name = "txtSiteNameSuffix";
+            this.txtSiteNameSuffix.Size = new System.Drawing.Size(217, 23);
+            this.txtSiteNameSuffix.TabIndex = 12;
+            this.txtSiteNameSuffix.Text = ".dnndev.me";
+            // 
+            // txtInstallSubFolder
+            // 
+            this.txtInstallSubFolder.Location = new System.Drawing.Point(323, 169);
+            this.txtInstallSubFolder.Name = "txtInstallSubFolder";
+            this.txtInstallSubFolder.Size = new System.Drawing.Size(217, 23);
+            this.txtInstallSubFolder.TabIndex = 13;
+            // 
+            // lblInstallSubFolder
+            // 
+            this.lblInstallSubFolder.AutoSize = true;
+            this.lblInstallSubFolder.Location = new System.Drawing.Point(323, 144);
+            this.lblInstallSubFolder.Name = "lblInstallSubFolder";
+            this.lblInstallSubFolder.Size = new System.Drawing.Size(109, 19);
+            this.lblInstallSubFolder.TabIndex = 14;
+            this.lblInstallSubFolder.Text = "Install Sub Folder";
+            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -609,11 +641,11 @@
         private MetroFramework.Controls.MetroTabControl tabControl;
         private MetroFramework.Controls.MetroTile tileQuickStartGuide;
         private MetroFramework.Controls.MetroTile tileDNNDevSpark;
-        private MetroFramework.Controls.MetroTextBox txtSiteName;
+        private MetroFramework.Controls.MetroTextBox txtSiteNamePrefix;
         private MetroFramework.Controls.MetroLabel lblSiteName;
         private MetroFramework.Controls.MetroButton btnLocation;
-        private MetroFramework.Controls.MetroLabel lblLocation;
-        private MetroFramework.Controls.MetroTextBox txtLocation;
+        private MetroFramework.Controls.MetroLabel lblInstallBaseFolder;
+        private MetroFramework.Controls.MetroTextBox txtInstallBaseFolder;
         private MetroFramework.Controls.MetroCheckBox chkDeleteSiteIfExists;
         private MetroFramework.Controls.MetroCheckBox chkSiteSpecificAppPool;
         private MetroFramework.Controls.MetroButton btnLocalInstallPackage;
@@ -643,5 +675,8 @@
         private MetroFramework.Controls.MetroProgressBar progressBarDownload;
         private MetroFramework.Controls.MetroToggle toggleSiteInfoRemember;
         private MetroFramework.Controls.MetroLabel lblRemember;
+        private MetroFramework.Controls.MetroTextBox txtSiteNameSuffix;
+        private MetroFramework.Controls.MetroLabel lblInstallSubFolder;
+        private MetroFramework.Controls.MetroTextBox txtInstallSubFolder;
     }
 }

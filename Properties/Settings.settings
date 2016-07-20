@@ -2,14 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="nvQuickSite.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="LocationRecent" Type="System.String" Scope="User">
+    <Setting Name="InstallBaseFolderRecent" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LocalInstallPackageRecent" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SiteNameRecent" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MySite.local</Value>
+    <Setting Name="SiteNamePrefixRecent" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MySite</Value>
     </Setting>
     <Setting Name="AppPoolRecent" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -28,6 +28,9 @@
     </Setting>
     <Setting Name="LocationDoNotWarnAgain" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SiteNameSuffixRecent" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.dnndev.me</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -90,9 +90,11 @@ namespace nvQuickSite
 
             if (Properties.Settings.Default.RememberFieldValues)
             {
-                txtSiteName.Text = Properties.Settings.Default.SiteNameRecent;
+                txtSiteNamePrefix.Text = Properties.Settings.Default.SiteNamePrefixRecent;
+                txtSiteNameSuffix.Text = Properties.Settings.Default.SiteNameSuffixRecent;
                 chkSiteSpecificAppPool.Checked = Properties.Settings.Default.AppPoolRecent;
                 chkDeleteSiteIfExists.Checked = Properties.Settings.Default.DeleteSiteInIISRecent;
+                txtInstallBaseFolder.Text = Properties.Settings.Default.InstallBaseFolderRecent;
 
                 txtDBServerName.Text = Properties.Settings.Default.DatabaseServerNameRecent;
                 txtDBName.Text = Properties.Settings.Default.DatabaseNameRecent;
@@ -257,13 +259,13 @@ namespace nvQuickSite
         {
             VistaFolderBrowserDialog diag = new VistaFolderBrowserDialog();
             diag.RootFolder = Environment.SpecialFolder.MyComputer;
-            diag.SelectedPath = Properties.Settings.Default.LocationRecent;
+            diag.SelectedPath = Properties.Settings.Default.InstallBaseFolderRecent;
             DialogResult result = diag.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                txtLocation.Text = diag.SelectedPath;
-                Properties.Settings.Default.LocationRecent = diag.SelectedPath;
+                txtInstallBaseFolder.Text = diag.SelectedPath;
+                Properties.Settings.Default.InstallBaseFolderRecent = diag.SelectedPath;
                 Properties.Settings.Default.Save();
             }
         }
@@ -276,24 +278,32 @@ namespace nvQuickSite
             tabControl.SelectedIndex = 0;
         }
 
+        private void txtSiteNamePrefix_TextChanged(object sender, EventArgs e)
+        {
+            txtInstallSubFolder.Text = txtSiteNamePrefix.Text;
+            txtDBName.Text = txtSiteNamePrefix.Text;
+        }
+
         private void btnSiteInfoNext_Click(object sender, EventArgs e)
         {
             bool proceed = false;
 
-            if (txtLocation.Text != "" && txtSiteName.Text != "")
+            if (txtInstallBaseFolder.Text != "" && txtInstallSubFolder.Text != "" && txtSiteNamePrefix.Text != "")
             {
-                if (!Directory.Exists(txtLocation.Text))
+                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
+
+                if (!Directory.Exists(installFolder))
                 {
                     var dialogMessage = "The entered location does not exist. Do you wish to create it?";
                     var dialogIcon = SystemIcons.Warning.ToBitmap();
                     var doNotWarnAgain = Properties.Settings.Default.LocationDoNotWarnAgain;
                     var msgBoxYesNoIgnore = new MsgBoxYesNoIgnore(doNotWarnAgain, dialogMessage, dialogIcon);
-                    var result = msgBoxYesNoIgnore.ShowDialog();
-                    if (!msgBoxYesNoIgnore.DoNotWarnAgain)
+                    if (!doNotWarnAgain)
                     {
+                        var result = msgBoxYesNoIgnore.ShowDialog();
                         if (result == DialogResult.Yes)
                         {
-                            Directory.CreateDirectory(txtLocation.Text);
+                            Directory.CreateDirectory(installFolder);
                             proceed = true;
                         }
                         else
@@ -303,7 +313,7 @@ namespace nvQuickSite
                     }
                     else
                     {
-                        Directory.CreateDirectory(txtLocation.Text);
+                        Directory.CreateDirectory(installFolder);
                         proceed = true;
 
                     }
@@ -317,7 +327,7 @@ namespace nvQuickSite
 
                 if (proceed)
                 {
-                    if (!DirectoryEmpty(txtLocation.Text))
+                    if (!DirectoryEmpty(installFolder))
                     {
                         var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
                                                     "Confirm Installation",
@@ -347,7 +357,8 @@ namespace nvQuickSite
                     tabControl.SelectedIndex = 2;
                     if (Properties.Settings.Default.RememberFieldValues)
                     {
-                        Properties.Settings.Default.SiteNameRecent = txtSiteName.Text;
+                        Properties.Settings.Default.SiteNamePrefixRecent = txtSiteNamePrefix.Text;
+                        Properties.Settings.Default.SiteNameSuffixRecent = txtSiteNameSuffix.Text;
                         Properties.Settings.Default.AppPoolRecent = chkSiteSpecificAppPool.Checked;
                         Properties.Settings.Default.DeleteSiteInIISRecent = chkDeleteSiteIfExists.Checked;
                         Properties.Settings.Default.Save();
@@ -428,7 +439,7 @@ namespace nvQuickSite
                                         Properties.Settings.Default.Save();
                                     }
 
-                                    if (ReadAndExtract(txtLocalInstallPackage.Text, txtLocation.Text + "\\Website"))
+                                    if (ReadAndExtract(txtLocalInstallPackage.Text, txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text + "\\Website"))
                                     {
                                         if (ModifyConfig())
                                         {
@@ -457,16 +468,17 @@ namespace nvQuickSite
             {
                 //Create website in IIS
                 ServerManager iisManager = new ServerManager();
-                var siteName = txtSiteName.Text;
+                var siteName = txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
                 var bindingInfo = "*:80:" + siteName;
+                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
 
                 Boolean siteExists = SiteExists(siteName);
                 if (!siteExists)
                 {
-                    Site mySite = iisManager.Sites.Add(siteName, "http", bindingInfo, txtLocation.Text + "\\Website");
+                    Site mySite = iisManager.Sites.Add(siteName, "http", bindingInfo, installFolder + "\\Website");
                     mySite.TraceFailedRequestsLogging.Enabled = true;
-                    mySite.TraceFailedRequestsLogging.Directory = txtLocation.Text + "\\Logs";
-                    mySite.LogFile.Directory = txtLocation.Text + "\\Logs" + "\\W3svc" + mySite.Id.ToString();
+                    mySite.TraceFailedRequestsLogging.Directory = installFolder + "\\Logs";
+                    mySite.LogFile.Directory = installFolder + "\\Logs" + "\\W3svc" + mySite.Id.ToString();
 
                     if (chkSiteSpecificAppPool.Checked)
                     {
@@ -536,7 +548,7 @@ namespace nvQuickSite
             {
                 string hostsFile = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\drivers\etc\hosts";
 
-                var newEntry = "\t127.0.0.1 \t" + txtSiteName.Text;
+                var newEntry = "\t127.0.0.1 \t" + txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
                 if (!File.ReadAllLines(hostsFile).Contains(newEntry))
                 {
                     if (File.ReadAllText(hostsFile).EndsWith(Environment.NewLine))
@@ -567,9 +579,11 @@ namespace nvQuickSite
         {
             try
             {
-                var websiteDir = txtLocation.Text + "\\Website";
-                var logsDir = txtLocation.Text + "\\Logs";
-                var databaseDir = txtLocation.Text + "\\Database";
+                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
+
+                var websiteDir = installFolder + "\\Website";
+                var logsDir = installFolder + "\\Logs";
+                var databaseDir = installFolder + "\\Database";
 
                 var appPoolName = @"IIS APPPOOL\DefaultAppPool";
                 var dbServiceAccount = @"NT Service\MSSQLSERVER";
@@ -577,7 +591,7 @@ namespace nvQuickSite
 
                 if (chkSiteSpecificAppPool.Checked)
                 {
-                    appPoolName = @"IIS APPPOOL\" + txtSiteName.Text + "_nvQuickSite";
+                    appPoolName = @"IIS APPPOOL\" + txtSiteNamePrefix.Text + txtSiteNameSuffix.Text + "_nvQuickSite";
                 }
 
                 if (!Directory.Exists(websiteDir))
@@ -666,9 +680,11 @@ namespace nvQuickSite
 
         private void RemoveDirectories()
         {
-            var websiteDir = txtLocation.Text + "\\Website";
-            var logsDir = txtLocation.Text + "\\Logs";
-            var databaseDir = txtLocation.Text + "\\Database";
+            string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
+
+            var websiteDir = installFolder + "\\Website";
+            var logsDir = installFolder + "\\Logs";
+            var databaseDir = installFolder + "\\Database";
 
             Directory.Delete(websiteDir, true);
             Directory.Delete(logsDir, true);
@@ -692,13 +708,14 @@ namespace nvQuickSite
             SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection + connectionTimeout);
 
             string myDBName = txtDBName.Text;
+            string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
 
             string str = "CREATE DATABASE [" + myDBName + "] ON PRIMARY " +
                 "(NAME = [" + myDBName + "_Data], " +
-                "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "_Data.mdf', " +
+                "FILENAME = '" + installFolder + "\\Database\\" + myDBName + "_Data.mdf', " +
                 "SIZE = 20MB, MAXSIZE = 200MB, FILEGROWTH = 10%) " +
                 "LOG ON (NAME = [" + myDBName + "_Log], " +
-                "FILENAME = '" + txtLocation.Text + "\\Database\\" + myDBName + "_Log.ldf', " +
+                "FILENAME = '" + installFolder + "\\Database\\" + myDBName + "_Log.ldf', " +
                 "SIZE = 13MB, " +
                 "MAXSIZE = 50MB, " +
                 "FILEGROWTH = 10%)";
@@ -794,8 +811,8 @@ namespace nvQuickSite
 
             if (chkSiteSpecificAppPool.Checked)
             {
-                appPoolNameFull = @"IIS APPPOOL\" + txtSiteName.Text + "_nvQuickSite";
-                appPoolName = txtSiteName.Text + "_nvQuickSite";
+                appPoolNameFull = @"IIS APPPOOL\" + txtSiteNamePrefix.Text + txtSiteNameSuffix.Text + "_nvQuickSite";
+                appPoolName = txtSiteNamePrefix.Text + txtSiteNameSuffix.Text + "_nvQuickSite";
             }
 
             string str1 = "USE master";
@@ -941,7 +958,8 @@ namespace nvQuickSite
                                connectionStringAuthSection;
                 //string providerName = "System.Data.SqlClient";
 
-                string path = txtLocation.Text + @"\Website\web.config";
+                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
+                string path = installFolder + @"\Website\web.config";
 
                 var config = XDocument.Load(path);
                 var targetNode = config.Root.Element("connectionStrings").Element("add").Attribute("connectionString");
@@ -973,7 +991,7 @@ namespace nvQuickSite
 
         private void btnVisitSite_Click(object sender, EventArgs e)
         {
-            Process.Start("http://" + txtSiteName.Text);
+            Process.Start("http://" + txtSiteNamePrefix.Text + txtSiteNameSuffix.Text);
             Main.ActiveForm.Close();
         }
 
