@@ -4,6 +4,8 @@ nvQuickSite is a desktop installation app for DNN, the world's most popular ASP.
 
 ## Why Use nvQuickSite?
 
+First of all, because it saves you tons of time...
+
 **Designers & End Users**
 
 This app isn't just for the developers out there. If you test DNN or want to just get a DNN site up and running, just ask your developer friend(s) to get the prerequisites installed and configured. After that, everything you need to know and do is a few simple clicks away.
