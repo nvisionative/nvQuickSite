@@ -190,7 +190,6 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\nvQuickSiteValidator.dll" />
     <EmbeddedResource Include="Libraries\OSVersionInfo.dll" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Resources\broughtBy-nvisionative.png" />
