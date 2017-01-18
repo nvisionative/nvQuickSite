@@ -33,7 +33,6 @@ using MetroFramework.Controls;
 using Microsoft.Web.Administration;
 using Ionic.Zip;
 using Ookii.Dialogs;
-using nvQuickSiteValidator;
 
 namespace nvQuickSite
 {
@@ -227,19 +226,19 @@ namespace nvQuickSite
 
         private void ValidateInstallPackage()
         {
-            if (Package.Validate(txtLocalInstallPackage.Text))
-            {
+            //if (Package.Validate(txtLocalInstallPackage.Text))
+            //{
                 tabInstallPackage.Enabled = false;
                 tabControl.TabPages.Insert(1, tabSiteInfo);
                 tabSiteInfo.Enabled = true;
                 tabDatabaseInfo.Enabled = false;
                 tabProgress.Enabled = false;
                 tabControl.SelectedIndex = 1;
-            }
-            else
-            {
-                MessageBox.Show("You must first Download or select a valid Local Install Package.", "Install Package", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("You must first Download or select a valid Local Install Package.", "Install Package", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
         }
 
         #endregion
