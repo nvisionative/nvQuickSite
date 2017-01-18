@@ -211,8 +211,8 @@ namespace nvQuickSite
             }
             else
             {
-                DialogResult result = MessageBox.Show("Local Install Package already defined. Use it?",
-                    "Use Local Install Package", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult result = MessageBox.Show("Click 'Yes' to use the Local Install Package. Click 'No' to attempt download of the selected Download Install Package.",
+                    "Confirm: Use Local Package?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.No)
                 {
                     GetOnlineVersion();
@@ -367,7 +367,7 @@ namespace nvQuickSite
             }
             else
             {
-                MessageBox.Show("Please make sure you have entered a Site Name and Location.", "Site Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please make sure you have entered a Site Name and Install Folder.", "Site Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
