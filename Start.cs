@@ -16,6 +16,7 @@
 //along with nvQuickSite.  If not, see<http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
@@ -33,6 +34,7 @@ using MetroFramework.Controls;
 using Microsoft.Web.Administration;
 using Ionic.Zip;
 using Ookii.Dialogs;
+using nvQuickSiteValidator;
 
 namespace nvQuickSite
 {
@@ -61,11 +63,11 @@ namespace nvQuickSite
 
                 XDocument doc = XDocument.Parse(result);
                 var packages = from x in doc.Descendants("DNNPackage")
-                               select new
-                               {
-                                   Name = x.Descendants("Name").First().Value,
-                                   File = x.Descendants("File").First().Value
-                               };
+                    select new
+                    {
+                        Name = x.Descendants("Name").First().Value,
+                        File = x.Descendants("File").First().Value
+                    };
 
                 foreach (var package in packages)
                     cboLatestReleases.Items.Add(new ComboItem(url + package.File, package.Name));
@@ -76,7 +78,6 @@ namespace nvQuickSite
                 //}
                 cboLatestReleases.SelectedIndex = 0;
                 cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
-
             }
             catch (Exception ex)
             {
@@ -103,6 +104,7 @@ namespace nvQuickSite
         #region "Tabs"
 
         #region "Install Package"
+
         private void cboLatestReleases_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
@@ -131,7 +133,8 @@ namespace nvQuickSite
             var dlContinue = true;
             if (File.Exists(downloadDirectory + fileName))
             {
-                DialogResult result = MessageBox.Show("Install Package is already downloaded. Would you like to download it again? This will replace the existing download.",
+                DialogResult result = MessageBox.Show(
+                    "Install Package is already downloaded. Would you like to download it again? This will replace the existing download.",
                     "Download Install Package", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.No)
                 {
@@ -173,9 +176,9 @@ namespace nvQuickSite
         }
 
         private void btnViewAllReleases_Click(object sender, EventArgs e)
-                {
-                    Process.Start("https://dotnetnuke.codeplex.com/");
-                }
+        {
+            Process.Start("https://dotnetnuke.codeplex.com/");
+        }
 
         private void txtLocalInstallPackage_Click(object sender, EventArgs e)
         {
@@ -210,8 +213,8 @@ namespace nvQuickSite
             }
             else
             {
-                DialogResult result = MessageBox.Show("Click 'Yes' to use the Local Install Package. Click 'No' to attempt download of the selected Download Install Package.",
-                    "Confirm: Use Local Package?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show("Local Install Package already defined. Use it?",
+                    "Use Local Install Package", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.No)
                 {
                     GetOnlineVersion();
@@ -226,24 +229,25 @@ namespace nvQuickSite
 
         private void ValidateInstallPackage()
         {
-            //if (Package.Validate(txtLocalInstallPackage.Text))
-            //{
+            if (Package.Validate(txtLocalInstallPackage.Text))
+            {
                 tabInstallPackage.Enabled = false;
                 tabControl.TabPages.Insert(1, tabSiteInfo);
                 tabSiteInfo.Enabled = true;
                 tabDatabaseInfo.Enabled = false;
                 tabProgress.Enabled = false;
                 tabControl.SelectedIndex = 1;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("You must first Download or select a valid Local Install Package.", "Install Package", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
+            }
+            else
+            {
+                MessageBox.Show("You must first Download or select a valid Local Install Package.", "Install Package", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         #endregion
 
         #region "Site Info"
+
         //private void txtLocation_Click(object sender, EventArgs e)
         //{
         //    openFolderDiag();
@@ -314,8 +318,8 @@ namespace nvQuickSite
                     {
                         Directory.CreateDirectory(installFolder);
                         proceed = true;
-
                     }
+
                     Properties.Settings.Default.LocationDoNotWarnAgain = msgBoxYesNoIgnore.DoNotWarnAgain;
                     Properties.Settings.Default.Save();
                 }
@@ -328,9 +332,10 @@ namespace nvQuickSite
                 {
                     if (!DirectoryEmpty(installFolder))
                     {
-                        var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
-                                                    "Confirm Installation",
-                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                        var confirmResult = MessageBox.Show(
+                            "All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
+                            "Confirm Installation",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                         if (confirmResult == DialogResult.No)
                         {
                             proceed = false;
@@ -366,7 +371,7 @@ namespace nvQuickSite
             }
             else
             {
-                MessageBox.Show("Please make sure you have entered a Site Name and Install Folder.", "Site Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please make sure you have entered a Site Name and Location.", "Site Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -457,7 +462,8 @@ namespace nvQuickSite
             }
             else
             {
-                MessageBox.Show("Please make sure you have entered a Database Server Name and a Database Name.", "Database Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please make sure you have entered a Database Server Name and a Database Name.", "Database Info", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
         }
 
@@ -485,6 +491,7 @@ namespace nvQuickSite
                         iisManager.ApplicationPools.Add(appPoolName);
                         mySite.ApplicationDefaults.ApplicationPoolName = appPoolName;
                     }
+
                     iisManager.CommitChanges();
                     //MessageBox.Show("New DNN site (" + siteName + ") added sucessfully!", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -492,6 +499,7 @@ namespace nvQuickSite
                 {
                     MessageBox.Show("Site name (" + siteName + ") already exists.", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+
                 return true;
             }
             catch (Exception ex)
@@ -526,11 +534,13 @@ namespace nvQuickSite
                                 }
                             }
                         }
+
                         iisManager.Sites.Remove(site);
                         iisManager.CommitChanges();
                         flag = false;
                         break;
                     }
+
                     break;
                 }
                 else
@@ -538,6 +548,7 @@ namespace nvQuickSite
                     flag = false;
                 }
             }
+
             return flag;
         }
 
@@ -565,6 +576,7 @@ namespace nvQuickSite
                         }
                     }
                 }
+
                 return true;
             }
             catch (Exception ex)
@@ -634,11 +646,13 @@ namespace nvQuickSite
                         var myDBFile = Directory.EnumerateFiles(databaseDir, "*.mdf").First().Split('_').First().Split('\\').Last();
                         DropDatabase(myDBFile);
                     }
+
                     Directory.Delete(databaseDir);
                     Directory.CreateDirectory(databaseDir);
                     SetFolderPermission(dbServiceAccount, databaseDir);
                     SetFolderPermission(authenticatedUsers, databaseDir);
                 }
+
                 return true;
             }
             catch (Exception ex)
@@ -658,9 +672,13 @@ namespace nvQuickSite
                 var none = new InheritanceFlags();
                 none = InheritanceFlags.None;
 
+
                 var accessRule = new FileSystemAccessRule(accountName, Rights, none, PropagationFlags.NoPropagateInherit, AccessControlType.Allow);
                 var dInfo = new DirectoryInfo(folderPath);
                 var dSecurity = dInfo.GetAccessControl();
+                if (!dSecurity.AreAccessRulesCanonical)
+                    CanonicalizeDacl(dSecurity);
+
                 dSecurity.ModifyAccessRule(AccessControlModification.Set, accessRule, out modified);
 
                 var iFlags = new InheritanceFlags();
@@ -668,13 +686,83 @@ namespace nvQuickSite
 
                 var accessRule2 = new FileSystemAccessRule(accountName, Rights, iFlags, PropagationFlags.InheritOnly, AccessControlType.Allow);
                 dSecurity.ModifyAccessRule(AccessControlModification.Add, accessRule2, out modified);
-                 
+
                 dInfo.SetAccessControl(dSecurity);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message, "Set Folder Permissions", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        //From: https://stackoverflow.com/questions/8126827/how-do-you-programmatically-fix-a-non-canonical-acl
+        static void CanonicalizeDacl(NativeObjectSecurity objectSecurity)
+        {
+            if (objectSecurity == null)
+            {
+                throw new ArgumentNullException("objectSecurity");
+            }
+
+
+            // A canonical ACL must have ACES sorted according to the following order:
+            //   1. Access-denied on the object
+            //   2. Access-denied on a child or property
+            //   3. Access-allowed on the object
+            //   4. Access-allowed on a child or property
+            //   5. All inherited ACEs 
+            RawSecurityDescriptor descriptor = new RawSecurityDescriptor(objectSecurity.GetSecurityDescriptorSddlForm(AccessControlSections.Access));
+
+            List<CommonAce> implicitDenyDacl = new List<CommonAce>();
+            List<CommonAce> implicitDenyObjectDacl = new List<CommonAce>();
+            List<CommonAce> inheritedDacl = new List<CommonAce>();
+            List<CommonAce> implicitAllowDacl = new List<CommonAce>();
+            List<CommonAce> implicitAllowObjectDacl = new List<CommonAce>();
+
+            foreach (CommonAce ace in descriptor.DiscretionaryAcl)
+            {
+                if ((ace.AceFlags & AceFlags.Inherited) == AceFlags.Inherited)
+                {
+                    inheritedDacl.Add(ace);
+                }
+                else
+                {
+                    switch (ace.AceType)
+                    {
+                        case AceType.AccessAllowed:
+                            implicitAllowDacl.Add(ace);
+                            break;
+
+                        case AceType.AccessDenied:
+                            implicitDenyDacl.Add(ace);
+                            break;
+
+                        case AceType.AccessAllowedObject:
+                            implicitAllowObjectDacl.Add(ace);
+                            break;
+
+                        case AceType.AccessDeniedObject:
+                            implicitDenyObjectDacl.Add(ace);
+                            break;
+                    }
+                }
+            }
+
+            Int32 aceIndex = 0;
+            RawAcl newDacl = new RawAcl(descriptor.DiscretionaryAcl.Revision, descriptor.DiscretionaryAcl.Count);
+            implicitDenyDacl.ForEach(x => newDacl.InsertAce(aceIndex++, x));
+            implicitDenyObjectDacl.ForEach(x => newDacl.InsertAce(aceIndex++, x));
+            implicitAllowDacl.ForEach(x => newDacl.InsertAce(aceIndex++, x));
+            implicitAllowObjectDacl.ForEach(x => newDacl.InsertAce(aceIndex++, x));
+            inheritedDacl.ForEach(x => newDacl.InsertAce(aceIndex++, x));
+
+            if (aceIndex != descriptor.DiscretionaryAcl.Count)
+            {
+                System.Diagnostics.Debug.Fail("The DACL cannot be canonicalized since it would potentially result in a loss of information");
+                return;
+            }
+
+            descriptor.DiscretionaryAcl = newDacl;
+            objectSecurity.SetSecurityDescriptorSddlForm(descriptor.GetSddlForm(AccessControlSections.Access), AccessControlSections.Access);
         }
 
         private void RemoveDirectories()
@@ -710,24 +798,24 @@ namespace nvQuickSite
             string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
 
             string str = "CREATE DATABASE [" + myDBName + "] ON PRIMARY " +
-                "(NAME = [" + myDBName + "_Data], " +
-                "FILENAME = '" + installFolder + "\\Database\\" + myDBName + "_Data.mdf', " +
-                "SIZE = 20MB, MAXSIZE = 200MB, FILEGROWTH = 10%) " +
-                "LOG ON (NAME = [" + myDBName + "_Log], " +
-                "FILENAME = '" + installFolder + "\\Database\\" + myDBName + "_Log.ldf', " +
-                "SIZE = 13MB, " +
-                "MAXSIZE = 50MB, " +
-                "FILEGROWTH = 10%)";
+                         "(NAME = [" + myDBName + "_Data], " +
+                         "FILENAME = '" + installFolder + "\\Database\\" + myDBName + "_Data.mdf', " +
+                         "SIZE = 20MB, MAXSIZE = 200MB, FILEGROWTH = 10%) " +
+                         "LOG ON (NAME = [" + myDBName + "_Log], " +
+                         "FILENAME = '" + installFolder + "\\Database\\" + myDBName + "_Log.ldf', " +
+                         "SIZE = 13MB, " +
+                         "MAXSIZE = 50MB, " +
+                         "FILEGROWTH = 10%)";
 
             SqlCommand myCommand = new SqlCommand(str, myConn);
             try
             {
                 //if (CanConnectToDatabase(myDBServerName))
                 //{
-                    myConn.Open();
-                    myCommand.ExecuteNonQuery();
-                    //MessageBox.Show("Database created successfully", "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return true;
+                myConn.Open();
+                myCommand.ExecuteNonQuery();
+                //MessageBox.Show("Database created successfully", "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return true;
                 //}
                 //else
                 //{
@@ -758,6 +846,7 @@ namespace nvQuickSite
                 {
                     server = "127.0.0.1";
                 }
+
                 using (TcpClient tcpSocket = new TcpClient())
                 {
                     AsyncCallback ConnectCallback = null;
@@ -768,17 +857,20 @@ namespace nvQuickSite
                         System.Threading.Thread.Sleep(500);
                         if (async.IsCompleted) break;
                     } while (DateTime.Now.Subtract(startTime).TotalSeconds < 5);
+
                     if (async.IsCompleted)
                     {
                         tcpSocket.EndConnect(async);
                         returnVal = true;
                     }
+
                     tcpSocket.Close();
                     if (!async.IsCompleted)
                     {
                         returnVal = false;
                     }
                 }
+
                 return returnVal;
             }
             catch (SocketException ex)
@@ -867,7 +959,7 @@ namespace nvQuickSite
 
             string str1 = @"USE master";
             string str2 = @"IF EXISTS(SELECT name FROM sys.databases WHERE name = '" + myDBName + "')" +
-                "DROP DATABASE [" + myDBName + "]";
+                          "DROP DATABASE [" + myDBName + "]";
 
             SqlCommand myCommand1 = new SqlCommand(str1, myConn);
             SqlCommand myCommand2 = new SqlCommand(str2, myConn);
@@ -906,7 +998,8 @@ namespace nvQuickSite
                     fileCount++;
                     totalSize += entry.UncompressedSize;
                 }
-                progressBar.Maximum = (Int32)totalSize;
+
+                progressBar.Maximum = (Int32) totalSize;
                 myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(myZip_ExtractProgress);
                 myZip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
                 lblProgressStatus.Text = "Congratulations! Your new site is now ready to visit!";
@@ -933,7 +1026,7 @@ namespace nvQuickSite
 
             lastVal = e.BytesTransferred;
 
-            progressBar.Value = (Int32)sum;
+            progressBar.Value = (Int32) sum;
         }
 
         private bool ModifyConfig()
@@ -1026,6 +1119,5 @@ namespace nvQuickSite
         }
 
         #endregion
-
     }
 }
