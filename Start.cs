@@ -585,7 +585,7 @@ namespace nvQuickSite
                 var databaseDir = installFolder + "\\Database";
 
                 var appPoolName = @"IIS APPPOOL\DefaultAppPool";
-                var dbServiceAccount = @"NT Service\MSSQLSERVER";
+                var dbServiceAccount = GetDBServiceAccount();
                 var authenticatedUsers = "Authenticated Users";
 
                 if (chkSiteSpecificAppPool.Checked)
@@ -646,6 +646,20 @@ namespace nvQuickSite
                 MessageBox.Show("Error: " + ex.Message, "Create Directories", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+        }
+
+        private string GetDBServiceAccount()
+        {
+            string dbServiceAccount = @"NT Service\MSSQLSERVER";
+            string instanceName = txtDBServerName.Text.Trim();
+
+            if (instanceName.IndexOf(@"\") > -1)
+            {
+                dbServiceAccount = @"NT Service\MSSQL$" + instanceName.Substring(instanceName.LastIndexOf(@"\") + 1).ToUpper();
+            }
+
+
+            return dbServiceAccount;
         }
 
         private static void SetFolderPermission(String accountName, String folderPath)

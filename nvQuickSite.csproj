@@ -86,15 +86,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MetroFramework, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
-      <HintPath>packages\MetroFramework.RunTime.1.2.0.3\lib\net40-Client\MetroFramework.dll</HintPath>
+      <HintPath>..\..\..\Program Files (x86)\nvisionative\nvQuickSite\MetroFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MetroFramework.Design, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
-      <HintPath>packages\MetroFramework.Design.1.2.0.3\lib\net40\MetroFramework.Design.dll</HintPath>
+      <HintPath>..\..\..\Program Files (x86)\nvisionative\nvQuickSite\MetroFramework.Design.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
-      <HintPath>packages\MetroFramework.Fonts.1.2.0.3\lib\net40\MetroFramework.Fonts.dll</HintPath>
+      <HintPath>..\..\..\Program Files (x86)\nvisionative\nvQuickSite\MetroFramework.Fonts.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -103,8 +103,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\Program Files (x86)\nvisionative\nvQuickSite\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="nvQuickSiteValidator">
+      <HintPath>..\..\..\Program Files (x86)\nvisionative\nvQuickSite\nvQuickSiteValidator.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <HintPath>packages\Ookii.Dialogs.WindowsForms.1.0\lib\net35\Ookii.Dialogs.dll</HintPath>
