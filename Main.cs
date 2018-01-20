@@ -38,6 +38,7 @@ namespace nvQuickSite
                 { "dimension1", OSVersionInfo.Name + " " + OSVersionInfo.Edition + " " + OSVersionInfo.ServicePack }
             });
 
+            lblVersion.Text = "Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             Start control = new Start();
             control.Dock = DockStyle.Fill;
             Controls.Add(control);
