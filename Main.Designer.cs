@@ -59,11 +59,14 @@
             // lblVersion
             // 
             this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(471, 64);
+            this.lblVersion.BackColor = System.Drawing.Color.Transparent;
+            this.lblVersion.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVersion.Location = new System.Drawing.Point(444, 47);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(41, 13);
+            this.lblVersion.Size = new System.Drawing.Size(87, 18);
             this.lblVersion.TabIndex = 4;
-            this.lblVersion.Text = "version";
+            this.lblVersion.Text = "Version Info";
+            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // Main
             // 
