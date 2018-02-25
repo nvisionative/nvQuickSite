@@ -479,11 +479,11 @@ namespace nvQuickSite
                     mySite.TraceFailedRequestsLogging.Directory = installFolder + "\\Logs";
                     mySite.LogFile.Directory = installFolder + "\\Logs" + "\\W3svc" + mySite.Id.ToString();
 
-                    if (chkSiteSpecificAppPool.Checked)
+                    if (chkSiteSpecificAppPool.Checked) 
                     {
                         var appPoolName = siteName + "_nvQuickSite";
-                        iisManager.ApplicationPools.Add(appPoolName);
-                        mySite.ApplicationDefaults.ApplicationPoolName = appPoolName;
+                        ApplicationPool newPool = iisManager.ApplicationPools.Add(appPoolName);
+                        newPool.ManagedRuntimeVersion = "v4.0";
                     }
                     iisManager.CommitChanges();
                     //MessageBox.Show("New DNN site (" + siteName + ") added sucessfully!", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Information);
