@@ -484,6 +484,7 @@ namespace nvQuickSite
                         var appPoolName = siteName + "_nvQuickSite";
                         ApplicationPool newPool = iisManager.ApplicationPools.Add(appPoolName);
                         newPool.ManagedRuntimeVersion = "v4.0";
+                        mySite.ApplicationDefaults.ApplicationPoolName = appPoolName;
                     }
                     iisManager.CommitChanges();
                     //MessageBox.Show("New DNN site (" + siteName + ") added sucessfully!", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Information);
