@@ -1020,9 +1020,9 @@ namespace nvQuickSite
             Properties.Settings.Default.RememberFieldValues = !Properties.Settings.Default.RememberFieldValues;
         }
 
-        private void tileDNNCommunityForums_Click(object sender, EventArgs e)
+        private void tileMorenvQuickProducts_Click(object sender, EventArgs e)
         {
-            Process.Start("http://www.dnnsoftware.com/forums");
+            Process.Start("http://www.nvquick.com");
         }
 
         private void tileDNNDocumentationCenter_Click(object sender, EventArgs e)
@@ -1030,9 +1030,9 @@ namespace nvQuickSite
             Process.Start("http://www.dnnsoftware.com/docs");
         }
 
-        private void tileDNNDevSpark_Click(object sender, EventArgs e)
+        private void tileDNNAwareness_Click(object sender, EventArgs e)
         {
-            Process.Start("http://www.dnndevspark.com");
+            Process.Start("https://twitter.com/DNNAwareness");
         }
 
         private void tileQuickStartGuide_Click(object sender, EventArgs e)
