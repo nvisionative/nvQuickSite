@@ -11,9 +11,10 @@ namespace nvQuickSite.Controllers
             WebClient client = new WebClient();
             try
             {
-                var url = "https://github.com/nvisionative/nvQuickSite/blob/issue-151/data/currentVersion.json";
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                var url = "https://raw.githubusercontent.com/nvisionative/nvQuickSite/issue-151/data/currentVersion.json";
                 string result = client.DownloadString(url);
-                var res = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.Version>(result);
+                Models.Version res = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.Version>(result);
                 return res.currentVersion;
             }
             catch (Exception ex)
