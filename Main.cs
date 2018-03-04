@@ -22,6 +22,7 @@ using System.Net.Configuration;
 using MetroFramework.Forms;
 using Segment;
 using JCS;
+using nvQuickSite.Controllers;
 
 namespace nvQuickSite
 {
@@ -39,6 +40,9 @@ namespace nvQuickSite
             });
 
             lblVersion.Text = "v" + Application.ProductVersion;
+
+            var currentVersion = VersionController.GetRemoteCurrentVersion();
+
             Start control = new Start();
             control.Dock = DockStyle.Fill;
             Controls.Add(control);
