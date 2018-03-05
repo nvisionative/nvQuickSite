@@ -469,7 +469,7 @@ namespace nvQuickSite
                 ServerManager iisManager = new ServerManager();
                 var siteName = txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
                 var bindingInfo = "*:80:" + siteName;
-                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
+                string installFolder = txtInstallBaseFolder.Text.TrimEnd('\\') + "\\" + txtInstallSubFolder.Text;
 
                 Boolean siteExists = SiteExists(siteName);
                 if (!siteExists)
@@ -479,10 +479,11 @@ namespace nvQuickSite
                     mySite.TraceFailedRequestsLogging.Directory = installFolder + "\\Logs";
                     mySite.LogFile.Directory = installFolder + "\\Logs" + "\\W3svc" + mySite.Id.ToString();
 
-                    if (chkSiteSpecificAppPool.Checked)
+                    if (chkSiteSpecificAppPool.Checked) 
                     {
                         var appPoolName = siteName + "_nvQuickSite";
-                        iisManager.ApplicationPools.Add(appPoolName);
+                        ApplicationPool newPool = iisManager.ApplicationPools.Add(appPoolName);
+                        newPool.ManagedRuntimeVersion = "v4.0";
                         mySite.ApplicationDefaults.ApplicationPoolName = appPoolName;
                     }
                     iisManager.CommitChanges();
@@ -585,7 +586,7 @@ namespace nvQuickSite
                 var databaseDir = installFolder + "\\Database";
 
                 var appPoolName = @"IIS APPPOOL\DefaultAppPool";
-                var dbServiceAccount = @"NT Service\MSSQLSERVER";
+                var dbServiceAccount = GetDBServiceAccount();  
                 var authenticatedUsers = "Authenticated Users";
 
                 if (chkSiteSpecificAppPool.Checked)
@@ -646,6 +647,20 @@ namespace nvQuickSite
                 MessageBox.Show("Error: " + ex.Message, "Create Directories", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+        }
+
+        private string GetDBServiceAccount()
+        {
+            string dbServiceAccount = @"NT Service\MSSQLSERVER";
+            string instanceName = txtDBServerName.Text.Trim();
+
+            if (instanceName.IndexOf(@"\") > -1)
+            {
+                dbServiceAccount = @"NT Service\MSSQL$" + instanceName.Substring(instanceName.LastIndexOf(@"\") + 1).ToUpper();
+            }
+
+
+            return dbServiceAccount;
         }
 
         private static void SetFolderPermission(String accountName, String folderPath)
@@ -1005,9 +1020,9 @@ namespace nvQuickSite
             Properties.Settings.Default.RememberFieldValues = !Properties.Settings.Default.RememberFieldValues;
         }
 
-        private void tileDNNCommunityForums_Click(object sender, EventArgs e)
+        private void tileMorenvQuickProducts_Click(object sender, EventArgs e)
         {
-            Process.Start("http://www.dnnsoftware.com/forums");
+            Process.Start("http://www.nvquick.com");
         }
 
         private void tileDNNDocumentationCenter_Click(object sender, EventArgs e)
@@ -1015,9 +1030,9 @@ namespace nvQuickSite
             Process.Start("http://www.dnnsoftware.com/docs");
         }
 
-        private void tileDNNDevSpark_Click(object sender, EventArgs e)
+        private void tileDNNAwareness_Click(object sender, EventArgs e)
         {
-            Process.Start("http://www.dnndevspark.com");
+            Process.Start("https://twitter.com/DNNAwareness");
         }
 
         private void tileQuickStartGuide_Click(object sender, EventArgs e)

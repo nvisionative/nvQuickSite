@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.tabSiteInfo = new MetroFramework.Controls.MetroTabPage();
+            this.lblInstallSubFolder = new MetroFramework.Controls.MetroLabel();
+            this.txtInstallSubFolder = new MetroFramework.Controls.MetroTextBox();
+            this.txtSiteNameSuffix = new MetroFramework.Controls.MetroTextBox();
             this.btnSiteInfoBack = new MetroFramework.Controls.MetroButton();
             this.btnSiteInfoNext = new MetroFramework.Controls.MetroButton();
             this.btnLocation = new MetroFramework.Controls.MetroButton();
@@ -69,13 +72,10 @@
             this.lblProgress = new MetroFramework.Controls.MetroLabel();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
             this.tileQuickStartGuide = new MetroFramework.Controls.MetroTile();
-            this.tileDNNDevSpark = new MetroFramework.Controls.MetroTile();
+            this.tileDNNAwareness = new MetroFramework.Controls.MetroTile();
             this.tileDNNDocumentationCenter = new MetroFramework.Controls.MetroTile();
-            this.tileDNNCommunityForums = new MetroFramework.Controls.MetroTile();
+            this.tileMorenvQuickProducts = new MetroFramework.Controls.MetroTile();
             this.lblRemember = new MetroFramework.Controls.MetroLabel();
-            this.txtSiteNameSuffix = new MetroFramework.Controls.MetroTextBox();
-            this.txtInstallSubFolder = new MetroFramework.Controls.MetroTextBox();
-            this.lblInstallSubFolder = new MetroFramework.Controls.MetroLabel();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -104,6 +104,31 @@
             this.tabSiteInfo.TabIndex = 1;
             this.tabSiteInfo.Text = "Site Info";
             this.tabSiteInfo.VerticalScrollbarBarColor = true;
+            // 
+            // lblInstallSubFolder
+            // 
+            this.lblInstallSubFolder.AutoSize = true;
+            this.lblInstallSubFolder.Location = new System.Drawing.Point(323, 144);
+            this.lblInstallSubFolder.Name = "lblInstallSubFolder";
+            this.lblInstallSubFolder.Size = new System.Drawing.Size(109, 19);
+            this.lblInstallSubFolder.TabIndex = 14;
+            this.lblInstallSubFolder.Text = "Install Sub Folder";
+            // 
+            // txtInstallSubFolder
+            // 
+            this.txtInstallSubFolder.Location = new System.Drawing.Point(323, 169);
+            this.txtInstallSubFolder.Name = "txtInstallSubFolder";
+            this.txtInstallSubFolder.Size = new System.Drawing.Size(217, 23);
+            this.txtInstallSubFolder.TabIndex = 13;
+            // 
+            // txtSiteNameSuffix
+            // 
+            this.txtSiteNameSuffix.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
+            this.txtSiteNameSuffix.Location = new System.Drawing.Point(323, 37);
+            this.txtSiteNameSuffix.Name = "txtSiteNameSuffix";
+            this.txtSiteNameSuffix.Size = new System.Drawing.Size(217, 23);
+            this.txtSiteNameSuffix.TabIndex = 12;
+            this.txtSiteNameSuffix.Text = ".dnndev.me";
             // 
             // btnSiteInfoBack
             // 
@@ -528,43 +553,55 @@
             // 
             // tileQuickStartGuide
             // 
+            this.tileQuickStartGuide.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tileQuickStartGuide.Location = new System.Drawing.Point(7, 335);
             this.tileQuickStartGuide.Name = "tileQuickStartGuide";
             this.tileQuickStartGuide.Size = new System.Drawing.Size(162, 104);
+            this.tileQuickStartGuide.Style = MetroFramework.MetroColorStyle.Orange;
             this.tileQuickStartGuide.TabIndex = 27;
-            this.tileQuickStartGuide.Text = "Quick Start Guide";
+            this.tileQuickStartGuide.Text = "nvQuickSite Wiki";
+            this.tileQuickStartGuide.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.tileQuickStartGuide.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.tileQuickStartGuide.Click += new System.EventHandler(this.tileQuickStartGuide_Click);
             // 
-            // tileDNNDevSpark
+            // tileDNNAwareness
             // 
-            this.tileDNNDevSpark.Location = new System.Drawing.Point(473, 334);
-            this.tileDNNDevSpark.Name = "tileDNNDevSpark";
-            this.tileDNNDevSpark.Size = new System.Drawing.Size(131, 50);
-            this.tileDNNDevSpark.Style = MetroFramework.MetroColorStyle.Purple;
-            this.tileDNNDevSpark.TabIndex = 28;
-            this.tileDNNDevSpark.Text = "DNN DevSpark";
-            this.tileDNNDevSpark.Click += new System.EventHandler(this.tileDNNDevSpark_Click);
+            this.tileDNNAwareness.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tileDNNAwareness.Location = new System.Drawing.Point(473, 334);
+            this.tileDNNAwareness.Name = "tileDNNAwareness";
+            this.tileDNNAwareness.Size = new System.Drawing.Size(131, 50);
+            this.tileDNNAwareness.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tileDNNAwareness.TabIndex = 28;
+            this.tileDNNAwareness.Text = "@DNNAwareness";
+            this.tileDNNAwareness.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.tileDNNAwareness.Click += new System.EventHandler(this.tileDNNAwareness_Click);
             // 
             // tileDNNDocumentationCenter
             // 
+            this.tileDNNDocumentationCenter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tileDNNDocumentationCenter.Location = new System.Drawing.Point(176, 389);
             this.tileDNNDocumentationCenter.Name = "tileDNNDocumentationCenter";
             this.tileDNNDocumentationCenter.Size = new System.Drawing.Size(428, 50);
-            this.tileDNNDocumentationCenter.Style = MetroFramework.MetroColorStyle.Orange;
+            this.tileDNNDocumentationCenter.Style = MetroFramework.MetroColorStyle.Red;
             this.tileDNNDocumentationCenter.TabIndex = 29;
             this.tileDNNDocumentationCenter.Text = "DNN Documentation Center";
+            this.tileDNNDocumentationCenter.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.tileDNNDocumentationCenter.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.tileDNNDocumentationCenter.Click += new System.EventHandler(this.tileDNNDocumentationCenter_Click);
             // 
-            // tileDNNCommunityForums
+            // tileMorenvQuickProducts
             // 
-            this.tileDNNCommunityForums.Cursor = System.Windows.Forms.Cursors.Default;
-            this.tileDNNCommunityForums.Location = new System.Drawing.Point(176, 335);
-            this.tileDNNCommunityForums.Name = "tileDNNCommunityForums";
-            this.tileDNNCommunityForums.Size = new System.Drawing.Size(291, 50);
-            this.tileDNNCommunityForums.Style = MetroFramework.MetroColorStyle.Green;
-            this.tileDNNCommunityForums.TabIndex = 30;
-            this.tileDNNCommunityForums.Text = "DNN Community Forums";
-            this.tileDNNCommunityForums.Click += new System.EventHandler(this.tileDNNCommunityForums_Click);
+            this.tileMorenvQuickProducts.BackColor = System.Drawing.SystemColors.Control;
+            this.tileMorenvQuickProducts.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tileMorenvQuickProducts.Location = new System.Drawing.Point(176, 335);
+            this.tileMorenvQuickProducts.Name = "tileMorenvQuickProducts";
+            this.tileMorenvQuickProducts.Size = new System.Drawing.Size(291, 50);
+            this.tileMorenvQuickProducts.Style = MetroFramework.MetroColorStyle.Yellow;
+            this.tileMorenvQuickProducts.TabIndex = 30;
+            this.tileMorenvQuickProducts.Text = "More nvQuick Products";
+            this.tileMorenvQuickProducts.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.tileMorenvQuickProducts.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.tileMorenvQuickProducts.Click += new System.EventHandler(this.tileMorenvQuickProducts_Click);
             // 
             // lblRemember
             // 
@@ -577,39 +614,14 @@
             this.lblRemember.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblRemember.Visible = false;
             // 
-            // txtSiteNameSuffix
-            // 
-            this.txtSiteNameSuffix.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
-            this.txtSiteNameSuffix.Location = new System.Drawing.Point(323, 37);
-            this.txtSiteNameSuffix.Name = "txtSiteNameSuffix";
-            this.txtSiteNameSuffix.Size = new System.Drawing.Size(217, 23);
-            this.txtSiteNameSuffix.TabIndex = 12;
-            this.txtSiteNameSuffix.Text = ".dnndev.me";
-            // 
-            // txtInstallSubFolder
-            // 
-            this.txtInstallSubFolder.Location = new System.Drawing.Point(323, 169);
-            this.txtInstallSubFolder.Name = "txtInstallSubFolder";
-            this.txtInstallSubFolder.Size = new System.Drawing.Size(217, 23);
-            this.txtInstallSubFolder.TabIndex = 13;
-            // 
-            // lblInstallSubFolder
-            // 
-            this.lblInstallSubFolder.AutoSize = true;
-            this.lblInstallSubFolder.Location = new System.Drawing.Point(323, 144);
-            this.lblInstallSubFolder.Name = "lblInstallSubFolder";
-            this.lblInstallSubFolder.Size = new System.Drawing.Size(109, 19);
-            this.lblInstallSubFolder.TabIndex = 14;
-            this.lblInstallSubFolder.Text = "Install Sub Folder";
-            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lblRemember);
-            this.Controls.Add(this.tileDNNCommunityForums);
+            this.Controls.Add(this.tileMorenvQuickProducts);
             this.Controls.Add(this.tileDNNDocumentationCenter);
-            this.Controls.Add(this.tileDNNDevSpark);
+            this.Controls.Add(this.tileDNNAwareness);
             this.Controls.Add(this.toggleSiteInfoRemember);
             this.Controls.Add(this.tileQuickStartGuide);
             this.Controls.Add(this.tabControl);
@@ -640,7 +652,7 @@
         private MetroFramework.Controls.MetroButton btnGetLatestRelease;
         private MetroFramework.Controls.MetroTabControl tabControl;
         private MetroFramework.Controls.MetroTile tileQuickStartGuide;
-        private MetroFramework.Controls.MetroTile tileDNNDevSpark;
+        private MetroFramework.Controls.MetroTile tileDNNAwareness;
         private MetroFramework.Controls.MetroTextBox txtSiteNamePrefix;
         private MetroFramework.Controls.MetroLabel lblSiteName;
         private MetroFramework.Controls.MetroButton btnLocation;
@@ -651,7 +663,7 @@
         private MetroFramework.Controls.MetroButton btnLocalInstallPackage;
         private MetroFramework.Controls.MetroButton btnSiteInfoNext;
         private MetroFramework.Controls.MetroTile tileDNNDocumentationCenter;
-        private MetroFramework.Controls.MetroTile tileDNNCommunityForums;
+        private MetroFramework.Controls.MetroTile tileMorenvQuickProducts;
         private MetroFramework.Controls.MetroButton btnInstallPackageNext;
         private MetroFramework.Controls.MetroButton btnSiteInfoBack;
         private MetroFramework.Controls.MetroTabPage tabProgress;
