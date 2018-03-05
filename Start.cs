@@ -469,7 +469,7 @@ namespace nvQuickSite
                 ServerManager iisManager = new ServerManager();
                 var siteName = txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
                 var bindingInfo = "*:80:" + siteName;
-                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
+                string installFolder = txtInstallBaseFolder.Text.TrimEnd('\\') + "\\" + txtInstallSubFolder.Text;
 
                 Boolean siteExists = SiteExists(siteName);
                 if (!siteExists)
