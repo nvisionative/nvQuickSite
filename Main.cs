@@ -22,6 +22,7 @@ using System.Net.Configuration;
 using MetroFramework.Forms;
 using Segment;
 using JCS;
+using nvQuickSite.Controllers;
 
 namespace nvQuickSite
 {
@@ -39,6 +40,13 @@ namespace nvQuickSite
             });
 
             lblVersion.Text = "v" + Application.ProductVersion;
+
+            var latestVersion = VersionController.GetRemoteLatestVersion();
+            if (Version.Parse(latestVersion) > Version.Parse(Application.ProductVersion))
+            {
+                tileGetNewVersion.Visible = true;
+            }
+
             Start control = new Start();
             control.Dock = DockStyle.Fill;
             Controls.Add(control);
@@ -47,6 +55,11 @@ namespace nvQuickSite
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             Process.Start("http://www.nvisionative.com"); 
+        }
+
+        private void tileGetNewVersion_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/nvisionative/nvQuickSite/releases/latest");
         }
     }
 }
