@@ -12,7 +12,7 @@ namespace nvQuickSite.Controllers
             try
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                var url = "https://raw.githubusercontent.com/nvisionative/nvQuickSite/issue-151/data/latestVersion.json";
+                var url = "https://raw.githubusercontent.com/nvisionative/nvQuickSite/master/data/latestVersion.json";
                 string result = client.DownloadString(url);
                 Models.Version res = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.Version>(result);
                 return res.latestVersion;
