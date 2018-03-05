@@ -41,7 +41,12 @@ namespace nvQuickSite
 
             lblVersion.Text = "v" + Application.ProductVersion;
 
-            var currentVersion = VersionController.GetRemoteCurrentVersion();
+            var currentVersion = Decimal.Parse(VersionController.GetRemoteCurrentVersion());
+            if (currentVersion > Decimal.Parse(Application.ProductVersion))
+            {
+                //display link to latest release
+                Process.Start("https://github.com/nvisionative/nvQuickSite/releases/latest");
+            }
 
             Start control = new Start();
             control.Dock = DockStyle.Fill;

@@ -6,7 +6,7 @@ namespace nvQuickSite.Controllers
 {
     public class VersionController
     {
-        public static decimal GetRemoteCurrentVersion()
+        public static string GetRemoteCurrentVersion()
         {
             WebClient client = new WebClient();
             try
@@ -20,7 +20,7 @@ namespace nvQuickSite.Controllers
             catch (Exception ex)
             {
             }
-            return new decimal();
+            return "";
         }
 
     }
