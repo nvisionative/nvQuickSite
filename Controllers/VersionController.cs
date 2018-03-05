@@ -6,7 +6,7 @@ namespace nvQuickSite.Controllers
 {
     public class VersionController
     {
-        public static string GetRemoteCurrentVersion()
+        public static string GetRemoteLatestVersion()
         {
             WebClient client = new WebClient();
             try
@@ -15,7 +15,7 @@ namespace nvQuickSite.Controllers
                 var url = "https://raw.githubusercontent.com/nvisionative/nvQuickSite/issue-151/data/currentVersion.json";
                 string result = client.DownloadString(url);
                 Models.Version res = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.Version>(result);
-                return res.currentVersion;
+                return res.latestVersion;
             }
             catch (Exception ex)
             {

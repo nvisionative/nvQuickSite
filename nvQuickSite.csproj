@@ -176,7 +176,7 @@
     </Compile>
     <None Include=".gitignore" />
     <None Include="app.config" />
-    <None Include="data\currentVersion.json" />
+    <None Include="data\latestVersion.json" />
     <None Include="LICENSE.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>

@@ -41,11 +41,10 @@ namespace nvQuickSite
 
             lblVersion.Text = "v" + Application.ProductVersion;
 
-            var currentVersion = Decimal.Parse(VersionController.GetRemoteCurrentVersion());
-            if (currentVersion > Decimal.Parse(Application.ProductVersion))
+            var latestVersion = VersionController.GetRemoteLatestVersion();
+            if (Version.Parse(latestVersion) > Version.Parse(Application.ProductVersion))
             {
-                //display link to latest release
-                Process.Start("https://github.com/nvisionative/nvQuickSite/releases/latest");
+                tileGetNewVersion.Visible = true;
             }
 
             Start control = new Start();
@@ -56,6 +55,11 @@ namespace nvQuickSite
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             Process.Start("http://www.nvisionative.com"); 
+        }
+
+        private void tileGetNewVersion_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/nvisionative/nvQuickSite/releases/latest");
         }
     }
 }

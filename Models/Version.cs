@@ -8,6 +8,6 @@ namespace nvQuickSite.Models
 {
     class Version
     {
-        public string currentVersion { get; set; }
+        public string latestVersion { get; set; }
     }
 }
