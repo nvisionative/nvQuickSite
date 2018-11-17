@@ -1,4 +1,4 @@
-﻿//Copyright (c) 2016 nvisionative, Inc.
+//Copyright (c) 2016 nvisionative, Inc.
 
 //This file is part of nvQuickSite.
 
@@ -586,8 +586,8 @@ namespace nvQuickSite
                 var databaseDir = installFolder + "\\Database";
 
                 var appPoolName = @"IIS APPPOOL\DefaultAppPool";
-                var dbServiceAccount = GetDBServiceAccount();  
-                var authenticatedUsers = "Authenticated Users";
+                var dbServiceAccount = GetDBServiceAccount();
+                var authenticatedUsers = GetAuthenticatedUsersAccount();
 
                 if (chkSiteSpecificAppPool.Checked)
                 {
@@ -647,6 +647,13 @@ namespace nvQuickSite
                 MessageBox.Show("Error: " + ex.Message, "Create Directories", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+        }
+
+        private static string GetAuthenticatedUsersAccount()
+        {
+            var sid = new System.Security.Principal.SecurityIdentifier("S-1-5-11"); //Authenticated Users
+            var account = sid.Translate(typeof(System.Security.Principal.NTAccount));
+            return account.Value;
         }
 
         private string GetDBServiceAccount()
