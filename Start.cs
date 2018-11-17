@@ -570,7 +570,14 @@ namespace nvQuickSite
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Update HOSTS File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string errorMessage = ex.Message;
+
+                if (errorMessage.IndexOf("is denied") > 0)
+                    errorMessage +=
+                        "\r\r\nnvQuickSite is unable to add a new host entry to the above file. Please make sure the file is not read only. If it's not, make sure your antivirus software is not blocking changes made to the file. You can pause your antivirus software until nvQuickSite has completed its work, or add an exception for nvQuickSite in the antivirus software.";
+
+
+                MessageBox.Show("Error: " + errorMessage, "Update HOSTS File", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
