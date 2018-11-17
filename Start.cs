@@ -106,11 +106,29 @@ namespace nvQuickSite
         private void cboLatestReleases_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
+            DisplayPackagePath(item);
+        }
+
+        private void DisplayPackagePath(ComboItem item)
+        {
+            var downloadDirectory = GetDownloadDirectory();
+            var fileName = item.Name.Split('/').Last();
+            var packageFullpath = downloadDirectory + fileName;
+
+            if (File.Exists(packageFullpath))
+                txtLocalInstallPackage.Text = packageFullpath;
+            else
+                txtLocalInstallPackage.Text = null;
         }
 
         private void btnGetLatestRelease_Click(object sender, EventArgs e)
         {
             GetOnlineVersion();
+        }
+
+        private string GetDownloadDirectory()
+        {
+            return Directory.GetCurrentDirectory() + @"\Downloads\";
         }
 
         private void GetOnlineVersion()
@@ -122,7 +140,7 @@ namespace nvQuickSite
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
             var fileName = item.Name.Split('/').Last();
-            var downloadDirectory = Directory.GetCurrentDirectory() + @"\Downloads\";
+            var downloadDirectory = GetDownloadDirectory();
             if (!Directory.Exists(downloadDirectory))
             {
                 Directory.CreateDirectory(downloadDirectory);
