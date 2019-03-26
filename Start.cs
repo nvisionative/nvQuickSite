@@ -106,11 +106,29 @@ namespace nvQuickSite
         private void cboLatestReleases_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
+            DisplayPackagePath(item);
+        }
+
+        private void DisplayPackagePath(ComboItem item)
+        {
+            var downloadDirectory = GetDownloadDirectory();
+            var fileName = item.Name.Split('/').Last();
+            var packageFullpath = downloadDirectory + fileName;
+
+            if (File.Exists(packageFullpath))
+                txtLocalInstallPackage.Text = packageFullpath;
+            else
+                txtLocalInstallPackage.Text = null;
         }
 
         private void btnGetLatestRelease_Click(object sender, EventArgs e)
         {
             GetOnlineVersion();
+        }
+
+        private string GetDownloadDirectory()
+        {
+            return Directory.GetCurrentDirectory() + @"\Downloads\";
         }
 
         private void GetOnlineVersion()
@@ -122,7 +140,7 @@ namespace nvQuickSite
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
             var fileName = item.Name.Split('/').Last();
-            var downloadDirectory = Directory.GetCurrentDirectory() + @"\Downloads\";
+            var downloadDirectory = GetDownloadDirectory();
             if (!Directory.Exists(downloadDirectory))
             {
                 Directory.CreateDirectory(downloadDirectory);
@@ -570,7 +588,14 @@ namespace nvQuickSite
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Update HOSTS File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string errorMessage = ex.Message;
+
+                if (errorMessage.IndexOf("is denied") > 0)
+                    errorMessage +=
+                        "\r\r\nnvQuickSite is unable to add a new host entry to the above file. Please make sure the file is not read only. If it's not, make sure your antivirus software is not blocking changes made to the file. You can pause your antivirus software until nvQuickSite has completed its work, or add an exception for nvQuickSite in the antivirus software.";
+
+
+                MessageBox.Show("Error: " + errorMessage, "Update HOSTS File", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
