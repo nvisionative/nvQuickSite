@@ -28,10 +28,10 @@ using System.IO;
 using System.Security.AccessControl;
 using System.Net.Sockets;
 using System.Diagnostics;
-using System.Threading;
 using MetroFramework.Controls;
 using Microsoft.Web.Administration;
 using Ionic.Zip;
+using Octokit;
 using Ookii.Dialogs;
 
 namespace nvQuickSite
@@ -60,6 +60,9 @@ namespace nvQuickSite
                 string result = client.DownloadString(url + "PackageManifest.xml");
 
                 XDocument doc = XDocument.Parse(result);
+
+                
+                AddLatestReleaseCandidate();
                 var packages = from x in doc.Descendants("DNNPackage")
                                select new
                                {
@@ -69,6 +72,8 @@ namespace nvQuickSite
 
                 foreach (var package in packages)
                     cboLatestReleases.Items.Add(new ComboItem(url + package.File, package.Name));
+
+                
 
                 //foreach (var package in packages)
                 //{
@@ -99,6 +104,44 @@ namespace nvQuickSite
                 txtDBName.Text = Properties.Settings.Default.DatabaseNameRecent;
             }
         }
+
+
+        private void AddLatestReleaseCandidate()
+        {
+            Octokit.Release release = null;
+
+
+            try
+            {
+                var client = new GitHubClient(new ProductHeaderValue("nvQuickSite"));
+                var releases = client.Repository.Release.GetAll("dnnsoftware", "Dnn.Platform").Result;
+                if (releases.Count > 0)
+                {
+                    release = releases[0];
+                    if (release.Name.IndexOf("rc", StringComparison.OrdinalIgnoreCase) >= 0)  //is it a release candidate?
+                    {
+                       var asset = release.Assets.Where(a => a.BrowserDownloadUrl.IndexOf("install", StringComparison.OrdinalIgnoreCase) > -1).FirstOrDefault();
+                       if (asset != null)
+                       {
+                           string nameForCBO = "DNN Platform ";
+
+                           if (release.TagName != null && release.TagName[0] == 'v')
+                               nameForCBO += release.TagName.Remove(0, 1);
+                           else
+                               nameForCBO += release.TagName;
+                            
+                           cboLatestReleases.Items.Add(new ComboItem(asset.BrowserDownloadUrl, nameForCBO));
+                       }
+                    }
+                }
+            } 
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+          
+        }
+
 
         #region "Tabs"
 
