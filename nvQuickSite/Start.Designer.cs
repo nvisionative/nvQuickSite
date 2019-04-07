@@ -567,7 +567,7 @@
             // tileDNNAwareness
             // 
             this.tileDNNAwareness.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tileDNNAwareness.Location = new System.Drawing.Point(473, 334);
+            this.tileDNNAwareness.Location = new System.Drawing.Point(473, 336);
             this.tileDNNAwareness.Name = "tileDNNAwareness";
             this.tileDNNAwareness.Size = new System.Drawing.Size(131, 50);
             this.tileDNNAwareness.Style = MetroFramework.MetroColorStyle.Blue;
@@ -582,9 +582,9 @@
             this.tileDNNDocumentationCenter.Location = new System.Drawing.Point(176, 389);
             this.tileDNNDocumentationCenter.Name = "tileDNNDocumentationCenter";
             this.tileDNNDocumentationCenter.Size = new System.Drawing.Size(428, 50);
-            this.tileDNNDocumentationCenter.Style = MetroFramework.MetroColorStyle.Red;
+            this.tileDNNDocumentationCenter.Style = MetroFramework.MetroColorStyle.Lime;
             this.tileDNNDocumentationCenter.TabIndex = 29;
-            this.tileDNNDocumentationCenter.Text = "DNN Documentation Center";
+            this.tileDNNDocumentationCenter.Text = "DNN Docs";
             this.tileDNNDocumentationCenter.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.tileDNNDocumentationCenter.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.tileDNNDocumentationCenter.Click += new System.EventHandler(this.tileDNNDocumentationCenter_Click);
