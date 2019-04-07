@@ -1054,12 +1054,12 @@ namespace nvQuickSite
 
         private void tileMorenvQuickProducts_Click(object sender, EventArgs e)
         {
-            Process.Start("http://www.nvquick.com");
+            Process.Start("https://www.nvquick.com");
         }
 
         private void tileDNNDocumentationCenter_Click(object sender, EventArgs e)
         {
-            Process.Start("http://www.dnnsoftware.com/docs");
+            Process.Start("https://www.dnndocs.com");
         }
 
         private void tileDNNAwareness_Click(object sender, EventArgs e)
