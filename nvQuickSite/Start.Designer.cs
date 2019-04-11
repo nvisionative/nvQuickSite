@@ -43,13 +43,14 @@
             this.txtSiteNamePrefix = new MetroFramework.Controls.MetroTextBox();
             this.toggleSiteInfoRemember = new MetroFramework.Controls.MetroToggle();
             this.tabInstallPackage = new MetroFramework.Controls.MetroTabPage();
+            this.cboProductVersion = new MetroFramework.Controls.MetroComboBox();
             this.progressBarDownload = new MetroFramework.Controls.MetroProgressBar();
             this.btnInstallPackageNext = new MetroFramework.Controls.MetroButton();
             this.btnLocalInstallPackage = new MetroFramework.Controls.MetroButton();
             this.txtLocalInstallPackage = new MetroFramework.Controls.MetroTextBox();
             this.lblLatestReleases = new MetroFramework.Controls.MetroLabel();
             this.lblLocalInstallPackage = new MetroFramework.Controls.MetroLabel();
-            this.cboLatestReleases = new MetroFramework.Controls.MetroComboBox();
+            this.cboProductName = new MetroFramework.Controls.MetroComboBox();
             this.btnGetLatestRelease = new MetroFramework.Controls.MetroButton();
             this.btnViewAllReleases = new MetroFramework.Controls.MetroButton();
             this.tabControl = new MetroFramework.Controls.MetroTabControl();
@@ -238,13 +239,14 @@
             // 
             // tabInstallPackage
             // 
+            this.tabInstallPackage.Controls.Add(this.cboProductVersion);
             this.tabInstallPackage.Controls.Add(this.progressBarDownload);
             this.tabInstallPackage.Controls.Add(this.btnInstallPackageNext);
             this.tabInstallPackage.Controls.Add(this.btnLocalInstallPackage);
             this.tabInstallPackage.Controls.Add(this.txtLocalInstallPackage);
             this.tabInstallPackage.Controls.Add(this.lblLatestReleases);
             this.tabInstallPackage.Controls.Add(this.lblLocalInstallPackage);
-            this.tabInstallPackage.Controls.Add(this.cboLatestReleases);
+            this.tabInstallPackage.Controls.Add(this.cboProductName);
             this.tabInstallPackage.Controls.Add(this.btnGetLatestRelease);
             this.tabInstallPackage.Controls.Add(this.btnViewAllReleases);
             this.tabInstallPackage.HorizontalScrollbarBarColor = true;
@@ -254,6 +256,16 @@
             this.tabInstallPackage.TabIndex = 0;
             this.tabInstallPackage.Text = "Install Package Info";
             this.tabInstallPackage.VerticalScrollbarBarColor = true;
+            // 
+            // cboProductVersion
+            // 
+            this.cboProductVersion.FormattingEnabled = true;
+            this.cboProductVersion.ItemHeight = 23;
+            this.cboProductVersion.Location = new System.Drawing.Point(417, 33);
+            this.cboProductVersion.Name = "cboProductVersion";
+            this.cboProductVersion.Size = new System.Drawing.Size(123, 29);
+            this.cboProductVersion.TabIndex = 30;
+            this.cboProductVersion.SelectedIndexChanged += new System.EventHandler(this.cboProductVersion_SelectedIndexChanged);
             // 
             // progressBarDownload
             // 
@@ -313,15 +325,15 @@
             this.lblLocalInstallPackage.TabIndex = 25;
             this.lblLocalInstallPackage.Text = "Local Install Package";
             // 
-            // cboLatestReleases
+            // cboProductName
             // 
-            this.cboLatestReleases.FormattingEnabled = true;
-            this.cboLatestReleases.ItemHeight = 23;
-            this.cboLatestReleases.Location = new System.Drawing.Point(1, 33);
-            this.cboLatestReleases.Name = "cboLatestReleases";
-            this.cboLatestReleases.Size = new System.Drawing.Size(539, 29);
-            this.cboLatestReleases.TabIndex = 21;
-            this.cboLatestReleases.SelectedIndexChanged += new System.EventHandler(this.cboLatestReleases_SelectedIndexChanged);
+            this.cboProductName.FormattingEnabled = true;
+            this.cboProductName.ItemHeight = 23;
+            this.cboProductName.Location = new System.Drawing.Point(1, 33);
+            this.cboProductName.Name = "cboProductName";
+            this.cboProductName.Size = new System.Drawing.Size(410, 29);
+            this.cboProductName.TabIndex = 31;
+            this.cboProductName.SelectedIndexChanged += new System.EventHandler(this.cboProductName_SelectedIndexChanged);
             // 
             // btnGetLatestRelease
             // 
@@ -353,7 +365,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 1;
+            this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(607, 294);
             this.tabControl.TabIndex = 26;
             // 
@@ -648,7 +660,8 @@
         private MetroFramework.Controls.MetroLabel lblLocalInstallPackage;
         private MetroFramework.Controls.MetroLabel lblLatestReleases;
         private MetroFramework.Controls.MetroButton btnViewAllReleases;
-        private MetroFramework.Controls.MetroComboBox cboLatestReleases;
+        //private MetroFramework.Controls.MetroComboBox cboLatestReleases;
+        private MetroFramework.Controls.MetroComboBox cboProductName;
         private MetroFramework.Controls.MetroButton btnGetLatestRelease;
         private MetroFramework.Controls.MetroTabControl tabControl;
         private MetroFramework.Controls.MetroTile tileQuickStartGuide;
@@ -690,5 +703,6 @@
         private MetroFramework.Controls.MetroTextBox txtSiteNameSuffix;
         private MetroFramework.Controls.MetroLabel lblInstallSubFolder;
         private MetroFramework.Controls.MetroTextBox txtInstallSubFolder;
+        private MetroFramework.Controls.MetroComboBox cboProductVersion;
     }
 }

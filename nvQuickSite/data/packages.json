@@ -1,0 +1,317 @@
+﻿[
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "9.3.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.3.1/DNN_Platform_9.3.1.2_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.3.1/DNN_Platform_9.3.1.2_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "9.2.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.2/DNN_Platform_9.2.2.178_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.2/DNN_Platform_9.2.2.178_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "9.2.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.1/DNN_Platform_9.2.1.533-298_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.1/DNN_Platform_9.2.1.533-298_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "9.2.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.0/DNN_Platform_9.2.0.366-777_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.0/DNN_Platform_9.2.0.366-777_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "9.1.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.1.1/DNN_Platform_9.1.1.129-232_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.1.1/DNN_Platform_9.1.1.129-232_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "9.1.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.1.0/DNN_Platform_9.1.0.367_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.1.0/DNN_Platform_9.1.0.367_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "9.0.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.2/DNN_Platform_9.0.2_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.2/DNN_Platform_9.0.2_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "9.0.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.1/DNN_Platform_9.0.1.142_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.1/DNN_Platform_9.0.1.142_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "9.0.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.0/DNN_Platform_9.0.0.1002_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.0/DNN_Platform_9.0.0.1002_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "8.0.4",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.04/DNN_Platform_8.0.4.226_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.04/DNN_Platform_8.0.4.226_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "8.0.3",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.03/DNN_Platform_8.0.3_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.03/DNN_Platform_8.0.3_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "8.0.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.02/DNN_Platform_8.0.2_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.02/DNN_Platform_8.0.2_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "8.0.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.01/DNN_Platform_8.0.1.236_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.01/DNN_Platform_8.0.1.236_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "8.0.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.00/DNN_Platform_8.0.0_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.8x/raw/master/08.00.00/DNN_Platform_8.0.0_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.4.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.04.02/DNN_Platform_07.04.02_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.04.02/DNN_Platform_07.04.02_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.4.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.04.01/DNN_Platform_07.04.01_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.04.01/DNN_Platform_07.04.01_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.4.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.04.00/DNN_Platform_07.04.00_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.04.00/DNN_Platform_07.04.00_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.3.4",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.04/DNN_Platform_07.03.04_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.04/DNN_Platform_07.03.04_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.3.3",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.03/DNN_Platform_07.03.03_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.03/DNN_Platform_07.03.03_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.3.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.02/DNN_Platform_07.03.02_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.02/DNN_Platform_07.03.02_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.3.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.01/DNN_Platform_07.03.01_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.01/DNN_Platform_07.03.01_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.3.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.00/DNN_Platform_07.03.00_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.03.00/DNN_Platform_07.03.00_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.2.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.02.02/DNN_Platform_07.02.02_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.02.02/DNN_Platform_07.02.02_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.2.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.02.01/DNN_Platform_07.02.01_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.02.01/DNN_Platform_07.02.01_Upgrade.zip"
+  },
+  {
+    "did": "dnn-platform",
+    "name": "DNN Platform",
+    "version": "7.2.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.02.00/DNN_Platform_07.02.00_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.02.00/DNN_Platform_07.02.00_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.1.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.01.02/DotNetNuke_Community_07.01.02_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.01.02/DotNetNuke_Community_07.01.02_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.1.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.01.01/DotNetNuke_Community_07.01.01_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.01.01/DotNetNuke_Community_07.01.01_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.1.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.01.00/DotNetNuke_Community_07.01.00_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.01.00/DotNetNuke_Community_07.01.00_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.0.6",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.06/DotNetNuke_Community_07.00.06_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.06/DotNetNuke_Community_07.00.06_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.0.5",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.05/DotNetNuke_Community_07.00.05_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.05/DotNetNuke_Community_07.00.05_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.0.4",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.04/DotNetNuke_Community_07.00.04_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.04/DotNetNuke_Community_07.00.04_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.0.3",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.03/DotNetNuke_Community_07.00.03_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.03/DotNetNuke_Community_07.00.03_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.0.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.02/DotNetNuke_Community_07.00.02_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.02/DotNetNuke_Community_07.00.02_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.0.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.01/DotNetNuke_Community_07.00.01_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.01/DotNetNuke_Community_07.00.01_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "7.0.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.00/DotNetNuke_Community_07.00.00_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.7x/raw/master/07.00.00/DotNetNuke_Community_07.00.00_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.9",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.09/DotNetNuke_Community_06.02.09_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.09/DotNetNuke_Community_06.02.09_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.8",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.08/DotNetNuke_Community_06.02.08_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.08/DotNetNuke_Community_06.02.08_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.7",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.07/DotNetNuke_Community_06.02.07_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.07/DotNetNuke_Community_06.02.07_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.6",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.06/DotNetNuke_Community_06.02.06_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.06/DotNetNuke_Community_06.02.06_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.5",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.05/DotNetNuke_Community_06.02.05_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.05/DotNetNuke_Community_06.02.05_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.4",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.04/DotNetNuke_Community_06.02.04_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.04/DotNetNuke_Community_06.02.04_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.3",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.03/DotNetNuke_Community_06.02.03_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.03/DotNetNuke_Community_06.02.03_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.02/DotNetNuke_Community_06.02.02_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.02/DotNetNuke_Community_06.02.02_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.01/DotNetNuke_Community_06.02.01_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.01/DotNetNuke_Community_06.02.01_Upgrade.zip"
+  },
+  {
+    "did": "dotnetnuke-community",
+    "name": "DotNetNuke Community",
+    "version": "6.2.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.00/DotNetNuke_Community_06.02.00_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Releases.Archive.6x/raw/master/06.02.00/DotNetNuke_Community_06.02.00_Upgrade.zip"
+  }
+]

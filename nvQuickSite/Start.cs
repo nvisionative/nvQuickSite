@@ -33,11 +33,16 @@ using MetroFramework.Controls;
 using Microsoft.Web.Administration;
 using Ionic.Zip;
 using Ookii.Dialogs;
+using nvQuickSite.Controllers;
+using System.Collections.Generic;
 
 namespace nvQuickSite
 {
     public partial class Start : MetroUserControl
     {
+
+        private IEnumerable<Models.Package> Packages { get; set; }
+
         public Start()
         {
             InitializeComponent();
@@ -50,32 +55,35 @@ namespace nvQuickSite
             tabProgress.Enabled = false;
             tabControl.TabPages.Remove(tabProgress);
 
-            //FeedParser parser = new FeedParser();
-            //var releases = parser.Parse("http://dotnetnuke.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2frelease%2fdotnetnuke", FeedType.RSS);
-
             var url = "http://www.nvquicksite.com/downloads/";
             WebClient client = new WebClient();
             try
             {
-                string result = client.DownloadString(url + "PackageManifest.xml");
+                Packages = PackageController.GetPackageList();
+                foreach (var did in Packages.OrderBy(p => p.name).Select(p => p.did).Distinct())
+                {
+                    cboProductName.Items.Add(new ComboItem(Packages.First(p => p.did == did).name, did));
+                }
+                if (cboProductName.Items.Count > 0)
+                {
+                    cboProductName.SelectedIndex = 0;
+                    LoadPackageVersions(((ComboItem)cboProductName.SelectedItem).Value);
+                }
+                //string result = client.DownloadString(url + "PackageManifest.xml");
 
-                XDocument doc = XDocument.Parse(result);
-                var packages = from x in doc.Descendants("DNNPackage")
-                               select new
-                               {
-                                   Name = x.Descendants("Name").First().Value,
-                                   File = x.Descendants("File").First().Value
-                               };
+                    //XDocument doc = XDocument.Parse(result);
+                    //var packages = from x in doc.Descendants("DNNPackage")
+                    //               select new
+                    //               {
+                    //                   Name = x.Descendants("Name").First().Value,
+                    //                   File = x.Descendants("File").First().Value
+                    //               };
 
-                foreach (var package in packages)
-                    cboLatestReleases.Items.Add(new ComboItem(url + package.File, package.Name));
+                    //foreach (var package in packages)
+                    //    cboLatestReleases.Items.Add(new ComboItem(url + package.File, package.Name));
 
-                //foreach (var package in packages)
-                //{
-                //    cboLatestReleases.Items.Add(new ComboItem(release.Link, release.Title));
-                //}
-                cboLatestReleases.SelectedIndex = 0;
-                cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
+                    //cboLatestReleases.SelectedIndex = 0;
+                    //cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
 
             }
             catch (Exception ex)
@@ -83,7 +91,9 @@ namespace nvQuickSite
                 lblLatestReleases.Text = "INTERNET CURRENTLY UNAVAILABLE: Use Local Install Package Instead";
                 lblLatestReleases.CustomForeColor = true;
                 lblLatestReleases.ForeColor = Color.DarkRed;
-                cboLatestReleases.Enabled = false;
+                //cboLatestReleases.Enabled = false;
+                cboProductName.Enabled = false;
+                cboProductVersion.Enabled = false;
                 btnGetLatestRelease.Enabled = false;
             }
 
@@ -103,16 +113,45 @@ namespace nvQuickSite
         #region "Tabs"
 
         #region "Install Package"
-        private void cboLatestReleases_SelectedIndexChanged(object sender, EventArgs e)
+        private void LoadPackageVersions(string packageId)
         {
-            ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
-            DisplayPackagePath(item);
+            cboProductVersion.Items.Clear();
+            foreach (var package in Packages.Where(p => p.did == packageId).OrderByDescending(p => p.version))
+            {
+                cboProductVersion.Items.Add(new ComboItem(package.version, package.version));
+            }
+            if (cboProductVersion.Items.Count > 0)
+            {
+                cboProductVersion.SelectedIndex = 0;
+            }
         }
 
-        private void DisplayPackagePath(ComboItem item)
+        private void cboProductName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var did = ((ComboItem)cboProductName.SelectedItem).Value;
+            LoadPackageVersions(did);
+            DisplayPackagePath();
+        }
+
+        private void cboProductVersion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var did = ((ComboItem)cboProductVersion.SelectedItem).Value;
+            DisplayPackagePath();
+        }
+        //private void cboLatestReleases_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
+        //    DisplayPackagePath(item);
+        //}
+
+        private void DisplayPackagePath()
+        {
+            if (cboProductName.SelectedItem == null || cboProductVersion.SelectedItem == null) { return; }
+            var package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+
             var downloadDirectory = GetDownloadDirectory();
-            var fileName = item.Name.Split('/').Last();
+            //var fileName = item.Name.Split('/').Last();
+            var fileName = package.url.Split('/').Last();
             var packageFullpath = downloadDirectory + fileName;
 
             if (File.Exists(packageFullpath))
@@ -133,13 +172,15 @@ namespace nvQuickSite
 
         private void GetOnlineVersion()
         {
-            ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
-            //Process.Start(item.Name);
+            //ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
+            if (cboProductName.SelectedItem == null || cboProductVersion.SelectedItem == null) { return; }
+            var package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
 
             WebClient client = new WebClient();
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-            var fileName = item.Name.Split('/').Last();
+            //var fileName = item.Name.Split('/').Last();
+            var fileName = package.url.Split('/').Last();
             var downloadDirectory = GetDownloadDirectory();
             if (!Directory.Exists(downloadDirectory))
             {
@@ -159,13 +200,15 @@ namespace nvQuickSite
 
             if (dlContinue)
             {
-                client.DownloadFileAsync(new Uri(item.Name), downloadDirectory + fileName);
+                //client.DownloadFileAsync(new Uri(item.Name), downloadDirectory + fileName);
+                client.DownloadFileAsync(new Uri(package.url), downloadDirectory + fileName);
                 progressBarDownload.BackColor = Color.WhiteSmoke;
                 progressBarDownload.Visible = true;
             }
             else
             {
-                txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(item.Name);
+                //txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(item.Name);
+                txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(package.url);
                 Properties.Settings.Default.LocalInstallPackageRecent = downloadDirectory;
                 Properties.Settings.Default.Save();
                 ValidateInstallPackage();
@@ -182,18 +225,21 @@ namespace nvQuickSite
 
         void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
-            //MessageBox.Show("Download Completed", "Install Package Download", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + Path.GetFileName(item.Name);
+            //ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
+            var package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+            var fileName = package.url.Split('/').Last();
+
+            //txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + Path.GetFileName(item.Name);
+            txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + fileName;
             Properties.Settings.Default.LocalInstallPackageRecent = Directory.GetCurrentDirectory() + @"\Downloads\";
             Properties.Settings.Default.Save();
             ValidateInstallPackage();
         }
 
         private void btnViewAllReleases_Click(object sender, EventArgs e)
-                {
-                    Process.Start("https://dotnetnuke.codeplex.com/");
-                }
+        {
+            Process.Start("https://dotnetnuke.codeplex.com/");
+        }
 
         private void txtLocalInstallPackage_Click(object sender, EventArgs e)
         {

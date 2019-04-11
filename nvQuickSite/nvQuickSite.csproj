@@ -130,7 +130,9 @@
   <ItemGroup>
     <Compile Include="CodePlexRSS.cs" />
     <Compile Include="ComboItem.cs" />
+    <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
+    <Compile Include="Models\Package.cs" />
     <Compile Include="Models\Version.cs" />
     <Compile Include="MsgBoxYesNoIgnore.cs">
       <SubType>Form</SubType>
@@ -176,6 +178,7 @@
     <None Include=".gitignore" />
     <None Include="app.config" />
     <None Include="data\latestVersion.json" />
+    <None Include="data\packages.json" />
     <None Include="LICENSE.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
