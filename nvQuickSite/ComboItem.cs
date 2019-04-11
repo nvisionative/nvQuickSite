@@ -30,7 +30,7 @@ namespace nvQuickSite
 
         public override string ToString()
         {
-            return Value;
+            return Name;
         }
     }
 }
