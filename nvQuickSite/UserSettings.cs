@@ -18,11 +18,17 @@ namespace nvQuickSite
             InitializeComponent();
             lblMessage.Text = "User Settings";
             chkShowReleaseCandidates.Checked = Properties.Settings.Default.ShowReleaseCandidates;
+            chkShareStatistics.Checked = Properties.Settings.Default.ShareStatistics;
         }
 
         public bool ShowReleaseCandidates
         {
             get { return chkShowReleaseCandidates.Checked; }
+        }
+
+        public bool ShareStatistics
+        {
+            get { return chkShareStatistics.Checked; }
         }
 
         //public string DialogMessage { get; set; }

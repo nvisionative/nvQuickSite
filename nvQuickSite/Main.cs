@@ -32,12 +32,15 @@ namespace nvQuickSite
         {
             InitializeComponent();
 
-            var userGuid = System.Guid.NewGuid().ToString("B").ToUpper();
-            Analytics.Initialize("pzNi0MJVC1P9tVZdnvDOyptvUwPov9BN", new Config().SetAsync(false));
-            Analytics.Client.Track(userGuid, "Started App", new Segment.Model.Properties() {
-            //    { "datetime", DateTime.Now },
-                { "dimension1", OSVersionInfo.Name + " " + OSVersionInfo.Edition + " " + OSVersionInfo.ServicePack }
-            });
+            if (Properties.Settings.Default.ShareStatistics)
+            {
+                var userGuid = System.Guid.NewGuid().ToString("B").ToUpper();
+                Analytics.Initialize("pzNi0MJVC1P9tVZdnvDOyptvUwPov9BN", new Config().SetAsync(false));
+                Analytics.Client.Track(userGuid, "Started App", new Segment.Model.Properties() {
+                    //{ "datetime", DateTime.Now },
+                    { "dimension1", OSVersionInfo.Name + " " + OSVersionInfo.Edition + " " + OSVersionInfo.ServicePack }
+                });
+            }
 
             lblVersion.Text = "v" + Application.ProductVersion;
 
