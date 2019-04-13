@@ -1196,6 +1196,7 @@ namespace nvQuickSite
             if (result == DialogResult.OK)
             {
                 Properties.Settings.Default.ShowReleaseCandidates = userSettings.ShowReleaseCandidates;
+                Properties.Settings.Default.ShareStatistics = userSettings.ShareStatistics;
                 Properties.Settings.Default.Save();
                 LoadPackages();
             }

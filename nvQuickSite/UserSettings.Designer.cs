@@ -33,6 +33,7 @@
             this.metroButton2 = new MetroFramework.Controls.MetroButton();
             this.chkShowReleaseCandidates = new MetroFramework.Controls.MetroCheckBox();
             this.dialogIcon = new System.Windows.Forms.PictureBox();
+            this.chkShareStatistics = new MetroFramework.Controls.MetroCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -89,12 +90,26 @@
             this.dialogIcon.TabIndex = 4;
             this.dialogIcon.TabStop = false;
             // 
+            // chkShareStatistics
+            // 
+            this.chkShareStatistics.AutoSize = true;
+            this.chkShareStatistics.Checked = true;
+            this.chkShareStatistics.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShareStatistics.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.chkShareStatistics.Location = new System.Drawing.Point(118, 74);
+            this.chkShareStatistics.Name = "chkShareStatistics";
+            this.chkShareStatistics.Size = new System.Drawing.Size(101, 15);
+            this.chkShareStatistics.TabIndex = 5;
+            this.chkShareStatistics.Text = "Share Statistics";
+            this.chkShareStatistics.UseVisualStyleBackColor = true;
+            // 
             // UserSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(527, 170);
+            this.Controls.Add(this.chkShareStatistics);
             this.Controls.Add(this.dialogIcon);
             this.Controls.Add(this.chkShowReleaseCandidates);
             this.Controls.Add(this.metroButton2);
@@ -114,5 +129,6 @@
         private MetroFramework.Controls.MetroButton metroButton2;
         private MetroFramework.Controls.MetroCheckBox chkShowReleaseCandidates;
         private System.Windows.Forms.PictureBox dialogIcon;
+        private MetroFramework.Controls.MetroCheckBox chkShareStatistics;
     }
 }

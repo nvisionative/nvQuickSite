@@ -154,5 +154,17 @@ namespace nvQuickSite.Properties {
                 this["ShowReleaseCandidates"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShareStatistics {
+            get {
+                return ((bool)(this["ShareStatistics"]));
+            }
+            set {
+                this["ShareStatistics"] = value;
+            }
+        }
     }
 }
