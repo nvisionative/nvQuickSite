@@ -55,7 +55,7 @@ namespace nvQuickSite.Controllers
             WebClient client = new WebClient();
             try
             {
-                var url = "https://github.com/nvisionative/nvQuickSite/blob/master/data/packages.json";
+                var url = "https://github.com/nvisionative/nvQuickSite/raw/master/nvQuickSite/data/packages.json";
                 string result = client.DownloadString(url);
                 var res = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Package>>(result);
                 return res;
