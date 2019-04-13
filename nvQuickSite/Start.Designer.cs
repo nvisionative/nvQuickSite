@@ -72,11 +72,11 @@
             this.lblProgressStatus = new MetroFramework.Controls.MetroLabel();
             this.lblProgress = new MetroFramework.Controls.MetroLabel();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
-            this.tileQuickStartGuide = new MetroFramework.Controls.MetroTile();
             this.tileDNNAwareness = new MetroFramework.Controls.MetroTile();
             this.tileDNNDocumentationCenter = new MetroFramework.Controls.MetroTile();
             this.tileMorenvQuickProducts = new MetroFramework.Controls.MetroTile();
             this.lblRemember = new MetroFramework.Controls.MetroLabel();
+            this.tileQuickSettings = new MetroFramework.Controls.MetroTile();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -563,19 +563,6 @@
             this.progressBar.TabIndex = 2;
             this.progressBar.Visible = false;
             // 
-            // tileQuickStartGuide
-            // 
-            this.tileQuickStartGuide.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tileQuickStartGuide.Location = new System.Drawing.Point(7, 335);
-            this.tileQuickStartGuide.Name = "tileQuickStartGuide";
-            this.tileQuickStartGuide.Size = new System.Drawing.Size(162, 104);
-            this.tileQuickStartGuide.Style = MetroFramework.MetroColorStyle.Orange;
-            this.tileQuickStartGuide.TabIndex = 27;
-            this.tileQuickStartGuide.Text = "nvQuickSite Wiki";
-            this.tileQuickStartGuide.TextAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.tileQuickStartGuide.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.tileQuickStartGuide.Click += new System.EventHandler(this.tileQuickStartGuide_Click);
-            // 
             // tileDNNAwareness
             // 
             this.tileDNNAwareness.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -610,7 +597,7 @@
             this.tileMorenvQuickProducts.Size = new System.Drawing.Size(291, 50);
             this.tileMorenvQuickProducts.Style = MetroFramework.MetroColorStyle.Yellow;
             this.tileMorenvQuickProducts.TabIndex = 30;
-            this.tileMorenvQuickProducts.Text = "More nvQuick Products";
+            this.tileMorenvQuickProducts.Text = "nvQuickSite Wiki";
             this.tileMorenvQuickProducts.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.tileMorenvQuickProducts.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.tileMorenvQuickProducts.Click += new System.EventHandler(this.tileMorenvQuickProducts_Click);
@@ -626,6 +613,22 @@
             this.lblRemember.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblRemember.Visible = false;
             // 
+            // tileQuickSettings
+            // 
+            this.tileQuickSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tileQuickSettings.Location = new System.Drawing.Point(7, 335);
+            this.tileQuickSettings.Name = "tileQuickSettings";
+            this.tileQuickSettings.Size = new System.Drawing.Size(162, 104);
+            this.tileQuickSettings.Style = MetroFramework.MetroColorStyle.Orange;
+            this.tileQuickSettings.TabIndex = 27;
+            this.tileQuickSettings.Text = "nvQuickSite Settings";
+            this.tileQuickSettings.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tileQuickSettings.TileImage = global::nvQuickSite.Properties.Resources.user_settings;
+            this.tileQuickSettings.TileImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.tileQuickSettings.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.tileQuickSettings.UseTileImage = true;
+            this.tileQuickSettings.Click += new System.EventHandler(this.tileQuickSettings_Click);
+            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -635,7 +638,7 @@
             this.Controls.Add(this.tileDNNDocumentationCenter);
             this.Controls.Add(this.tileDNNAwareness);
             this.Controls.Add(this.toggleSiteInfoRemember);
-            this.Controls.Add(this.tileQuickStartGuide);
+            this.Controls.Add(this.tileQuickSettings);
             this.Controls.Add(this.tabControl);
             this.Name = "Start";
             this.Size = new System.Drawing.Size(610, 470);
@@ -664,7 +667,7 @@
         private MetroFramework.Controls.MetroComboBox cboProductName;
         private MetroFramework.Controls.MetroButton btnGetLatestRelease;
         private MetroFramework.Controls.MetroTabControl tabControl;
-        private MetroFramework.Controls.MetroTile tileQuickStartGuide;
+        private MetroFramework.Controls.MetroTile tileQuickSettings;
         private MetroFramework.Controls.MetroTile tileDNNAwareness;
         private MetroFramework.Controls.MetroTextBox txtSiteNamePrefix;
         private MetroFramework.Controls.MetroLabel lblSiteName;

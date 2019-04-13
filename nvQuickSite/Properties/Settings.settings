@@ -32,5 +32,8 @@
     <Setting Name="SiteNameSuffixRecent" Type="System.String" Scope="User">
       <Value Profile="(Default)">.dnndev.me</Value>
     </Setting>
+    <Setting Name="ShowReleaseCandidates" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

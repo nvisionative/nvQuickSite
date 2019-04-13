@@ -105,6 +105,9 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Octokit, Version=0.32.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.32.0\lib\net45\Octokit.dll</HintPath>
+    </Reference>
     <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <HintPath>packages\Ookii.Dialogs.WindowsForms.1.0\lib\net35\Ookii.Dialogs.dll</HintPath>
       <Private>True</Private>
@@ -117,6 +120,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Messaging" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -134,6 +138,12 @@
     <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\Version.cs" />
+    <Compile Include="UserSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserSettings.Designer.cs">
+      <DependentUpon>UserSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="MsgBoxYesNoIgnore.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +165,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="UserSettings.resx">
+      <DependentUpon>UserSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MsgBoxYesNoIgnore.resx">
       <DependentUpon>MsgBoxYesNoIgnore.cs</DependentUpon>
     </EmbeddedResource>
@@ -195,6 +208,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\user-settings.png" />
     <EmbeddedResource Include="Libraries\OSVersionInfo.dll" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Resources\broughtBy-nvisionative.png" />

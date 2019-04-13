@@ -35,6 +35,7 @@ using Ionic.Zip;
 using Ookii.Dialogs;
 using nvQuickSite.Controllers;
 using System.Collections.Generic;
+using Octokit;
 
 namespace nvQuickSite
 {
@@ -43,22 +44,31 @@ namespace nvQuickSite
 
         private IEnumerable<Models.Package> Packages { get; set; }
 
+        protected string rcVersion;
+        protected string rcUrl;
+
         public Start()
         {
             InitializeComponent();
 
-            tabControl.SelectedIndex = 0;
-            tabSiteInfo.Enabled = false;
-            tabControl.TabPages.Remove(tabSiteInfo);
-            tabDatabaseInfo.Enabled = false;
-            tabControl.TabPages.Remove(tabDatabaseInfo);
-            tabProgress.Enabled = false;
-            tabControl.TabPages.Remove(tabProgress);
+            InitializeTabs();
 
-            var url = "http://www.nvquicksite.com/downloads/";
-            WebClient client = new WebClient();
+            LoadPackages();
+            RememberFieldValues();
+        }
+
+        private void LoadPackages()
+        {
             try
             {
+                cboProductName.Items.Clear();
+                cboProductVersion.Items.Clear();
+
+                if (Properties.Settings.Default.ShowReleaseCandidates)
+                {
+                    AddLatestReleaseCandidate();
+                }
+
                 Packages = PackageController.GetPackageList();
                 foreach (var did in Packages.OrderBy(p => p.name).Select(p => p.did).Distinct())
                 {
@@ -69,34 +79,20 @@ namespace nvQuickSite
                     cboProductName.SelectedIndex = 0;
                     LoadPackageVersions(((ComboItem)cboProductName.SelectedItem).Value);
                 }
-                //string result = client.DownloadString(url + "PackageManifest.xml");
-
-                    //XDocument doc = XDocument.Parse(result);
-                    //var packages = from x in doc.Descendants("DNNPackage")
-                    //               select new
-                    //               {
-                    //                   Name = x.Descendants("Name").First().Value,
-                    //                   File = x.Descendants("File").First().Value
-                    //               };
-
-                    //foreach (var package in packages)
-                    //    cboLatestReleases.Items.Add(new ComboItem(url + package.File, package.Name));
-
-                    //cboLatestReleases.SelectedIndex = 0;
-                    //cboLatestReleases.SelectedIndexChanged += cboLatestReleases_SelectedIndexChanged;
-
             }
             catch (Exception ex)
             {
                 lblLatestReleases.Text = "INTERNET CURRENTLY UNAVAILABLE: Use Local Install Package Instead";
                 lblLatestReleases.CustomForeColor = true;
                 lblLatestReleases.ForeColor = Color.DarkRed;
-                //cboLatestReleases.Enabled = false;
                 cboProductName.Enabled = false;
                 cboProductVersion.Enabled = false;
                 btnGetLatestRelease.Enabled = false;
             }
+        }
 
+        private void RememberFieldValues()
+        {
             if (Properties.Settings.Default.RememberFieldValues)
             {
                 txtSiteNamePrefix.Text = Properties.Settings.Default.SiteNamePrefixRecent;
@@ -112,16 +108,74 @@ namespace nvQuickSite
 
         #region "Tabs"
 
+        private void InitializeTabs()
+        {
+            tabControl.SelectedIndex = 0;
+            tabSiteInfo.Enabled = false;
+            tabControl.TabPages.Remove(tabSiteInfo);
+            tabDatabaseInfo.Enabled = false;
+            tabControl.TabPages.Remove(tabDatabaseInfo);
+            tabProgress.Enabled = false;
+            tabControl.TabPages.Remove(tabProgress);
+        }
+
         #region "Install Package"
+        private void AddLatestReleaseCandidate()
+        {
+            Octokit.Release release = null;
+            try
+            {
+                var client = new GitHubClient(new ProductHeaderValue("nvQuickSite"));
+                var releases = client.Repository.Release.GetAll("dnnsoftware", "Dnn.Platform").Result;
+                if (releases.Count > 0)
+                {
+                    release = releases[0];
+                    if (release.Name.IndexOf("rc", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        var asset = release.Assets.Where(a => a.BrowserDownloadUrl.IndexOf("install", StringComparison.OrdinalIgnoreCase) > -1).FirstOrDefault();
+                        if (asset != null)
+                        {
+                            string name = "DNN Platform Release Candidate";
+                            string did = "dnn-platform-rc";
+                            cboProductName.Items.Add(new ComboItem(name, did));
+
+                            if (release.TagName != null && release.TagName[0] == 'v')
+                                rcVersion = release.TagName.Remove(0, 1);
+                            else
+                                rcVersion = release.TagName;
+
+                            rcUrl = asset.BrowserDownloadUrl;
+
+                            LoadPackageVersions(did);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
         private void LoadPackageVersions(string packageId)
         {
-            cboProductVersion.Items.Clear();
-            foreach (var package in Packages.Where(p => p.did == packageId).OrderByDescending(p => p.version))
+            if (packageId != "dnn-platform-rc")
             {
-                cboProductVersion.Items.Add(new ComboItem(package.version, package.version));
+                cboProductVersion.Items.Clear();
+                foreach (var package in Packages.Where(p => p.did == packageId).OrderByDescending(p => p.version))
+                {
+                    cboProductVersion.Items.Add(new ComboItem(package.version, package.version));
+                }
+                if (cboProductVersion.Items.Count > 0)
+                {
+                    cboProductVersion.SelectedIndex = 0;
+                }
             }
-            if (cboProductVersion.Items.Count > 0)
+            else
             {
+                cboProductVersion.Items.Clear();
+                cboProductVersion.Items.Add(new ComboItem(rcVersion, rcUrl));
                 cboProductVersion.SelectedIndex = 0;
             }
         }
@@ -138,20 +192,25 @@ namespace nvQuickSite
             var did = ((ComboItem)cboProductVersion.SelectedItem).Value;
             DisplayPackagePath();
         }
-        //private void cboLatestReleases_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
-        //    DisplayPackagePath(item);
-        //}
 
         private void DisplayPackagePath()
         {
             if (cboProductName.SelectedItem == null || cboProductVersion.SelectedItem == null) { return; }
-            var package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+            Models.Package package;
+            var url = "";
+            var fileName = "";
+            if (((ComboItem)cboProductName.SelectedItem).Value != "dnn-platform-rc")
+            {
+                package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+                fileName = package.url.Split('/').Last();
+            }
+            else
+            {
+                url = ((ComboItem)cboProductVersion.SelectedItem).Value;
+                fileName = url.Split('/').Last();
+            }
 
             var downloadDirectory = GetDownloadDirectory();
-            //var fileName = item.Name.Split('/').Last();
-            var fileName = package.url.Split('/').Last();
             var packageFullpath = downloadDirectory + fileName;
 
             if (File.Exists(packageFullpath))
@@ -172,15 +231,25 @@ namespace nvQuickSite
 
         private void GetOnlineVersion()
         {
-            //ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
             if (cboProductName.SelectedItem == null || cboProductVersion.SelectedItem == null) { return; }
-            var package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+            Models.Package package;
+            var url = "";
+            var fileName = "";
+            if (((ComboItem)cboProductName.SelectedItem).Value != "dnn-platform-rc")
+            {
+                package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+                fileName = package.url.Split('/').Last();
+            }
+            else
+            {
+                url = ((ComboItem)cboProductVersion.SelectedItem).Value;
+                fileName = url.Split('/').Last();
+            }
 
             WebClient client = new WebClient();
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-            //var fileName = item.Name.Split('/').Last();
-            var fileName = package.url.Split('/').Last();
+
             var downloadDirectory = GetDownloadDirectory();
             if (!Directory.Exists(downloadDirectory))
             {
@@ -200,15 +269,13 @@ namespace nvQuickSite
 
             if (dlContinue)
             {
-                //client.DownloadFileAsync(new Uri(item.Name), downloadDirectory + fileName);
-                client.DownloadFileAsync(new Uri(package.url), downloadDirectory + fileName);
+                client.DownloadFileAsync(new Uri(url), downloadDirectory + fileName);
                 progressBarDownload.BackColor = Color.WhiteSmoke;
                 progressBarDownload.Visible = true;
             }
             else
             {
-                //txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(item.Name);
-                txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(package.url);
+                txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(url);
                 Properties.Settings.Default.LocalInstallPackageRecent = downloadDirectory;
                 Properties.Settings.Default.Save();
                 ValidateInstallPackage();
@@ -225,11 +292,20 @@ namespace nvQuickSite
 
         void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            //ComboItem item = cboLatestReleases.SelectedItem as ComboItem;
-            var package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
-            var fileName = package.url.Split('/').Last();
+            Models.Package package;
+            var url = "";
+            var fileName = "";
+            if (((ComboItem)cboProductName.SelectedItem).Value != "dnn-platform-rc")
+            {
+                package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+                fileName = package.url.Split('/').Last();
+            }
+            else
+            {
+                url = ((ComboItem)cboProductVersion.SelectedItem).Value;
+                fileName = url.Split('/').Last();
+            }
 
-            //txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + Path.GetFileName(item.Name);
             txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + fileName;
             Properties.Settings.Default.LocalInstallPackageRecent = Directory.GetCurrentDirectory() + @"\Downloads\";
             Properties.Settings.Default.Save();
@@ -1100,7 +1176,7 @@ namespace nvQuickSite
 
         private void tileMorenvQuickProducts_Click(object sender, EventArgs e)
         {
-            Process.Start("https://www.nvquick.com");
+            Process.Start("https://github.com/nvisionative/nvQuickSite/wiki");
         }
 
         private void tileDNNDocumentationCenter_Click(object sender, EventArgs e)
@@ -1113,9 +1189,16 @@ namespace nvQuickSite
             Process.Start("https://twitter.com/DNNAwareness");
         }
 
-        private void tileQuickStartGuide_Click(object sender, EventArgs e)
+        private void tileQuickSettings_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/nvisionative/nvQuickSite/wiki");
+            var userSettings = new UserSettings();
+            var result = userSettings.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Properties.Settings.Default.ShowReleaseCandidates = userSettings.ShowReleaseCandidates;
+                Properties.Settings.Default.Save();
+                LoadPackages();
+            }
         }
 
         #endregion
