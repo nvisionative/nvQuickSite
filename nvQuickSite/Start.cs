@@ -238,6 +238,7 @@ namespace nvQuickSite
             if (((ComboItem)cboProductName.SelectedItem).Value != "dnn-platform-rc")
             {
                 package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+                url = package.url;
                 fileName = package.url.Split('/').Last();
             }
             else
