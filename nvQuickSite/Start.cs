@@ -82,7 +82,7 @@ namespace nvQuickSite
             }
             catch (Exception ex)
             {
-                lblLatestReleases.Text = "INTERNET CURRENTLY UNAVAILABLE: Use Local Install Package Instead";
+                lblLatestReleases.Text = "Error: " + ex.Message + " --- you may be able to use a Local Install Package"; // "INTERNET CURRENTLY UNAVAILABLE: Use Local Install Package Instead";
                 lblLatestReleases.CustomForeColor = true;
                 lblLatestReleases.ForeColor = Color.DarkRed;
                 cboProductName.Enabled = false;
