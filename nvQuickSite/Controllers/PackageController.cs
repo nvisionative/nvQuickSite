@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.IO;
 using System.Reflection;
 
 namespace nvQuickSite.Controllers
@@ -30,6 +31,12 @@ namespace nvQuickSite.Controllers
         }
         private static void SaveLocalPackagesFile(IEnumerable<Package> packages)
         {
+            var downloadDirectory = GetDownloadDirectory();
+            if (!Directory.Exists(downloadDirectory))
+            {
+                Directory.CreateDirectory(downloadDirectory);
+            }
+
             var pfile = System.IO.Directory.GetCurrentDirectory() + @"\Downloads\packages.json";
             using (var sw = new System.IO.StreamWriter(pfile))
             {
@@ -64,6 +71,11 @@ namespace nvQuickSite.Controllers
             {
             }
             return new List<Package>();
+        }
+
+        private static string GetDownloadDirectory()
+        {
+            return Directory.GetCurrentDirectory() + @"\Downloads\";
         }
 
     }
