@@ -153,6 +153,7 @@ publish/
 # NuGet v3's project.json files produces more ignoreable files
 *.nuget.props
 *.nuget.targets
+MigrationBackup/
 
 # Microsoft Azure Build Output
 csx/
