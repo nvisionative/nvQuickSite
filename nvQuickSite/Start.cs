@@ -34,6 +34,7 @@ using Microsoft.Web.Administration;
 using Ionic.Zip;
 using Ookii.Dialogs;
 using nvQuickSite.Controllers;
+using nvQuickSite.Models;
 using System.Collections.Generic;
 using Octokit;
 
@@ -42,10 +43,10 @@ namespace nvQuickSite
     public partial class Start : MetroUserControl
     {
 
-        private IEnumerable<Models.Package> Packages { get; set; }
+        private IEnumerable<Package> Packages { get; set; }
 
-        protected string rcVersion;
-        protected string rcUrl;
+        protected string currentVersion;
+        protected string currentUrl;
 
         public Start()
         {
@@ -64,15 +65,19 @@ namespace nvQuickSite
                 cboProductName.Items.Clear();
                 cboProductVersion.Items.Clear();
 
-                if (Properties.Settings.Default.ShowReleaseCandidates)
-                {
-                    AddLatestReleaseCandidate();
-                }
-
                 Packages = PackageController.GetPackageList();
-                foreach (var did in Packages.OrderBy(p => p.name).Select(p => p.did).Distinct())
+                foreach (var did in Packages.OrderByDescending(p => p.version).Select(p => p.did).Distinct())
                 {
-                    cboProductName.Items.Add(new ComboItem(Packages.First(p => p.did == did).name, did));
+                    if (did == "dnn-platform-rc")
+                    {
+                        if (Properties.Settings.Default.ShowReleaseCandidates)
+                        {
+                            cboProductName.Items.Add(new ComboItem(Packages.First(p => p.did == did).name, did));
+                        }
+                    } else
+                    {
+                        cboProductName.Items.Add(new ComboItem(Packages.First(p => p.did == did).name, did));
+                    }
                 }
                 if (cboProductName.Items.Count > 0)
                 {
@@ -120,62 +125,15 @@ namespace nvQuickSite
         }
 
         #region "Install Package"
-        private void AddLatestReleaseCandidate()
-        {
-            Octokit.Release release = null;
-            try
-            {
-                var client = new GitHubClient(new ProductHeaderValue("nvQuickSite"));
-                var releases = client.Repository.Release.GetAll("dnnsoftware", "Dnn.Platform").Result;
-                if (releases.Count > 0)
-                {
-                    release = releases[0];
-                    if (release.Name.IndexOf("rc", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        var asset = release.Assets.Where(a => a.BrowserDownloadUrl.IndexOf("install", StringComparison.OrdinalIgnoreCase) > -1).FirstOrDefault();
-                        if (asset != null)
-                        {
-                            string name = "DNN Platform Release Candidate";
-                            string did = "dnn-platform-rc";
-                            cboProductName.Items.Add(new ComboItem(name, did));
-
-                            if (release.TagName != null && release.TagName[0] == 'v')
-                                rcVersion = release.TagName.Remove(0, 1);
-                            else
-                                rcVersion = release.TagName;
-
-                            rcUrl = asset.BrowserDownloadUrl;
-
-                            LoadPackageVersions(did);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
         private void LoadPackageVersions(string packageId)
         {
-            if (packageId != "dnn-platform-rc")
+            cboProductVersion.Items.Clear();
+            foreach (var package in Packages.Where(p => p.did == packageId).OrderByDescending(p => p.version))
             {
-                cboProductVersion.Items.Clear();
-                foreach (var package in Packages.Where(p => p.did == packageId).OrderByDescending(p => p.version))
-                {
-                    cboProductVersion.Items.Add(new ComboItem(package.version, package.version));
-                }
-                if (cboProductVersion.Items.Count > 0)
-                {
-                    cboProductVersion.SelectedIndex = 0;
-                }
+                cboProductVersion.Items.Add(new ComboItem(package.version, package.version));
             }
-            else
+            if (cboProductVersion.Items.Count > 0)
             {
-                cboProductVersion.Items.Clear();
-                cboProductVersion.Items.Add(new ComboItem(rcVersion, rcUrl));
                 cboProductVersion.SelectedIndex = 0;
             }
         }
