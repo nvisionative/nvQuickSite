@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.IO;
 using System.Windows.Forms;
-using System.Reflection;
 using Octokit;
 
 namespace nvQuickSite.Controllers
@@ -40,10 +39,10 @@ namespace nvQuickSite.Controllers
         private static IEnumerable<Package> GetLocalPackages()
         {
             var res = new List<Package>();
-            var pfile = System.IO.Directory.GetCurrentDirectory() + @"\Downloads\packages.json";
-            if (System.IO.File.Exists(pfile))
+            var pfile = Directory.GetCurrentDirectory() + @"\Downloads\packages.json";
+            if (File.Exists(pfile))
             {
-                using (var sr = new System.IO.StreamReader(pfile))
+                using (var sr = new StreamReader(pfile))
                 {
                     var content = sr.ReadToEnd();
                     res = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Package>>(content);
@@ -60,8 +59,8 @@ namespace nvQuickSite.Controllers
                 Directory.CreateDirectory(downloadDirectory);
             }
 
-            var pfile = System.IO.Directory.GetCurrentDirectory() + @"\Downloads\packages.json";
-            using (var sw = new System.IO.StreamWriter(pfile))
+            var pfile = Directory.GetCurrentDirectory() + @"\Downloads\packages.json";
+            using (var sw = new StreamWriter(pfile))
             {
                 sw.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(packages, Newtonsoft.Json.Formatting.Indented));
             }

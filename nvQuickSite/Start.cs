@@ -28,7 +28,6 @@ using System.IO;
 using System.Security.AccessControl;
 using System.Net.Sockets;
 using System.Diagnostics;
-using System.Threading;
 using MetroFramework.Controls;
 using Microsoft.Web.Administration;
 using Ionic.Zip;
@@ -36,7 +35,6 @@ using Ookii.Dialogs;
 using nvQuickSite.Controllers;
 using nvQuickSite.Models;
 using System.Collections.Generic;
-using Octokit;
 
 namespace nvQuickSite
 {
