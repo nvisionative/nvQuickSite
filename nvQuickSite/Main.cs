@@ -18,7 +18,8 @@
 using System;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Net.Configuration;
+using System.Configuration;
+using System.Linq;
 using MetroFramework.Forms;
 using Segment;
 using JCS;
@@ -31,6 +32,13 @@ namespace nvQuickSite
         public Main()
         {
             InitializeComponent();
+
+            if (Properties.Settings.Default.UpdateSettings)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpdateSettings = false;
+                Properties.Settings.Default.Save();
+            }
 
             if (Properties.Settings.Default.ShareStatistics)
             {
@@ -53,6 +61,11 @@ namespace nvQuickSite
             Start control = new Start();
             control.Dock = DockStyle.Fill;
             Controls.Add(control);
+        }
+
+        private bool SettingExists(string settingName)
+        {
+            return Properties.Settings.Default.Properties.Cast<SettingsProperty>().Any(prop => prop.Name == settingName);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
