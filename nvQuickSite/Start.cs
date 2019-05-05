@@ -1,4 +1,4 @@
-//Copyright (c) 2016 nvisionative, Inc.
+//Copyright (c) 2016-2019 nvisionative, Inc.
 
 //This file is part of nvQuickSite.
 
@@ -13,7 +13,7 @@
 //GNU General Public License for more details.
 
 //You should have received a copy of the GNU General Public License
-//along with nvQuickSite.  If not, see<http://www.gnu.org/licenses/>.
+//along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.ComponentModel;
