@@ -1,5 +1,125 @@
 ﻿[
   {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.3.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.3.2/DNN_Platform_9.3.2.24_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.3.2/DNN_Platform_9.3.2.24_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.3.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.3.1/DNN_Platform_9.3.1.2_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.3.1/DNN_Platform_9.3.1.2_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.2.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.2/DNN_Platform_9.2.2.178_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.2/DNN_Platform_9.2.2.178_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.2.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.1/DNN_Platform_9.2.1.533-298_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.1/DNN_Platform_9.2.1.533-298_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.2.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.0/DNN_Platform_9.2.0.366-777_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.2.0/DNN_Platform_9.2.0.366-777_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.1.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.1.1/DNN_Platform_9.1.1.129-232_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.1.1/DNN_Platform_9.1.1.129-232_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.1.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.1.0/DNN_Platform_9.1.0.367_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.1.0/DNN_Platform_9.1.0.367_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.0.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.2/DNN_Platform_9.0.2_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.2/DNN_Platform_9.0.2_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.0.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.1/DNN_Platform_9.0.1.142_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.1/DNN_Platform_9.0.1.142_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-9",
+    "name": "DNN Platform 9",
+    "version": "9.0.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.0/DNN_Platform_9.0.0.1002_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v9.0.0/DNN_Platform_9.0.0.1002_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-8",
+    "name": "DNN Platform 8",
+    "version": "8.0.4",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.4/DNN_Platform_8.0.4.226_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.4/DNN_Platform_8.0.4.226_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-8",
+    "name": "DNN Platform 8",
+    "version": "8.0.3",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.3/DNN_Platform_8.0.3_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.3/DNN_Platform_8.0.3_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-8",
+    "name": "DNN Platform 8",
+    "version": "8.0.2",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.2/DNN_Platform_8.0.2_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.2/DNN_Platform_8.0.2_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-8",
+    "name": "DNN Platform 8",
+    "version": "8.0.1",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.1/DNN_Platform_8.0.1.236_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.1/DNN_Platform_8.0.1.236_Upgrade.zip",
+    "keep": false
+  },
+  {
+    "did": "dnn-platform-8",
+    "name": "DNN Platform 8",
+    "version": "8.0.0",
+    "url": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.0/DNN_Platform_8.0.0_Install.zip",
+    "upgradeurl": "https://github.com/dnnsoftware/Dnn.Platform/releases/download/v8.0.0/DNN_Platform_8.0.0_Upgrade.zip",
+    "keep": false
+  },
+  {
     "did": "dnn-platform-7",
     "name": "DNN Platform 7",
     "version": "7.4.2",
