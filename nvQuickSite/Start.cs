@@ -1126,9 +1126,14 @@ namespace nvQuickSite
             Process.Start("https://github.com/nvisionative/nvQuickSite/wiki");
         }
 
-        private void tileDNNDocumentationCenter_Click(object sender, EventArgs e)
+        private void tileDNNCommunity_Click(object sender, EventArgs e)
         {
-            Process.Start("https://www.dnndocs.com");
+            Process.Start("https://dnncommunity.org");
+        }
+
+        private void tileDNNDocs_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://dnndocs.com");
         }
 
         private void tileDNNAwareness_Click(object sender, EventArgs e)
