@@ -189,19 +189,9 @@ namespace nvQuickSite
         {
             if (cboProductName.SelectedItem == null || cboProductVersion.SelectedItem == null) { return; }
             Models.Package package;
-            var url = "";
-            var fileName = "";
-            if (((ComboItem)cboProductName.SelectedItem).Value != "dnn-platform-rc")
-            {
-                package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
-                url = package.url;
-                fileName = package.url.Split('/').Last();
-            }
-            else
-            {
-                url = ((ComboItem)cboProductVersion.SelectedItem).Value;
-                fileName = url.Split('/').Last();
-            }
+            package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+            var url = package.url;
+            var fileName = package.url.Split('/').Last();
 
             WebClient client = new WebClient();
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
