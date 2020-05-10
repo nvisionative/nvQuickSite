@@ -155,16 +155,9 @@ namespace nvQuickSite
             Models.Package package;
             var url = "";
             var fileName = "";
-            if (((ComboItem)cboProductName.SelectedItem).Value != "dnn-platform-rc")
-            {
-                package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
-                fileName = package.url.Split('/').Last();
-            }
-            else
-            {
-                url = ((ComboItem)cboProductVersion.SelectedItem).Value;
-                fileName = url.Split('/').Last();
-            }
+
+            package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+            fileName = package.url.Split('/').Last();
 
             var downloadDirectory = GetDownloadDirectory();
             var packageFullpath = downloadDirectory + fileName;
@@ -242,16 +235,9 @@ namespace nvQuickSite
             Models.Package package;
             var url = "";
             var fileName = "";
-            if (((ComboItem)cboProductName.SelectedItem).Value != "dnn-platform-rc")
-            {
-                package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
-                fileName = package.url.Split('/').Last();
-            }
-            else
-            {
-                url = ((ComboItem)cboProductVersion.SelectedItem).Value;
-                fileName = url.Split('/').Last();
-            }
+
+            package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+            fileName = package.url.Split('/').Last();
 
             txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + fileName;
             Properties.Settings.Default.LocalInstallPackageRecent = Directory.GetCurrentDirectory() + @"\Downloads\";
