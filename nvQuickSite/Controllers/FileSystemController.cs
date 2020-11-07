@@ -23,6 +23,7 @@ using System.Runtime.Serialization;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace nvQuickSite.Controllers
 {
@@ -180,6 +181,49 @@ namespace nvQuickSite.Controllers
             Directory.Delete(logsDir, true);
             Directory.Delete(databaseDir);
         }
+
+        internal static void ModifyConfig(string dbServerName, bool usesWindowsAuthentication, string dbUserName, string dbPassword, string dbName, string installFolder)
+        {
+            try
+            {
+                string myDBServerName = dbServerName;
+                string connectionStringAuthSection = "";
+                if (usesWindowsAuthentication)
+                {
+                    connectionStringAuthSection = "Integrated Security=True;";
+                }
+                else
+                {
+                    connectionStringAuthSection = $"User ID={dbUserName};Password={dbPassword};";
+                }
+
+                string key = "SiteSqlServer";
+                string value = $"Server={dbServerName};Database={dbName};{connectionStringAuthSection}";
+
+                string path = Path.Combine(installFolder, "Website", "web.config");
+
+                var config = XDocument.Load(path);
+                var targetNode = config.Root.Element("connectionStrings").Element("add").Attribute("connectionString");
+                targetNode.Value = value;
+
+                var list = from appNode in config.Descendants("appSettings").Elements()
+                           where appNode.Attribute("key").Value == key
+                           select appNode;
+
+                var e = list.FirstOrDefault();
+                if (e != null)
+                {
+                    e.Attribute("value").SetValue(value);
+                }
+
+                config.Save(path);
+            }
+            catch (Exception ex)
+            {
+                throw new FileSystemControllerException("There was an error attempting to modify the web.config file", ex);
+            }
+        }
+
 
     }
 

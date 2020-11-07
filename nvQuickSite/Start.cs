@@ -45,6 +45,20 @@ namespace nvQuickSite
 
         protected string currentVersion;
         protected string currentUrl;
+        private string installFolder {
+            get
+            {
+                return Path.Combine(txtInstallBaseFolder.Text, txtInstallSubFolder.Text);
+            }
+        }
+        private string siteName
+        {
+            get
+            {
+                return txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
+
+            }
+        }
 
         public Start()
         {
@@ -366,9 +380,7 @@ namespace nvQuickSite
                 return;
             }
 
-            string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-
-            if (!Directory.Exists(installFolder))
+            if (!Directory.Exists(this.installFolder))
             {
                 var dialogMessage = "The entered location does not exist. Do you wish to create it?";
                 var dialogIcon = SystemIcons.Warning.ToBitmap();
@@ -379,7 +391,7 @@ namespace nvQuickSite
                     var result = msgBoxYesNoIgnore.ShowDialog();
                     if (result == DialogResult.Yes)
                     {
-                        Directory.CreateDirectory(installFolder);
+                        Directory.CreateDirectory(this.installFolder);
                         proceed = true;
                     }
                     else
@@ -389,7 +401,7 @@ namespace nvQuickSite
                 }
                 else
                 {
-                    Directory.CreateDirectory(installFolder);
+                    Directory.CreateDirectory(this.installFolder);
                     proceed = true;
 
                 }
@@ -403,7 +415,7 @@ namespace nvQuickSite
 
             if (proceed)
             {
-                if (!FileSystemController.DirectoryEmpty(installFolder))
+                if (!FileSystemController.DirectoryEmpty(this.installFolder))
                 {
                     var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
                                                 "Confirm Installation",
@@ -511,17 +523,21 @@ namespace nvQuickSite
 
                                 if (ReadAndExtract(txtLocalInstallPackage.Text, txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text + "\\Website"))
                                 {
-                                    if (ModifyConfig())
+                                    try
                                     {
+                                        FileSystemController.ModifyConfig(txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text, txtDBName.Text, this.installFolder);
                                         btnVisitSite.Visible = true;
+                                    }
+                                    catch (FileSystemControllerException ex)
+                                    {
+                                        MessageBox.Show(ex.Message, "Modify Config", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-                            FileSystemController.RemoveDirectories(installFolder);
+                            FileSystemController.RemoveDirectories(this.installFolder);
                         }
                     }
                 }
@@ -532,17 +548,14 @@ namespace nvQuickSite
         {
             try
             {
-                var siteName = txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
-                string installFolder = txtInstallBaseFolder.Text.TrimEnd('\\') + "\\" + txtInstallSubFolder.Text;
-
-                Boolean siteExists = IISController.SiteExists(siteName, chkDeleteSiteIfExists.Checked);
+                Boolean siteExists = IISController.SiteExists(this.siteName, chkDeleteSiteIfExists.Checked);
                 if (!siteExists)
                 {
-                    IISController.CreateSite(siteName, installFolder, chkSiteSpecificAppPool.Checked);
+                    IISController.CreateSite(this.siteName, this.installFolder, chkSiteSpecificAppPool.Checked);
                 }
                 else
                 {
-                    MessageBox.Show("Site name (" + siteName + ") already exists.", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Site name (" + this.siteName + ") already exists.", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 return true;
             }
@@ -557,8 +570,7 @@ namespace nvQuickSite
         {
             try
             {
-                var siteName = txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
-                FileSystemController.UpdateHostsFile(siteName);
+                FileSystemController.UpdateHostsFile(this.siteName);
                 return true;
             }
             catch (Exception ex)
@@ -579,12 +591,10 @@ namespace nvQuickSite
         {
             try
             {
-                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-                string siteName = txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
                 string instanceName = txtDBServerName.Text.Trim();
 
 
-                FileSystemController.CreateDirectories(installFolder, siteName, chkSiteSpecificAppPool.Checked, instanceName, txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text);
+                FileSystemController.CreateDirectories(this.installFolder, this.siteName, chkSiteSpecificAppPool.Checked, instanceName, txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text);
                 return true;
             }
             catch (FileSystemControllerException ex)
@@ -608,9 +618,7 @@ namespace nvQuickSite
         {
             try
             {
-                var installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-                var siteName = txtSiteNamePrefix.Text + txtSiteNameSuffix;
-                var databaseController = new DatabaseController(txtDBName.Text, txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text, installFolder, chkSiteSpecificAppPool.Checked, siteName);
+                var databaseController = new DatabaseController(txtDBName.Text, txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text, this.installFolder, chkSiteSpecificAppPool.Checked, this.siteName);
                 databaseController.CreateDatabase();
                 return true;
             }
@@ -626,9 +634,7 @@ namespace nvQuickSite
         {
             try
             {
-                var installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-                var siteName = txtSiteNamePrefix.Text + txtSiteNameSuffix;
-                var databaseController = new DatabaseController(txtDBName.Text, txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text, installFolder, chkSiteSpecificAppPool.Checked, siteName);
+                var databaseController = new DatabaseController(txtDBName.Text, txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text, this.installFolder, chkSiteSpecificAppPool.Checked, this.siteName);
                 databaseController.SetDatabasePermissions();
                 return true;
             }
@@ -639,22 +645,22 @@ namespace nvQuickSite
             }
         }
 
-        int fileCount;
-        long totalSize = 0, total = 0, lastVal = 0, sum = 0;
+        private int fileCount;
+        private long totalSize = 0, total = 0, lastVal = 0, sum = 0;
 
         public bool ReadAndExtract(string openPath, string savePath)
         {
             try
             {
-                fileCount = 0;
+                this.fileCount = 0;
                 ZipFile myZip = new ZipFile();
                 myZip = ZipFile.Read(openPath);
                 foreach (var entry in myZip)
                 {
-                    fileCount++;
-                    totalSize += entry.UncompressedSize;
+                    this.fileCount++;
+                    this.totalSize += entry.UncompressedSize;
                 }
-                progressBar.Maximum = (Int32)totalSize;
+                progressBar.Maximum = (Int32)this.totalSize;
                 myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(myZip_ExtractProgress);
                 myZip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
                 lblProgressStatus.Text = "Congratulations! Your new site is now ready to visit!";
@@ -670,66 +676,20 @@ namespace nvQuickSite
         void myZip_ExtractProgress(object sender, Ionic.Zip.ExtractProgressEventArgs e)
         {
             System.Windows.Forms.Application.DoEvents();
-            if (total != e.TotalBytesToTransfer)
+            if (this.total != e.TotalBytesToTransfer)
             {
-                sum += total - lastVal + e.BytesTransferred;
-                total = e.TotalBytesToTransfer;
+                this.sum += this.total - this.lastVal + e.BytesTransferred;
+                this.total = e.TotalBytesToTransfer;
                 lblProgressStatus.Text = "Copying: " + e.CurrentEntry.FileName;
             }
             else
-                sum += e.BytesTransferred - lastVal;
+            {
+                this.sum += e.BytesTransferred - this.lastVal;
+            }
 
-            lastVal = e.BytesTransferred;
+            this.lastVal = e.BytesTransferred;
 
             progressBar.Value = (Int32)sum;
-        }
-
-        private bool ModifyConfig()
-        {
-            try
-            {
-                string myDBServerName = txtDBServerName.Text;
-                string connectionStringAuthSection = "";
-                if (rdoWindowsAuthentication.Checked)
-                {
-                    connectionStringAuthSection = "Integrated Security=True;";
-                }
-                else
-                {
-                    connectionStringAuthSection = "User ID=" + txtDBUserName.Text + ";Password=" + txtDBPassword.Text +
-                                                  ";";
-                }
-
-                string key = "SiteSqlServer";
-                string value = @"Server=" + myDBServerName + ";Database=" + txtDBName.Text + ";" +
-                               connectionStringAuthSection;
-                //string providerName = "System.Data.SqlClient";
-
-                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-                string path = installFolder + @"\Website\web.config";
-
-                var config = XDocument.Load(path);
-                var targetNode = config.Root.Element("connectionStrings").Element("add").Attribute("connectionString");
-                targetNode.Value = value;
-
-                var list = from appNode in config.Descendants("appSettings").Elements()
-                    where appNode.Attribute("key").Value == key
-                    select appNode;
-
-                var e = list.FirstOrDefault();
-                if (e != null)
-                {
-                    e.Attribute("value").SetValue(value);
-                }
-
-                config.Save(path);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Modify Config", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
         }
 
         #endregion
@@ -738,7 +698,7 @@ namespace nvQuickSite
 
         private void btnVisitSite_Click(object sender, EventArgs e)
         {
-            Process.Start("http://" + txtSiteNamePrefix.Text + txtSiteNameSuffix.Text);
+            Process.Start("http://" + this.siteName);
             Main.ActiveForm.Close();
         }
 
