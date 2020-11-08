@@ -34,6 +34,25 @@ namespace nvQuickSite.Controllers
             return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 
+        private static void DeleteDirectory(string target_dir)
+        {
+            string[] files = Directory.GetFiles(target_dir);
+            string[] dirs = Directory.GetDirectories(target_dir);
+
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+
+            foreach (string dir in dirs)
+            {
+                DeleteDirectory(dir);
+            }
+
+            Directory.Delete(target_dir, false);
+        }
+
         internal static void UpdateHostsFile(string siteName)
         {
             try
@@ -92,7 +111,7 @@ namespace nvQuickSite.Controllers
             }
             else
             {
-                Directory.Delete(websiteDir, true);
+                DeleteDirectory(websiteDir);
                 Directory.CreateDirectory(websiteDir);
                 SetFolderPermission(appPoolName, websiteDir);
                 SetFolderPermission(authenticatedUsers, websiteDir);
@@ -106,7 +125,7 @@ namespace nvQuickSite.Controllers
             }
             else
             {
-                Directory.Delete(logsDir, true);
+                DeleteDirectory(logsDir);
                 Directory.CreateDirectory(logsDir);
                 SetFolderPermission(dbServiceAccount, logsDir);
                 SetFolderPermission(authenticatedUsers, logsDir);
@@ -126,7 +145,7 @@ namespace nvQuickSite.Controllers
                     DatabaseController databaseController = new DatabaseController(myDBFile, dbServerName, usesWindowsAuthentication, dbUserName, dbPassword, installFolder, useSiteSpecificAppPool, siteName);
                     databaseController.DropDatabase();
                 }
-                Directory.Delete(databaseDir);
+                DeleteDirectory(databaseDir);
                 Directory.CreateDirectory(databaseDir);
                 SetFolderPermission(dbServiceAccount, databaseDir);
                 SetFolderPermission(authenticatedUsers, databaseDir);
@@ -188,9 +207,9 @@ namespace nvQuickSite.Controllers
             var logsDir = installFolder + "\\Logs";
             var databaseDir = installFolder + "\\Database";
 
-            Directory.Delete(websiteDir, true);
-            Directory.Delete(logsDir, true);
-            Directory.Delete(databaseDir);
+            DeleteDirectory(websiteDir);
+            DeleteDirectory(logsDir);
+            DeleteDirectory(databaseDir);
         }
 
         internal static void ModifyConfig(string dbServerName, bool usesWindowsAuthentication, string dbUserName, string dbPassword, string dbName, string installFolder)
