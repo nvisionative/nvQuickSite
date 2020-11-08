@@ -148,7 +148,7 @@ namespace nvQuickSite
                 Properties.Settings.Default.AppPoolRecent = this.chkSiteSpecificAppPool.Checked;
                 Properties.Settings.Default.DeleteSiteInIISRecent = this.chkDeleteSiteIfExists.Checked;
                 Properties.Settings.Default.InstallBaseFolderRecent = this.txtInstallBaseFolder.Text;
-                
+
                 Properties.Settings.Default.DatabaseServerNameRecent = this.txtDBServerName.Text;
                 Properties.Settings.Default.DatabaseNameRecent = this.txtDBName.Text;
                 Properties.Settings.Default.DatabaseUserNameRecent = this.txtDBUserName.Text;
@@ -251,16 +251,17 @@ namespace nvQuickSite
                 var dlContinue = true;
                 if (File.Exists(downloadDirectory + fileName))
                 {
-                    DialogResult result = MessageBox.Show(
-                        "Install Package is already downloaded. Would you like to download it again? This will replace the existing download.",
-                        "Download Install Package",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning);
-
+                    var dialogTitle = "Get Online Version";
+                    var dialogMessage = "Install Package is already downloaded. Would you like to download\nit again? This will replace the existing download.";
+                    var dialogIcon = SystemIcons.Warning.ToBitmap();
+                    var msgBoxYesNo = new MsgBoxYesNo(dialogTitle, dialogMessage, dialogIcon);
+                    var result = msgBoxYesNo.ShowDialog();
                     if (result == DialogResult.No)
                     {
                         dlContinue = false;
                     }
+
+                    msgBoxYesNo.Dispose();
                 }
 
                 if (dlContinue)
@@ -341,23 +342,25 @@ namespace nvQuickSite
             }
             else
             {
-                DialogResult result = MessageBox.Show(
-                    "Click 'Yes' to use the Local Install Package. Click 'No' to attempt download of the selected Download Install Package.",
-                    "Confirm: Use Local Package?",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                var dialogTitle = "Confirm: Use Local Package?";
+                var dialogMessage = "Click 'Yes' to use the Local Install Package. Click 'No' to attempt\ndownload of the selected Download Install Package.";
+                var dialogIcon = SystemIcons.Question.ToBitmap();
+                var msgBoxYesNo = new MsgBoxYesNo(dialogTitle, dialogMessage, dialogIcon);
+                var result = msgBoxYesNo.ShowDialog();
                 if (result == DialogResult.No)
                 {
                     if (isOnline)
                     {
-                    this.GetOnlineVersion();
-                }
+                        this.GetOnlineVersion();
+                    }
                 }
                 else
                 {
                     this.progressBarDownload.Visible = false;
                     this.ValidateInstallPackage();
                 }
+
+                msgBoxYesNo.Dispose();
             }
         }
 
@@ -454,13 +457,12 @@ namespace nvQuickSite
             {
                 if (!FileSystemController.DirectoryEmpty(this.InstallFolder))
                 {
-                    var confirmResult = MessageBox.Show(
-                        "All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
-                        "Confirm Installation",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information);
-
-                    if (confirmResult == DialogResult.No)
+                    var dialogTitle = "Confirm Installation";
+                    var dialogMessage = "All files and folders at this location will be deleted prior to installation of\nthe new DNN instance. Do you wish to proceed?";
+                    var dialogIcon = SystemIcons.Information.ToBitmap();
+                    var msgBoxYesNo = new MsgBoxYesNo(dialogTitle, dialogMessage, dialogIcon);
+                    var result = msgBoxYesNo.ShowDialog();
+                    if (result == DialogResult.No)
                     {
                         proceed = false;
                     }
@@ -468,6 +470,8 @@ namespace nvQuickSite
                     {
                         proceed = true;
                     }
+
+                    msgBoxYesNo.Dispose();
                 }
                 else
                 {
