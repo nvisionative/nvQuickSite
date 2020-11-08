@@ -1,118 +1,125 @@
-//Copyright (c) 2016-2020 nvisionative, Inc.
-
-//This file is part of nvQuickSite.
-
-//nvQuickSite is free software: you can redistribute it and/or modify
-//it under the terms of the GNU General Public License as published by
-//the Free Software Foundation, either version 3 of the License, or
-//(at your option) any later version.
-
-//nvQuickSite is distributed in the hope that it will be useful,
-//but WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-//GNU General Public License for more details.
-
-//You should have received a copy of the GNU General Public License
-//along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
-
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Net;
-using System.Xml.Linq;
-using System.Windows.Forms;
-using System.IO;
-using System.Security.AccessControl;
-using System.Net.Sockets;
-using System.Diagnostics;
-using MetroFramework.Controls;
-using Microsoft.Web.Administration;
-using Ionic.Zip;
-using Ookii.Dialogs;
-using nvQuickSite.Controllers;
-using nvQuickSite.Models;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+// Copyright (c) 2016-2020 nvisionative, Inc.
+//
+// This file is part of nvQuickSite.
+//
+// nvQuickSite is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// nvQuickSite is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace nvQuickSite
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Windows.Forms;
+
+    using Ionic.Zip;
+    using MetroFramework.Controls;
+    using nvQuickSite.Controllers;
+    using nvQuickSite.Models;
+    using Ookii.Dialogs;
+
+    /// <summary>
+    /// Implementes the UI tabs and tiles logic.
+    /// </summary>
     public partial class Start : MetroUserControl
     {
+        private long totalSize;
+        private long total;
+        private long lastVal;
+        private long sum;
 
-        private IEnumerable<Package> Packages { get; set; }
-
-        protected string currentVersion;
-        protected string currentUrl;
-        private string installFolder {
-            get
-            {
-                return Path.Combine(txtInstallBaseFolder.Text, txtInstallSubFolder.Text);
-            }
-        }
-        private string siteName
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Start"/> class.
+        /// </summary>
+        public Start()
         {
-            get
-            {
-                return txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
-
-            }
+            this.InitializeComponent();
+            this.InitializeTabs();
+            this.LoadPackages();
+            this.ReadUserSettings();
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the system can access the github.
+        /// </summary>
         internal static bool isOnline
         {
             get
             {
-                return new WebClient().OpenRead("https://github.com/nvisionative/nvQuickSite").CanRead;
+                bool canRead;
+                using (var client = new WebClient())
+                {
+                    canRead = client.OpenRead("https://github.com/nvisionative/nvQuickSite").CanRead;
+                }
+
+                return canRead;
             }
         }
 
-        public Start()
+        private IEnumerable<Package> Packages { get; set; }
+
+        private string InstallFolder => Path.Combine(this.txtInstallBaseFolder.Text, this.txtInstallSubFolder.Text);
+
+        private string SiteName => this.txtSiteNamePrefix.Text + this.txtSiteNameSuffix.Text;
+
+        private static string GetDownloadDirectory()
         {
-            InitializeComponent();
-
-            InitializeTabs();
-
-            LoadPackages();
-            ReadUserSettings();
+            return Directory.GetCurrentDirectory() + @"\Downloads\";
         }
 
         private void LoadPackages()
         {
             try
             {
-                cboProductName.Items.Clear();
-                cboProductVersion.Items.Clear();
+                this.cboProductName.Items.Clear();
+                this.cboProductVersion.Items.Clear();
 
-                Packages = PackageController.GetPackageList();
-                foreach (var did in Packages.OrderByDescending(p => p.version).Select(p => p.did).Distinct())
+                this.Packages = PackageController.GetPackageList();
+                foreach (var did in this.Packages.OrderByDescending(p => p.version).Select(p => p.did).Distinct())
                 {
                     if (did == "dnn-platform-rc")
                     {
                         if (Properties.Settings.Default.ShowReleaseCandidates)
                         {
-                            cboProductName.Items.Add(new ComboItem(Packages.First(p => p.did == did).name, did));
+                            this.cboProductName.Items.Add(new ComboItem(this.Packages.First(p => p.did == did).name, did));
                         }
-                    } else
+                    }
+                    else
                     {
-                        cboProductName.Items.Add(new ComboItem(Packages.First(p => p.did == did).name, did));
+                        this.cboProductName.Items.Add(new ComboItem(this.Packages.First(p => p.did == did).name, did));
                     }
                 }
-                if (cboProductName.Items.Count > 0)
+
+                if (this.cboProductName.Items.Count > 0)
                 {
-                    cboProductName.SelectedIndex = 0;
-                    LoadPackageVersions(((ComboItem)cboProductName.SelectedItem).Value);
+                    this.cboProductName.SelectedIndex = 0;
+                    this.LoadPackageVersions(((ComboItem)this.cboProductName.SelectedItem).Value);
                 }
             }
-            catch (WebException ex)
+            catch (WebException)
             {
-                lblLatestReleases.Text = "It appears you have no internet, but you can still use Local Install Packages.";
-                lblLatestReleases.CustomForeColor = true;
-                lblLatestReleases.ForeColor = Color.DarkRed;
-                cboProductName.Enabled = false;
-                cboProductVersion.Enabled = false;
-                btnGetLatestRelease.Enabled = false;
+                this.lblLatestReleases.Text = "It appears you have no internet, but you can still use Local Install Packages.";
+                this.lblLatestReleases.CustomForeColor = true;
+                this.lblLatestReleases.ForeColor = Color.DarkRed;
+                this.cboProductName.Enabled = false;
+                this.cboProductVersion.Enabled = false;
+                this.btnGetLatestRelease.Enabled = false;
             }
         }
 
@@ -120,15 +127,15 @@ namespace nvQuickSite
         {
             if (Properties.Settings.Default.RememberFieldValues)
             {
-                txtSiteNamePrefix.Text = Properties.Settings.Default.SiteNamePrefixRecent;
-                txtSiteNameSuffix.Text = Properties.Settings.Default.SiteNameSuffixRecent;
-                chkSiteSpecificAppPool.Checked = Properties.Settings.Default.AppPoolRecent;
-                chkDeleteSiteIfExists.Checked = Properties.Settings.Default.DeleteSiteInIISRecent;
-                txtInstallBaseFolder.Text = Properties.Settings.Default.InstallBaseFolderRecent;
+                this.txtSiteNamePrefix.Text = Properties.Settings.Default.SiteNamePrefixRecent;
+                this.txtSiteNameSuffix.Text = Properties.Settings.Default.SiteNameSuffixRecent;
+                this.chkSiteSpecificAppPool.Checked = Properties.Settings.Default.AppPoolRecent;
+                this.chkDeleteSiteIfExists.Checked = Properties.Settings.Default.DeleteSiteInIISRecent;
+                this.txtInstallBaseFolder.Text = Properties.Settings.Default.InstallBaseFolderRecent;
 
-                txtDBServerName.Text = Properties.Settings.Default.DatabaseServerNameRecent;
-                txtDBName.Text = Properties.Settings.Default.DatabaseNameRecent;
-                txtDBUserName.Text = Properties.Settings.Default.DatabaseUserNameRecent;
+                this.txtDBServerName.Text = Properties.Settings.Default.DatabaseServerNameRecent;
+                this.txtDBName.Text = Properties.Settings.Default.DatabaseNameRecent;
+                this.txtDBUserName.Text = Properties.Settings.Default.DatabaseUserNameRecent;
             }
         }
 
@@ -136,154 +143,162 @@ namespace nvQuickSite
         {
             if (Properties.Settings.Default.RememberFieldValues)
             {
-                Properties.Settings.Default.SiteNamePrefixRecent = txtSiteNamePrefix.Text;
-                Properties.Settings.Default.SiteNameSuffixRecent = txtSiteNameSuffix.Text;
-                Properties.Settings.Default.AppPoolRecent = chkSiteSpecificAppPool.Checked;
-                Properties.Settings.Default.DeleteSiteInIISRecent = chkDeleteSiteIfExists.Checked;
-                Properties.Settings.Default.InstallBaseFolderRecent = txtInstallBaseFolder.Text;
-
-                Properties.Settings.Default.DatabaseServerNameRecent = txtDBServerName.Text;
-                Properties.Settings.Default.DatabaseNameRecent = txtDBName.Text;
-                Properties.Settings.Default.DatabaseUserNameRecent = txtDBUserName.Text;
+                Properties.Settings.Default.SiteNamePrefixRecent = this.txtSiteNamePrefix.Text;
+                Properties.Settings.Default.SiteNameSuffixRecent = this.txtSiteNameSuffix.Text;
+                Properties.Settings.Default.AppPoolRecent = this.chkSiteSpecificAppPool.Checked;
+                Properties.Settings.Default.DeleteSiteInIISRecent = this.chkDeleteSiteIfExists.Checked;
+                Properties.Settings.Default.InstallBaseFolderRecent = this.txtInstallBaseFolder.Text;
+                
+                Properties.Settings.Default.DatabaseServerNameRecent = this.txtDBServerName.Text;
+                Properties.Settings.Default.DatabaseNameRecent = this.txtDBName.Text;
+                Properties.Settings.Default.DatabaseUserNameRecent = this.txtDBUserName.Text;
 
                 Properties.Settings.Default.Save();
             }
         }
 
-        #region "Tabs"
-
         private void InitializeTabs()
         {
-            tabControl.SelectedIndex = 0;
-            tabSiteInfo.Enabled = false;
-            tabControl.TabPages.Remove(tabSiteInfo);
-            tabDatabaseInfo.Enabled = false;
-            tabControl.TabPages.Remove(tabDatabaseInfo);
-            tabProgress.Enabled = false;
-            tabControl.TabPages.Remove(tabProgress);
+            this.tabControl.SelectedIndex = 0;
+            this.tabSiteInfo.Enabled = false;
+            this.tabControl.TabPages.Remove(this.tabSiteInfo);
+            this.tabDatabaseInfo.Enabled = false;
+            this.tabControl.TabPages.Remove(this.tabDatabaseInfo);
+            this.tabProgress.Enabled = false;
+            this.tabControl.TabPages.Remove(this.tabProgress);
         }
 
-        #region "Install Package"
         private void LoadPackageVersions(string packageId)
         {
-            cboProductVersion.Items.Clear();
-            foreach (var package in Packages.Where(p => p.did == packageId).OrderByDescending(p => p.version))
+            this.cboProductVersion.Items.Clear();
+            foreach (var package in this.Packages.Where(p => p.did == packageId).OrderByDescending(p => p.version))
             {
-                cboProductVersion.Items.Add(new ComboItem(package.version, package.version));
+                this.cboProductVersion.Items.Add(new ComboItem(package.version, package.version));
             }
-            if (cboProductVersion.Items.Count > 0)
+
+            if (this.cboProductVersion.Items.Count > 0)
             {
-                cboProductVersion.SelectedIndex = 0;
+                this.cboProductVersion.SelectedIndex = 0;
             }
         }
 
         private void cboProductName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var did = ((ComboItem)cboProductName.SelectedItem).Value;
-            LoadPackageVersions(did);
-            DisplayPackagePath();
+            var did = ((ComboItem)this.cboProductName.SelectedItem).Value;
+            this.LoadPackageVersions(did);
+            this.DisplayPackagePath();
         }
 
         private void cboProductVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var did = ((ComboItem)cboProductVersion.SelectedItem).Value;
-            DisplayPackagePath();
+            var did = ((ComboItem)this.cboProductVersion.SelectedItem).Value;
+            this.DisplayPackagePath();
         }
 
         private void DisplayPackagePath()
         {
-            if (cboProductName.SelectedItem == null || cboProductVersion.SelectedItem == null) { return; }
-            Models.Package package;
-            var url = "";
-            var fileName = "";
+            if (this.cboProductName.SelectedItem == null || this.cboProductVersion.SelectedItem == null)
+            {
+                return;
+            }
 
-            package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+            Models.Package package;
+            var fileName = string.Empty;
+
+            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
             fileName = package.url.Split('/').Last();
 
             var downloadDirectory = GetDownloadDirectory();
             var packageFullpath = downloadDirectory + fileName;
 
             if (File.Exists(packageFullpath))
-                txtLocalInstallPackage.Text = packageFullpath;
+            {
+                this.txtLocalInstallPackage.Text = packageFullpath;
+            }
             else
-                txtLocalInstallPackage.Text = null;
+            {
+                this.txtLocalInstallPackage.Text = null;
+            }
         }
 
         private void btnGetLatestRelease_Click(object sender, EventArgs e)
         {
-            GetOnlineVersion();
-        }
-
-        private string GetDownloadDirectory()
-        {
-            return Directory.GetCurrentDirectory() + @"\Downloads\";
+            this.GetOnlineVersion();
         }
 
         private void GetOnlineVersion()
         {
-            if (cboProductName.SelectedItem == null || cboProductVersion.SelectedItem == null) { return; }
+            if (this.cboProductName.SelectedItem == null || this.cboProductVersion.SelectedItem == null)
+            {
+                return;
+            }
+
             Models.Package package;
-            package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
             var url = package.url;
             var fileName = package.url.Split('/').Last();
 
-            WebClient client = new WebClient();
-            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-
-            var downloadDirectory = GetDownloadDirectory();
-            if (!Directory.Exists(downloadDirectory))
+            using (WebClient client = new WebClient())
             {
-                Directory.CreateDirectory(downloadDirectory);
-            }
-
-            var dlContinue = true;
-            if (File.Exists(downloadDirectory + fileName))
-            {
-                DialogResult result = MessageBox.Show("Install Package is already downloaded. Would you like to download it again? This will replace the existing download.",
-                    "Download Install Package", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (result == DialogResult.No)
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.client_DownloadProgressChanged);
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.client_DownloadFileCompleted);
+                var downloadDirectory = GetDownloadDirectory();
+                if (!Directory.Exists(downloadDirectory))
                 {
-                    dlContinue = false;
+                    Directory.CreateDirectory(downloadDirectory);
                 }
-            }
 
-            if (dlContinue)
-            {
-                client.DownloadFileAsync(new Uri(url), downloadDirectory + fileName);
-                progressBarDownload.BackColor = Color.WhiteSmoke;
-                progressBarDownload.Visible = true;
-            }
-            else
-            {
-                txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(url);
-                Properties.Settings.Default.LocalInstallPackageRecent = downloadDirectory;
-                Properties.Settings.Default.Save();
-                ValidateInstallPackage();
+                var dlContinue = true;
+                if (File.Exists(downloadDirectory + fileName))
+                {
+                    DialogResult result = MessageBox.Show(
+                        "Install Package is already downloaded. Would you like to download it again? This will replace the existing download.",
+                        "Download Install Package",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.No)
+                    {
+                        dlContinue = false;
+                    }
+                }
+
+                if (dlContinue)
+                {
+                    client.DownloadFileAsync(new Uri(url), downloadDirectory + fileName);
+                    this.progressBarDownload.BackColor = Color.WhiteSmoke;
+                    this.progressBarDownload.Visible = true;
+                }
+                else
+                {
+                    this.txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(url);
+                    Properties.Settings.Default.LocalInstallPackageRecent = downloadDirectory;
+                    Properties.Settings.Default.Save();
+                    this.ValidateInstallPackage();
+                }
             }
         }
 
         private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            double bytesIn = double.Parse(e.BytesReceived.ToString());
-            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
+            double bytesIn = Convert.ToDouble(e.BytesReceived);
+            double totalBytes = Convert.ToDouble(e.TotalBytesToReceive);
             double percentage = bytesIn / totalBytes * 100;
-            progressBarDownload.Value = int.Parse(Math.Truncate(percentage).ToString());
+            this.progressBarDownload.Value = Convert.ToInt32(percentage);
         }
 
-        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             Models.Package package;
-            var url = "";
-            var fileName = "";
+            var fileName = string.Empty;
 
-            package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
+            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
             fileName = package.url.Split('/').Last();
 
-            txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + fileName;
+            this.txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + fileName;
             Properties.Settings.Default.LocalInstallPackageRecent = Directory.GetCurrentDirectory() + @"\Downloads\";
             Properties.Settings.Default.Save();
-            ValidateInstallPackage();
+            this.ValidateInstallPackage();
         }
 
         private void btnViewAllReleases_Click(object sender, EventArgs e)
@@ -293,127 +308,116 @@ namespace nvQuickSite
 
         private void txtLocalInstallPackage_Click(object sender, EventArgs e)
         {
-            openFileDiag();
+            this.openFileDiag();
         }
 
         private void btnLocalInstallPackage_Click(object sender, EventArgs e)
         {
-            openFileDiag();
+            this.openFileDiag();
         }
 
         private void openFileDiag()
         {
-            OpenFileDialog fileDiag = new OpenFileDialog();
-            fileDiag.Filter = "ZIP Files|*.zip";
-            fileDiag.InitialDirectory = Properties.Settings.Default.LocalInstallPackageRecent;
-            DialogResult result = fileDiag.ShowDialog();
-
-            if (result == DialogResult.OK)
+            using (OpenFileDialog fileDiag = new OpenFileDialog())
             {
-                txtLocalInstallPackage.Text = fileDiag.FileName;
-                Properties.Settings.Default.LocalInstallPackageRecent = Path.GetDirectoryName(fileDiag.FileName);
-                Properties.Settings.Default.Save();
+                fileDiag.Filter = "ZIP Files|*.zip";
+                fileDiag.InitialDirectory = Properties.Settings.Default.LocalInstallPackageRecent;
+                DialogResult result = fileDiag.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    this.txtLocalInstallPackage.Text = fileDiag.FileName;
+                    Properties.Settings.Default.LocalInstallPackageRecent = Path.GetDirectoryName(fileDiag.FileName);
+                    Properties.Settings.Default.Save();
+                }
             }
         }
 
         private void btnInstallPackageNext_Click(object sender, EventArgs e)
         {
-            if (txtLocalInstallPackage.Text == "")
+            if (string.IsNullOrWhiteSpace(this.txtLocalInstallPackage.Text))
             {
-                if (isOnline)
-                {
-                    GetOnlineVersion();
-                }
+                this.GetOnlineVersion();
             }
             else
             {
-                DialogResult result = MessageBox.Show("Click 'Yes' to use the Local Install Package. Click 'No' to attempt download of the selected Download Install Package.",
-                    "Confirm: Use Local Package?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(
+                    "Click 'Yes' to use the Local Install Package. Click 'No' to attempt download of the selected Download Install Package.",
+                    "Confirm: Use Local Package?",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
                 if (result == DialogResult.No)
                 {
                     if (isOnline)
                     {
-                        GetOnlineVersion();
-                    }
+                    this.GetOnlineVersion();
+                }
                 }
                 else
                 {
-                    progressBarDownload.Visible = false;
-                    ValidateInstallPackage();
+                    this.progressBarDownload.Visible = false;
+                    this.ValidateInstallPackage();
                 }
             }
         }
 
         private void ValidateInstallPackage()
         {
-            //if (Package.Validate(txtLocalInstallPackage.Text))
-            //{
-                tabInstallPackage.Enabled = false;
-                tabControl.TabPages.Insert(1, tabSiteInfo);
-                tabSiteInfo.Enabled = true;
-                tabDatabaseInfo.Enabled = false;
-                tabProgress.Enabled = false;
-                tabControl.SelectedIndex = 1;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("You must first Download or select a valid Local Install Package.", "Install Package", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
+            this.tabInstallPackage.Enabled = false;
+            this.tabControl.TabPages.Insert(1, this.tabSiteInfo);
+            this.tabSiteInfo.Enabled = true;
+            this.tabDatabaseInfo.Enabled = false;
+            this.tabProgress.Enabled = false;
+            this.tabControl.SelectedIndex = 1;
         }
-
-        #endregion
-
-        #region "Site Info"
-        //private void txtLocation_Click(object sender, EventArgs e)
-        //{
-        //    openFolderDiag();
-        //}
 
         private void btnLocation_Click(object sender, EventArgs e)
         {
-            openFolderDiag();
+            this.openFolderDiag();
         }
 
         private void openFolderDiag()
         {
-            VistaFolderBrowserDialog diag = new VistaFolderBrowserDialog();
-            diag.RootFolder = Environment.SpecialFolder.MyComputer;
-            diag.SelectedPath = Properties.Settings.Default.InstallBaseFolderRecent;
-            DialogResult result = diag.ShowDialog();
-
-            if (result == DialogResult.OK)
+            using (VistaFolderBrowserDialog diag = new VistaFolderBrowserDialog())
             {
-                txtInstallBaseFolder.Text = diag.SelectedPath;
-                Properties.Settings.Default.InstallBaseFolderRecent = diag.SelectedPath;
-                Properties.Settings.Default.Save();
+                diag.RootFolder = Environment.SpecialFolder.MyComputer;
+                diag.SelectedPath = Properties.Settings.Default.InstallBaseFolderRecent;
+                DialogResult result = diag.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    this.txtInstallBaseFolder.Text = diag.SelectedPath;
+                    Properties.Settings.Default.InstallBaseFolderRecent = diag.SelectedPath;
+                    Properties.Settings.Default.Save();
+                }
             }
         }
 
         private void btnSiteInfoBack_Click(object sender, EventArgs e)
         {
-            tabSiteInfo.Enabled = false;
-            tabControl.TabPages.Remove(tabSiteInfo);
-            tabInstallPackage.Enabled = true;
-            tabControl.SelectedIndex = 0;
+            this.tabSiteInfo.Enabled = false;
+            this.tabControl.TabPages.Remove(this.tabSiteInfo);
+            this.tabInstallPackage.Enabled = true;
+            this.tabControl.SelectedIndex = 0;
         }
 
         private void txtSiteNamePrefix_TextChanged(object sender, EventArgs e)
         {
-            txtInstallSubFolder.Text = txtSiteNamePrefix.Text;
-            txtDBName.Text = txtSiteNamePrefix.Text;
+            this.txtInstallSubFolder.Text = this.txtSiteNamePrefix.Text;
+            this.txtDBName.Text = this.txtSiteNamePrefix.Text;
         }
 
         private void btnSiteInfoNext_Click(object sender, EventArgs e)
         {
             bool proceed;
 
-            if (String.IsNullOrWhiteSpace(txtInstallBaseFolder.Text) || String.IsNullOrWhiteSpace(txtInstallSubFolder.Text) || String.IsNullOrWhiteSpace(txtSiteNamePrefix.Text))
+            if (string.IsNullOrWhiteSpace(this.txtInstallBaseFolder.Text) || string.IsNullOrWhiteSpace(this.txtInstallSubFolder.Text) || string.IsNullOrWhiteSpace(this.txtSiteNamePrefix.Text))
             {
                 MessageBox.Show("Please make sure you have entered a Site Name and Install Folder.", "Site Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (!Directory.Exists(this.installFolder))
+            if (!Directory.Exists(this.InstallFolder))
             {
                 var dialogMessage = "The entered location does not exist. Do you wish to create it?";
                 var dialogIcon = SystemIcons.Warning.ToBitmap();
@@ -424,7 +428,7 @@ namespace nvQuickSite
                     var result = msgBoxYesNoIgnore.ShowDialog();
                     if (result == DialogResult.Yes)
                     {
-                        Directory.CreateDirectory(this.installFolder);
+                        Directory.CreateDirectory(this.InstallFolder);
                         proceed = true;
                     }
                     else
@@ -434,10 +438,10 @@ namespace nvQuickSite
                 }
                 else
                 {
-                    Directory.CreateDirectory(this.installFolder);
+                    Directory.CreateDirectory(this.InstallFolder);
                     proceed = true;
-
                 }
+
                 Properties.Settings.Default.LocationDoNotWarnAgain = msgBoxYesNoIgnore.DoNotWarnAgain;
                 Properties.Settings.Default.Save();
             }
@@ -448,11 +452,14 @@ namespace nvQuickSite
 
             if (proceed)
             {
-                if (!FileSystemController.DirectoryEmpty(this.installFolder))
+                if (!FileSystemController.DirectoryEmpty(this.InstallFolder))
                 {
-                    var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
-                                                "Confirm Installation",
-                                                MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    var confirmResult = MessageBox.Show(
+                        "All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
+                        "Confirm Installation",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Information);
+
                     if (confirmResult == DialogResult.No)
                     {
                         proceed = false;
@@ -470,52 +477,48 @@ namespace nvQuickSite
 
             if (proceed)
             {
-                tabInstallPackage.Enabled = false;
-                tabSiteInfo.Enabled = false;
-                tabControl.TabPages.Insert(2, tabDatabaseInfo);
-                tabDatabaseInfo.Enabled = true;
-                tabProgress.Enabled = false;
-                tabControl.SelectedIndex = 2;
-                SaveUserSettings();
+                this.tabInstallPackage.Enabled = false;
+                this.tabSiteInfo.Enabled = false;
+                this.tabControl.TabPages.Insert(2, this.tabDatabaseInfo);
+                this.tabDatabaseInfo.Enabled = true;
+                this.tabProgress.Enabled = false;
+                this.tabControl.SelectedIndex = 2;
+                this.SaveUserSettings();
             }
         }
 
-        #endregion
-
-        #region "Database Info"
-
         private void rdoWindowsAuthentication_CheckedChanged(object sender, EventArgs e)
         {
-            lblDBUserName.Enabled = false;
-            txtDBUserName.Enabled = false;
-            txtDBUserName.UseStyleColors = true;
-            lblDBPassword.Enabled = false;
-            txtDBPassword.Enabled = false;
-            txtDBPassword.UseStyleColors = true;
+            this.lblDBUserName.Enabled = false;
+            this.txtDBUserName.Enabled = false;
+            this.txtDBUserName.UseStyleColors = true;
+            this.lblDBPassword.Enabled = false;
+            this.txtDBPassword.Enabled = false;
+            this.txtDBPassword.UseStyleColors = true;
         }
 
         private void rdoSQLServerAuthentication_CheckedChanged(object sender, EventArgs e)
         {
-            lblDBUserName.Enabled = true;
-            txtDBUserName.Enabled = true;
-            txtDBUserName.UseStyleColors = false;
-            lblDBPassword.Enabled = true;
-            txtDBPassword.Enabled = true;
-            txtDBPassword.UseStyleColors = false;
+            this.lblDBUserName.Enabled = true;
+            this.txtDBUserName.Enabled = true;
+            this.txtDBUserName.UseStyleColors = false;
+            this.lblDBPassword.Enabled = true;
+            this.txtDBPassword.Enabled = true;
+            this.txtDBPassword.UseStyleColors = false;
         }
 
         private void btnDatabaseInfoBack_Click(object sender, EventArgs e)
         {
-            tabInstallPackage.Enabled = false;
-            tabSiteInfo.Enabled = true;
-            tabDatabaseInfo.Enabled = false;
-            tabControl.TabPages.Remove(tabDatabaseInfo);
-            tabControl.SelectedIndex = 1;
+            this.tabInstallPackage.Enabled = false;
+            this.tabSiteInfo.Enabled = true;
+            this.tabDatabaseInfo.Enabled = false;
+            this.tabControl.TabPages.Remove(this.tabDatabaseInfo);
+            this.tabControl.SelectedIndex = 1;
         }
 
         private void btnDatabaseInfoNext_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtDBServerName.Text) || String.IsNullOrWhiteSpace(txtDBName.Text))
+            if (string.IsNullOrWhiteSpace(this.txtDBServerName.Text) || string.IsNullOrWhiteSpace(this.txtDBName.Text))
             {
                 MessageBox.Show("Please make sure you have entered a Database Server Name and a Database Name.", "Database Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -524,57 +527,57 @@ namespace nvQuickSite
             try
             {
                 IISController.CreateSite(
-                    this.siteName, 
-                    this.installFolder, 
-                    chkSiteSpecificAppPool.Checked, 
-                    chkDeleteSiteIfExists.Checked);
-                
+                    this.SiteName,
+                    this.InstallFolder,
+                    this.chkSiteSpecificAppPool.Checked,
+                    this.chkDeleteSiteIfExists.Checked);
+
                 FileSystemController.UpdateHostsFile(
-                    this.siteName);
+                    this.SiteName);
 
                 FileSystemController.CreateDirectories(
-                    this.installFolder, 
-                    this.siteName, 
-                    chkSiteSpecificAppPool.Checked, 
-                    txtDBServerName.Text.Trim(), 
-                    txtDBServerName.Text, 
-                    rdoWindowsAuthentication.Checked, 
-                    txtDBUserName.Text, 
-                    txtDBPassword.Text);
+                    this.InstallFolder,
+                    this.SiteName,
+                    this.chkSiteSpecificAppPool.Checked,
+                    this.txtDBServerName.Text.Trim(),
+                    this.txtDBServerName.Text,
+                    this.rdoWindowsAuthentication.Checked,
+                    this.txtDBUserName.Text,
+                    this.txtDBPassword.Text);
 
                 var databaseController = new DatabaseController(
-                    txtDBName.Text, 
-                    txtDBServerName.Text, 
-                    rdoWindowsAuthentication.Checked, 
-                    txtDBUserName.Text, 
-                    txtDBPassword.Text, 
-                    this.installFolder, 
-                    chkSiteSpecificAppPool.Checked, 
-                    this.siteName);
+                    this.txtDBName.Text,
+                    this.txtDBServerName.Text,
+                    this.rdoWindowsAuthentication.Checked,
+                    this.txtDBUserName.Text,
+                    this.txtDBPassword.Text,
+                    this.InstallFolder,
+                    this.chkSiteSpecificAppPool.Checked,
+                    this.SiteName);
                 databaseController.CreateDatabase();
                 databaseController.SetDatabasePermissions();
 
-                tabInstallPackage.Enabled = false;
-                tabSiteInfo.Enabled = false;
-                tabDatabaseInfo.Enabled = false;
-                tabControl.TabPages.Insert(3, tabProgress);
-                tabProgress.Enabled = true;
-                lblProgress.Visible = true;
-                progressBar.Visible = true;
-                tabControl.SelectedIndex = 3;
+                this.tabInstallPackage.Enabled = false;
+                this.tabSiteInfo.Enabled = false;
+                this.tabDatabaseInfo.Enabled = false;
+                this.tabControl.TabPages.Insert(3, this.tabProgress);
+                this.tabProgress.Enabled = true;
+                this.lblProgress.Visible = true;
+                this.progressBar.Visible = true;
+                this.tabControl.SelectedIndex = 3;
 
-                SaveUserSettings();
+                this.SaveUserSettings();
 
-                this.ReadAndExtract(txtLocalInstallPackage.Text, Path.Combine(txtInstallBaseFolder.Text, txtInstallSubFolder.Text, "Website"));
+                this.ReadAndExtract(this.txtLocalInstallPackage.Text, Path.Combine(this.txtInstallBaseFolder.Text, this.txtInstallSubFolder.Text, "Website"));
                 FileSystemController.ModifyConfig(
-                    txtDBServerName.Text, 
-                    rdoWindowsAuthentication.Checked, 
-                    txtDBUserName.Text, 
-                    txtDBPassword.Text, 
-                    txtDBName.Text, 
-                    this.installFolder);
+                    this.txtDBServerName.Text,
+                    this.rdoWindowsAuthentication.Checked,
+                    this.txtDBUserName.Text,
+                    this.txtDBPassword.Text,
+                    this.txtDBName.Text,
+                    this.InstallFolder);
 
-                btnVisitSite.Visible = true;
+                this.btnVisitSite.Visible = true;
             }
             catch (SiteExistsException ex)
             {
@@ -595,28 +598,24 @@ namespace nvQuickSite
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Database Info Next", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
             }
         }
-
-        private int fileCount;
-        private long totalSize = 0, total = 0, lastVal = 0, sum = 0;
 
         private void ReadAndExtract(string openPath, string savePath)
         {
             try
             {
-                this.fileCount = 0;
-                ZipFile myZip = new ZipFile();
-                myZip = ZipFile.Read(openPath);
+                var myZip = ZipFile.Read(openPath);
                 foreach (var entry in myZip)
                 {
-                    this.fileCount++;
                     this.totalSize += entry.UncompressedSize;
                 }
-                progressBar.Maximum = (Int32)this.totalSize;
-                myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(myZip_ExtractProgress);
+
+                this.progressBar.Maximum = (int)this.totalSize;
+                myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(this.myZip_ExtractProgress);
                 myZip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
-                lblProgressStatus.Text = "Congratulations! Your new site is now ready to visit!";
+                this.lblProgressStatus.Text = "Congratulations! Your new site is now ready to visit!";
             }
             catch (Exception ex)
             {
@@ -624,14 +623,14 @@ namespace nvQuickSite
             }
         }
 
-        void myZip_ExtractProgress(object sender, ExtractProgressEventArgs e)
+        private void myZip_ExtractProgress(object sender, ExtractProgressEventArgs e)
         {
             System.Windows.Forms.Application.DoEvents();
             if (this.total != e.TotalBytesToTransfer)
             {
                 this.sum += this.total - this.lastVal + e.BytesTransferred;
                 this.total = e.TotalBytesToTransfer;
-                lblProgressStatus.Text = "Copying: " + e.CurrentEntry.FileName;
+                this.lblProgressStatus.Text = "Copying: " + e.CurrentEntry.FileName;
             }
             else
             {
@@ -640,24 +639,14 @@ namespace nvQuickSite
 
             this.lastVal = e.BytesTransferred;
 
-            progressBar.Value = (Int32)sum;
+            this.progressBar.Value = (int)this.sum;
         }
-
-        #endregion
-
-        #region "Progress"
 
         private void btnVisitSite_Click(object sender, EventArgs e)
         {
-            Process.Start("http://" + this.siteName);
+            Process.Start("http://" + this.SiteName);
             Main.ActiveForm.Close();
         }
-
-        #endregion
-
-        #endregion
-
-        #region "Tiles"
 
         private void toggleSiteInfoRemember_CheckedChanged(object sender, EventArgs e)
         {
@@ -686,38 +675,17 @@ namespace nvQuickSite
 
         private void tileQuickSettings_Click(object sender, EventArgs e)
         {
-            var userSettings = new UserSettings();
-            var result = userSettings.ShowDialog();
-            if (result == DialogResult.OK)
+            using (var userSettings = new UserSettings())
             {
-                Properties.Settings.Default.ShowReleaseCandidates = userSettings.ShowReleaseCandidates;
-                Properties.Settings.Default.ShareStatistics = userSettings.ShareStatistics;
-                Properties.Settings.Default.Save();
-                LoadPackages();
+                var result = userSettings.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    Properties.Settings.Default.ShowReleaseCandidates = userSettings.ShowReleaseCandidates;
+                    Properties.Settings.Default.ShareStatistics = userSettings.ShareStatistics;
+                    Properties.Settings.Default.Save();
+                    this.LoadPackages();
+                }
             }
-        }
-
-        #endregion
-
-    }
-
-    [Serializable]
-    internal class ReadAndExtractException : Exception
-    {
-        public ReadAndExtractException()
-        {
-        }
-
-        public ReadAndExtractException(string message) : base(message)
-        {
-        }
-
-        public ReadAndExtractException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected ReadAndExtractException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

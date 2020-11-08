@@ -1,31 +1,29 @@
-﻿//Copyright (c) 2016-2020 nvisionative, Inc.
-
-//This file is part of nvQuickSite.
-
-//nvQuickSite is free software: you can redistribute it and/or modify
-//it under the terms of the GNU General Public License as published by
-//the Free Software Foundation, either version 3 of the License, or
-//(at your option) any later version.
-
-//nvQuickSite is distributed in the hope that it will be useful,
-//but WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-//GNU General Public License for more details.
-
-//You should have received a copy of the GNU General Public License
-//along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
-
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2016-2020 nvisionative, Inc.
+//
+// This file is part of nvQuickSite.
+//
+// nvQuickSite is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// nvQuickSite is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace nvQuickSite.Controllers
 {
+    using System;
+    using System.Data;
+    using System.Data.SqlClient;
+
+    /// <summary>
+    /// Controls database operations.
+    /// </summary>
     public class DatabaseController
     {
         private readonly string dbName;
@@ -37,6 +35,17 @@ namespace nvQuickSite.Controllers
         private readonly bool usesSiteSpecificAppPool;
         private readonly object siteName;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatabaseController"/> class.
+        /// </summary>
+        /// <param name="dbName">The name of the database.</param>
+        /// <param name="dbServerName">The name of the database server.</param>
+        /// <param name="usesWindowsAuthentication">A value indicating whether to use windows authentication for the database.</param>
+        /// <param name="dbUserName">The database user name, ignored if using windows authentication.</param>
+        /// <param name="dbPassword">The database password, ignored if using widows authentication.</param>
+        /// <param name="installFolder">The path to the installation folder.</param>
+        /// <param name="usesSiteSpecificAppPool">A value indicating whether the IIS site should use a dedicated App Pool.</param>
+        /// <param name="siteName">The name of the website.</param>
         public DatabaseController(
             string dbName,
             string dbServerName,
@@ -57,10 +66,14 @@ namespace nvQuickSite.Controllers
             this.siteName = siteName;
         }
 
+        /// <summary>
+        /// Drops the existing database.
+        /// </summary>
+        /// <exception cref="DatabaseControllerException">Is thrown when the database could not be dropped.</exception>
         public void DropDatabase()
         {
             string myDBServerName = this.dbServerName;
-            string connectionStringAuthSection = "";
+            string connectionStringAuthSection = string.Empty;
             if (this.usesWindowsAuthentication)
             {
                 connectionStringAuthSection = "Integrated Security=True;";
@@ -70,83 +83,44 @@ namespace nvQuickSite.Controllers
                 connectionStringAuthSection = "User ID=" + this.dbUserName + ";Password=" + this.dbPassword + ";";
             }
 
-            SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection);
+            using (SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection))
+            {
+                string useMaster = @"USE master";
+                string dropDatabase = $@"IF EXISTS(SELECT name FROM sys.databases WHERE name = '{this.dbName}') " +
+                    $"DROP DATABASE [{this.dbName}]";
 
-            string str1 = @"USE master";
-            string str2 = @"IF EXISTS(SELECT name FROM sys.databases WHERE name = '" + this.dbName + "')" +
-                "DROP DATABASE [" + this.dbName + "]";
+                SqlCommand useMasterCommand = new SqlCommand(useMaster, myConn);
+                SqlCommand dropDatabaseCommand = new SqlCommand(dropDatabase, myConn);
 
-            SqlCommand myCommand1 = new SqlCommand(str1, myConn);
-            SqlCommand myCommand2 = new SqlCommand(str2, myConn);
-            try
-            {
-                myConn.Open();
-                myCommand1.ExecuteNonQuery();
-                myCommand2.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw new DatabaseControllerException("Something when wrong while attempting to drop the database " + this.dbName, ex) { Source = "Drop Database" };
-            }
-            finally
-            {
-                if (myConn.State == ConnectionState.Open)
+                try
                 {
-                    myConn.Close();
+                    myConn.Open();
+                    useMasterCommand.ExecuteNonQuery();
+                    dropDatabaseCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new DatabaseControllerException("Something when wrong while attempting to drop the database " + this.dbName, ex) { Source = "Drop Database" };
+                }
+                finally
+                {
+                    useMasterCommand.Dispose();
+                    dropDatabaseCommand.Dispose();
+                    if (myConn.State == ConnectionState.Open)
+                    {
+                        myConn.Close();
+                    }
                 }
             }
         }
 
-        public bool CreateDatabase()
+        /// <summary>
+        /// Creates the database.
+        /// </summary>
+        public void CreateDatabase()
         {
-            string connectionStringAuthSection = "";
+            string connectionStringAuthSection = string.Empty;
             string connectionTimeout = "Connection Timeout=5;";
-            if (this.usesWindowsAuthentication)
-            {
-                connectionStringAuthSection = "Integrated Security=True;";
-            }
-            else
-            {
-                connectionStringAuthSection = $"USER ID={this.dbUserName};{this.dbPassword};";
-            }
-
-            SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master;{connectionStringAuthSection}{connectionTimeout}");
-
-
-            string str = "CREATE DATABASE [" + this.dbName + "] ON PRIMARY " +
-                "(NAME = [" + this.dbName + "_Data], " +
-                "FILENAME = '" + this.installFolder + "\\Database\\" + this.dbName + "_Data.mdf', " +
-                "SIZE = 20MB, MAXSIZE = 200MB, FILEGROWTH = 10%) " +
-                "LOG ON (NAME = [" + this.dbName + "_Log], " +
-                "FILENAME = '" + this.installFolder + "\\Database\\" + this.dbName + "_Log.ldf', " +
-                "SIZE = 13MB, " +
-                "MAXSIZE = 50MB, " +
-                "FILEGROWTH = 10%)";
-
-            SqlCommand myCommand = new SqlCommand(str, myConn);
-            try
-            {
-                myConn.Open();
-                myCommand.ExecuteNonQuery();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                FileSystemController.RemoveDirectories(this.installFolder);
-                throw new DatabaseControllerException($"Error creating database {this.dbName}", ex) { Source = "Create Database" };
-            }
-            finally
-            {
-                if (myConn.State == ConnectionState.Open)
-                {
-                    myConn.Close();
-                }
-            }
-        }
-
-        internal void SetDatabasePermissions()
-        {
-            string connectionStringAuthSection = "";
             if (this.usesWindowsAuthentication)
             {
                 connectionStringAuthSection = "Integrated Security=True;";
@@ -156,68 +130,98 @@ namespace nvQuickSite.Controllers
                 connectionStringAuthSection = $"User ID={this.dbUserName};Password={this.dbPassword};";
             }
 
-            SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master;{connectionStringAuthSection}");
-
-            var appPoolNameFull = @"IIS APPPOOL\DefaultAppPool";
-            var appPoolName = "DefaultAppPool";
-
-            if (this.usesSiteSpecificAppPool)
+            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master;{connectionStringAuthSection}{connectionTimeout}"))
             {
-                appPoolNameFull = $@"IIS APPPOOL\{this.siteName}_nvQuickSite";
-                appPoolName = $"{this.siteName}_nvQuickSite";
-            }
+                string str = $"CREATE DATABASE [{this.dbName}] ON PRIMARY " +
+                    $"(NAME = [{this.dbName}_Data], " +
+                    $"FILENAME = '{this.installFolder}\\Database\\{this.dbName}_Data.mdf', " +
+                    "SIZE = 20MB, MAXSIZE = 200MB, FILEGROWTH = 10%) " +
+                    $"LOG ON (NAME = [{this.dbName}_Log], " +
+                    $"FILENAME = '{this.installFolder}\\Database\\{this.dbName}_Log.ldf', " +
+                    "SIZE = 13MB, " +
+                    "MAXSIZE = 50MB, " +
+                    "FILEGROWTH = 10%)";
 
-            string str1 = "USE master";
-            string str2 = "sp_grantlogin '" + appPoolNameFull + "'";
-            string str3 = "USE [" + this.dbName + "]";
-            string str4 = "sp_grantdbaccess '" + appPoolNameFull + "', '" + appPoolName + "'";
-            string str5 = "sp_addrolemember 'db_owner', '" + appPoolName + "'";
-
-            SqlCommand myCommand1 = new SqlCommand(str1, myConn);
-            SqlCommand myCommand2 = new SqlCommand(str2, myConn);
-            SqlCommand myCommand3 = new SqlCommand(str3, myConn);
-            SqlCommand myCommand4 = new SqlCommand(str4, myConn);
-            SqlCommand myCommand5 = new SqlCommand(str5, myConn);
-            try
-            {
-                myConn.Open();
-                myCommand1.ExecuteNonQuery();
-                myCommand2.ExecuteNonQuery();
-                myCommand3.ExecuteNonQuery();
-                myCommand4.ExecuteNonQuery();
-                myCommand5.ExecuteNonQuery();
-            }
-            catch (System.Exception ex)
-            {
-                throw new DatabaseControllerException($"Error setting database permissions for database {this.dbName}", ex) { Source = "Set Database Permissions" };
-            }
-            finally
-            {
-                if (myConn.State == ConnectionState.Open)
+                SqlCommand sqlCommand = new SqlCommand(str, myConn);
+                try
                 {
-                    myConn.Close();
+                    myConn.Open();
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    FileSystemController.RemoveDirectories(this.installFolder);
+                    throw new DatabaseControllerException($"Error creating database {this.dbName}", ex) { Source = "Create Database" };
+                }
+                finally
+                {
+                    sqlCommand.Dispose();
+                    if (myConn.State == ConnectionState.Open)
+                    {
+                        myConn.Close();
+                    }
                 }
             }
         }
-    }
 
-    [Serializable]
-    internal class DatabaseControllerException : Exception
-    {
-        public DatabaseControllerException()
+        /// <summary>
+        /// Sets the database permissions.
+        /// </summary>
+        internal void SetDatabasePermissions()
         {
-        }
+            string connectionStringAuthSection = string.Empty;
+            if (this.usesWindowsAuthentication)
+            {
+                connectionStringAuthSection = "Integrated Security=True;";
+            }
+            else
+            {
+                connectionStringAuthSection = $"User ID={this.dbUserName};Password={this.dbPassword};";
+            }
 
-        public DatabaseControllerException(string message) : base(message)
-        {
-        }
+            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master;{connectionStringAuthSection}"))
+            {
+                var appPoolNameFull = @"IIS APPPOOL\DefaultAppPool";
+                var appPoolName = "DefaultAppPool";
 
-        public DatabaseControllerException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+                if (this.usesSiteSpecificAppPool)
+                {
+                    appPoolNameFull = $@"IIS APPPOOL\{this.siteName}_nvQuickSite";
+                    appPoolName = $"{this.siteName}_nvQuickSite";
+                }
 
-        protected DatabaseControllerException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
+                SqlCommand useMaster = new SqlCommand("USE master", myConn);
+                SqlCommand grantLogin = new SqlCommand($"sp_grantlogin '{appPoolNameFull}'", myConn);
+                SqlCommand useDb = new SqlCommand($"USE [{this.dbName}]", myConn);
+                SqlCommand grantDbAccess = new SqlCommand($"sp_grantdbaccess '{appPoolNameFull}', '{appPoolName}'", myConn);
+                SqlCommand addRoleMember = new SqlCommand($"sp_addrolemember 'db_owner', '{appPoolName}'", myConn);
+
+                try
+                {
+                    myConn.Open();
+                    useMaster.ExecuteNonQuery();
+                    grantLogin.ExecuteNonQuery();
+                    useDb.ExecuteNonQuery();
+                    grantDbAccess.ExecuteNonQuery();
+                    addRoleMember.ExecuteNonQuery();
+                }
+                catch (System.Exception ex)
+                {
+                    throw new DatabaseControllerException($"Error setting database permissions for database {this.dbName}", ex) { Source = "Set Database Permissions" };
+                }
+                finally
+                {
+                    useMaster.Dispose();
+                    grantLogin.Dispose();
+                    useDb.Dispose();
+                    grantDbAccess.Dispose();
+                    addRoleMember.Dispose();
+                    if (myConn.State == ConnectionState.Open)
+                    {
+                        myConn.Close();
+                    }
+                }
+            }
         }
     }
 }

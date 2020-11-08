@@ -1,0 +1,48 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "indentation": {
+      "indentationSize": 4,
+      "tabSize": 4,
+      "useTabs": false
+    },
+    "orderingRules": {
+      "elementOrder": [
+        "kind",
+        "accessibility",
+        "constant",
+        "static",
+        "readonly"
+      ],
+      "systemUsingDirectivesFirst": true,
+      "usingDirectivesPlacement": "insideNamespace",
+      "blankLinesBetweenUsingGroups": "require"
+    },
+    "namingRules": {
+      "allowCommonHungarianPrefixes": true,
+      "allowedHungarianPrefixes": [],
+      "allowedNamespaceComponents": [],
+      "includeInferredTupleElementNames": false,
+      "tupleElementNameCasing": "PascalCase"
+    },
+    "maintainabilityRules": {
+      "topLevelTypes": [ "class" ]
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require",
+      "allowConsecutiveUsings": true
+    },
+    "documentationRules": {
+      "companyName": "nvisionative, Inc.",
+      "copyrightText": "Copyright (c) 2016-2020 nvisionative, Inc.\n\nThis file is part of nvQuickSite.\n\nnvQuickSite is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nnvQuickSite is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.",
+      "xmlHeader": false,
+      "documentInterfaces": true,
+      "documentExposedElements": true,
+      "documentInternalElements": true,
+      "documentPrivateElements": false,
+      "documentPrivateFields": false,
+      "documentationCulture": "en-US",
+      "fileNamingConvention": "stylecop"
+    }
+  }
+}
