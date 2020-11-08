@@ -32,6 +32,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,6 +44,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\nvQuickSite.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,6 +58,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>0A724629BFD7DFCC40A44BF2FB61D13E16ED4A93</ManifestCertificateThumbprint>
@@ -102,15 +110,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodePlexRSS.cs" />
     <Compile Include="ComboItem.cs" />
     <Compile Include="Controllers\DatabaseController.cs" />
+    <Compile Include="Controllers\DatabaseControllerException.cs" />
     <Compile Include="Controllers\FileSystemController.cs" />
+    <Compile Include="Controllers\FileSystemControllerException.cs" />
     <Compile Include="Controllers\IISController.cs" />
+    <Compile Include="Controllers\IISControllerException.cs" />
     <Compile Include="Controllers\PackageController.cs" />
+    <Compile Include="Controllers\SiteExistsException.cs" />
     <Compile Include="Controllers\VersionController.cs" />
+    <Compile Include="Controllers\VersionControllerException.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\Version.cs" />
+    <Compile Include="ReadAndExtractException.cs" />
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +174,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include=".editorconfig" />
     <None Include=".gitignore" />
     <None Include="app.config" />
     <None Include="data\latestVersion.json" />
@@ -175,6 +189,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\user-settings.png" />
@@ -218,6 +233,11 @@
     <PackageReference Include="MetroFramework">
       <Version>1.2.0.3</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
+      <Version>3.3.1</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>8.0.3</Version>
     </PackageReference>
@@ -226,6 +246,11 @@
     </PackageReference>
     <PackageReference Include="Ookii.Dialogs.WindowsForms">
       <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.1.118</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
