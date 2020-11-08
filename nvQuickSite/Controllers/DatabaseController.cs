@@ -86,7 +86,7 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                throw new DatabaseControllerException("Something when wrong while attempting to drop the database " + this.dbName, ex);
+                throw new DatabaseControllerException("Something when wrong while attempting to drop the database " + this.dbName, ex) { Source = "Drop Database" };
             }
             finally
             {
@@ -132,7 +132,8 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                throw new DatabaseControllerException($"Error creating database {this.dbName}", ex);
+                FileSystemController.RemoveDirectories(this.installFolder);
+                throw new DatabaseControllerException($"Error creating database {this.dbName}", ex) { Source = "Create Database" };
             }
             finally
             {
@@ -188,7 +189,7 @@ namespace nvQuickSite.Controllers
             }
             catch (System.Exception ex)
             {
-                throw new DatabaseControllerException($"Error setting database permissions for database {this.dbName}", ex);
+                throw new DatabaseControllerException($"Error setting database permissions for database {this.dbName}", ex) { Source = "Set Database Permissions" };
             }
             finally
             {

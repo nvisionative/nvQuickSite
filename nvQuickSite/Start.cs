@@ -35,6 +35,7 @@ using Ookii.Dialogs;
 using nvQuickSite.Controllers;
 using nvQuickSite.Models;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace nvQuickSite
 {
@@ -67,7 +68,7 @@ namespace nvQuickSite
             InitializeTabs();
 
             LoadPackages();
-            RememberFieldValues();
+            ReadUserSettings();
         }
 
         private void LoadPackages()
@@ -108,7 +109,7 @@ namespace nvQuickSite
             }
         }
 
-        private void RememberFieldValues()
+        private void ReadUserSettings()
         {
             if (Properties.Settings.Default.RememberFieldValues)
             {
@@ -120,6 +121,20 @@ namespace nvQuickSite
 
                 txtDBServerName.Text = Properties.Settings.Default.DatabaseServerNameRecent;
                 txtDBName.Text = Properties.Settings.Default.DatabaseNameRecent;
+            }
+        }
+
+        private void SaveUserSettings()
+        {
+            if (Properties.Settings.Default.RememberFieldValues)
+            {
+                Properties.Settings.Default.SiteNamePrefixRecent = txtSiteNamePrefix.Text;
+                Properties.Settings.Default.SiteNameSuffixRecent = txtSiteNameSuffix.Text;
+                Properties.Settings.Default.AppPoolRecent = chkSiteSpecificAppPool.Checked;
+                Properties.Settings.Default.DeleteSiteInIISRecent = chkDeleteSiteIfExists.Checked;
+                Properties.Settings.Default.DatabaseServerNameRecent = txtDBServerName.Text;
+                Properties.Settings.Default.DatabaseNameRecent = txtDBName.Text;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -443,14 +458,7 @@ namespace nvQuickSite
                 tabDatabaseInfo.Enabled = true;
                 tabProgress.Enabled = false;
                 tabControl.SelectedIndex = 2;
-                if (Properties.Settings.Default.RememberFieldValues)
-                {
-                    Properties.Settings.Default.SiteNamePrefixRecent = txtSiteNamePrefix.Text;
-                    Properties.Settings.Default.SiteNameSuffixRecent = txtSiteNameSuffix.Text;
-                    Properties.Settings.Default.AppPoolRecent = chkSiteSpecificAppPool.Checked;
-                    Properties.Settings.Default.DeleteSiteInIISRecent = chkDeleteSiteIfExists.Checked;
-                    Properties.Settings.Default.Save();
-                }
+                SaveUserSettings();
             }
         }
 
@@ -495,160 +503,87 @@ namespace nvQuickSite
                 return;
             }
 
-            if (CreateSiteInIIS())
-            {
-                if (UpdateHostsFile())
-                {
-                    if (CreateDirectories())
-                    {
-                        if (CreateDatabase())
-                        {
-                            if (SetDatabasePermissions())
-                            {
-                                tabInstallPackage.Enabled = false;
-                                tabSiteInfo.Enabled = false;
-                                tabDatabaseInfo.Enabled = false;
-                                tabControl.TabPages.Insert(3, tabProgress);
-                                tabProgress.Enabled = true;
-                                lblProgress.Visible = true;
-                                progressBar.Visible = true;
-                                tabControl.SelectedIndex = 3;
-
-                                if (Properties.Settings.Default.RememberFieldValues)
-                                {
-                                    Properties.Settings.Default.DatabaseServerNameRecent = txtDBServerName.Text;
-                                    Properties.Settings.Default.DatabaseNameRecent = txtDBName.Text;
-                                    Properties.Settings.Default.Save();
-                                }
-
-                                if (ReadAndExtract(txtLocalInstallPackage.Text, txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text + "\\Website"))
-                                {
-                                    try
-                                    {
-                                        FileSystemController.ModifyConfig(txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text, txtDBName.Text, this.installFolder);
-                                        btnVisitSite.Visible = true;
-                                    }
-                                    catch (FileSystemControllerException ex)
-                                    {
-                                        MessageBox.Show(ex.Message, "Modify Config", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            FileSystemController.RemoveDirectories(this.installFolder);
-                        }
-                    }
-                }
-            }
-        }
-
-        private bool CreateSiteInIIS()
-        {
             try
             {
-                Boolean siteExists = IISController.SiteExists(this.siteName, chkDeleteSiteIfExists.Checked);
-                if (!siteExists)
-                {
-                    IISController.CreateSite(this.siteName, this.installFolder, chkSiteSpecificAppPool.Checked);
-                }
-                else
-                {
-                    MessageBox.Show("Site name (" + this.siteName + ") already exists.", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                return true;
+                IISController.CreateSite(
+                    this.siteName, 
+                    this.installFolder, 
+                    chkSiteSpecificAppPool.Checked, 
+                    chkDeleteSiteIfExists.Checked);
+                
+                FileSystemController.UpdateHostsFile(
+                    this.siteName);
+
+                FileSystemController.CreateDirectories(
+                    this.installFolder, 
+                    this.siteName, 
+                    chkSiteSpecificAppPool.Checked, 
+                    txtDBServerName.Text.Trim(), 
+                    txtDBServerName.Text, 
+                    rdoWindowsAuthentication.Checked, 
+                    txtDBUserName.Text, 
+                    txtDBPassword.Text);
+
+                var databaseController = new DatabaseController(
+                    txtDBName.Text, 
+                    txtDBServerName.Text, 
+                    rdoWindowsAuthentication.Checked, 
+                    txtDBUserName.Text, 
+                    txtDBPassword.Text, 
+                    this.installFolder, 
+                    chkSiteSpecificAppPool.Checked, 
+                    this.siteName);
+                databaseController.CreateDatabase();
+                databaseController.SetDatabasePermissions();
+
+                tabInstallPackage.Enabled = false;
+                tabSiteInfo.Enabled = false;
+                tabDatabaseInfo.Enabled = false;
+                tabControl.TabPages.Insert(3, tabProgress);
+                tabProgress.Enabled = true;
+                lblProgress.Visible = true;
+                progressBar.Visible = true;
+                tabControl.SelectedIndex = 3;
+
+                SaveUserSettings();
+
+                this.ReadAndExtract(txtLocalInstallPackage.Text, Path.Combine(txtInstallBaseFolder.Text, txtInstallSubFolder.Text, "Website"));
+                FileSystemController.ModifyConfig(
+                    txtDBServerName.Text, 
+                    rdoWindowsAuthentication.Checked, 
+                    txtDBUserName.Text, 
+                    txtDBPassword.Text, 
+                    txtDBName.Text, 
+                    this.installFolder);
+
+                btnVisitSite.Visible = true;
             }
-            catch (Exception ex)
+            catch (SiteExistsException ex)
             {
-                MessageBox.Show(ex.Message, "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        }
-
-        private bool UpdateHostsFile()
-        {
-            try
+            catch (IISControllerException ex)
             {
-                FileSystemController.UpdateHostsFile(this.siteName);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-
-                if (errorMessage.IndexOf("is denied") > 0)
-                    errorMessage +=
-                        "\r\r\nnvQuickSite is unable to add a new host entry to the above file. Please make sure the file is not read only. If it's not, make sure your antivirus software is not blocking changes made to the file. You can pause your antivirus software until nvQuickSite has completed its work, or add an exception for nvQuickSite in the antivirus software.";
-
-
-                MessageBox.Show("Error: " + errorMessage, "Update HOSTS File", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
-
-        private bool CreateDirectories()
-        {
-            try
-            {
-                string instanceName = txtDBServerName.Text.Trim();
-
-
-                FileSystemController.CreateDirectories(this.installFolder, this.siteName, chkSiteSpecificAppPool.Checked, instanceName, txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text);
-                return true;
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (FileSystemControllerException ex)
             {
-                MessageBox.Show(ex.Message, "Set Folder Permissions", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (DatabaseControllerException ex) 
+            catch (DatabaseControllerException ex)
             {
-                MessageBox.Show(ex.Message, "Drop Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Create Directories", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
-
-        private bool CreateDatabase()
-        {
-            try
-            {
-                var databaseController = new DatabaseController(txtDBName.Text, txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text, this.installFolder, chkSiteSpecificAppPool.Checked, this.siteName);
-                databaseController.CreateDatabase();
-                return true;
-            }
-            catch (DatabaseControllerException ex)
-            {
-                MessageBox.Show(ex.Message, "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-           
-        }
-
-        private bool SetDatabasePermissions()
-        {
-            try
-            {
-                var databaseController = new DatabaseController(txtDBName.Text, txtDBServerName.Text, rdoWindowsAuthentication.Checked, txtDBUserName.Text, txtDBPassword.Text, this.installFolder, chkSiteSpecificAppPool.Checked, this.siteName);
-                databaseController.SetDatabasePermissions();
-                return true;
-            }
-            catch (DatabaseControllerException ex)
-            {
-                MessageBox.Show(ex.Message, "Set Database Permissions", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return false;
+                MessageBox.Show(ex.Message, "Database Info Next", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private int fileCount;
         private long totalSize = 0, total = 0, lastVal = 0, sum = 0;
 
-        public bool ReadAndExtract(string openPath, string savePath)
+        private void ReadAndExtract(string openPath, string savePath)
         {
             try
             {
@@ -664,16 +599,14 @@ namespace nvQuickSite
                 myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(myZip_ExtractProgress);
                 myZip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
                 lblProgressStatus.Text = "Congratulations! Your new site is now ready to visit!";
-                return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Read And Extract Install Package", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                throw new ReadAndExtractException("There was an error attempting to read and extract the package", ex) { Source = "Read And Extract Package" };
             }
         }
 
-        void myZip_ExtractProgress(object sender, Ionic.Zip.ExtractProgressEventArgs e)
+        void myZip_ExtractProgress(object sender, ExtractProgressEventArgs e)
         {
             System.Windows.Forms.Application.DoEvents();
             if (this.total != e.TotalBytesToTransfer)
@@ -748,5 +681,25 @@ namespace nvQuickSite
 
         #endregion
 
+    }
+
+    [Serializable]
+    internal class ReadAndExtractException : Exception
+    {
+        public ReadAndExtractException()
+        {
+        }
+
+        public ReadAndExtractException(string message) : base(message)
+        {
+        }
+
+        public ReadAndExtractException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected ReadAndExtractException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

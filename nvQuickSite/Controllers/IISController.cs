@@ -19,6 +19,7 @@ using Microsoft.Web.Administration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,8 +68,13 @@ namespace nvQuickSite.Controllers
             return exists;
         }
 
-        internal static void CreateSite(string siteName, string installFolder, bool useSiteSpecificAppPool)
+        internal static void CreateSite(string siteName, string installFolder, bool useSiteSpecificAppPool, bool deleteSiteIfExists)
         {
+            if (SiteExists(siteName, deleteSiteIfExists))
+            {
+                throw new SiteExistsException("Site name (" + siteName + ") already exists.") { Source = "Create Site: Site Exists" };
+            }
+
             try
             {
                 var bindingInfo = "*:80:" + siteName;
@@ -91,28 +97,48 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                throw new IISException("Something went wrong creating the site in IIS: ", ex);
+                throw new IISControllerException("Something went wrong creating the site in IIS: ", ex) { Source = "Create Site" };
             }
 
         }
     }
 
     [Serializable]
-    internal class IISException : Exception
+    internal class SiteExistsException : Exception
     {
-        public IISException()
+        public SiteExistsException()
         {
         }
 
-        public IISException(string message) : base(message)
+        public SiteExistsException(string message) : base(message)
         {
         }
 
-        public IISException(string message, Exception innerException) : base(message, innerException)
+        public SiteExistsException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        protected IISException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected SiteExistsException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
+
+    [Serializable]
+    internal class IISControllerException : Exception
+    {
+        public IISControllerException()
+        {
+        }
+
+        public IISControllerException(string message) : base(message)
+        {
+        }
+
+        public IISControllerException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected IISControllerException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

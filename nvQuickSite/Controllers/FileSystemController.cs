@@ -36,25 +36,36 @@ namespace nvQuickSite.Controllers
 
         internal static void UpdateHostsFile(string siteName)
         {
-            string hostsFile = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\drivers\etc\hosts";
-
-            var newEntry = "\t127.0.0.1 \t" + siteName;
-            if (!File.ReadAllLines(hostsFile).Contains(newEntry))
+            try
             {
-                if (File.ReadAllText(hostsFile).EndsWith(Environment.NewLine))
+                string hostsFile = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\drivers\etc\hosts";
+
+                var newEntry = "\t127.0.0.1 \t" + siteName;
+                if (!File.ReadAllLines(hostsFile).Contains(newEntry))
                 {
-                    using (StreamWriter w = File.AppendText(hostsFile))
+                    if (File.ReadAllText(hostsFile).EndsWith(Environment.NewLine))
                     {
-                        w.WriteLine(newEntry);
+                        using (StreamWriter w = File.AppendText(hostsFile))
+                        {
+                            w.WriteLine(newEntry);
+                        }
+                    }
+                    else
+                    {
+                        using (StreamWriter w = File.AppendText(hostsFile))
+                        {
+                            w.WriteLine(Environment.NewLine + newEntry);
+                        }
                     }
                 }
-                else
-                {
-                    using (StreamWriter w = File.AppendText(hostsFile))
-                    {
-                        w.WriteLine(Environment.NewLine + newEntry);
-                    }
-                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+                if (errorMessage.IndexOf("is denied") > 0)
+                    errorMessage +=
+                        "\r\r\nnvQuickSite is unable to add a new host entry to the above file. Please make sure the file is not read only. If it's not, make sure your antivirus software is not blocking changes made to the file. You can pause your antivirus software until nvQuickSite has completed its work, or add an exception for nvQuickSite in the antivirus software.";
+                throw new FileSystemControllerException(errorMessage, ex) { Source = "Update Hosts File" };
             }
         }
 
@@ -167,7 +178,7 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                throw new FileSystemControllerException("There was a problem setting the folder permissions for folder path: " + folderPath, ex);
+                throw new FileSystemControllerException("There was a problem setting the folder permissions for folder path: " + folderPath, ex) { Source = "Set Folder Permission" };
             }
         }
 
@@ -220,7 +231,7 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                throw new FileSystemControllerException("There was an error attempting to modify the web.config file", ex);
+                throw new FileSystemControllerException("There was an error attempting to modify the web.config file", ex) { Source = "Modify Config" };
             }
         }
 
