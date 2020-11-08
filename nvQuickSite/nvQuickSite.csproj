@@ -104,6 +104,9 @@
   <ItemGroup>
     <Compile Include="CodePlexRSS.cs" />
     <Compile Include="ComboItem.cs" />
+    <Compile Include="Controllers\DatabaseController.cs" />
+    <Compile Include="Controllers\FileSystemController.cs" />
+    <Compile Include="Controllers\IISController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="Models\Package.cs" />

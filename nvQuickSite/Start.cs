@@ -1,4 +1,4 @@
-//Copyright (c) 2016-2019 nvisionative, Inc.
+//Copyright (c) 2016-2020 nvisionative, Inc.
 
 //This file is part of nvQuickSite.
 
@@ -35,6 +35,7 @@ using Ookii.Dialogs;
 using nvQuickSite.Controllers;
 using nvQuickSite.Models;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace nvQuickSite
 {
@@ -45,6 +46,20 @@ namespace nvQuickSite
 
         protected string currentVersion;
         protected string currentUrl;
+        private string installFolder {
+            get
+            {
+                return Path.Combine(txtInstallBaseFolder.Text, txtInstallSubFolder.Text);
+            }
+        }
+        private string siteName
+        {
+            get
+            {
+                return txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
+
+            }
+        }
 
         public Start()
         {
@@ -53,7 +68,7 @@ namespace nvQuickSite
             InitializeTabs();
 
             LoadPackages();
-            RememberFieldValues();
+            ReadUserSettings();
         }
 
         private void LoadPackages()
@@ -94,7 +109,7 @@ namespace nvQuickSite
             }
         }
 
-        private void RememberFieldValues()
+        private void ReadUserSettings()
         {
             if (Properties.Settings.Default.RememberFieldValues)
             {
@@ -106,6 +121,20 @@ namespace nvQuickSite
 
                 txtDBServerName.Text = Properties.Settings.Default.DatabaseServerNameRecent;
                 txtDBName.Text = Properties.Settings.Default.DatabaseNameRecent;
+            }
+        }
+
+        private void SaveUserSettings()
+        {
+            if (Properties.Settings.Default.RememberFieldValues)
+            {
+                Properties.Settings.Default.SiteNamePrefixRecent = txtSiteNamePrefix.Text;
+                Properties.Settings.Default.SiteNameSuffixRecent = txtSiteNameSuffix.Text;
+                Properties.Settings.Default.AppPoolRecent = chkSiteSpecificAppPool.Checked;
+                Properties.Settings.Default.DeleteSiteInIISRecent = chkDeleteSiteIfExists.Checked;
+                Properties.Settings.Default.DatabaseServerNameRecent = txtDBServerName.Text;
+                Properties.Settings.Default.DatabaseNameRecent = txtDBName.Text;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -358,94 +387,79 @@ namespace nvQuickSite
 
         private void btnSiteInfoNext_Click(object sender, EventArgs e)
         {
-            bool proceed = false;
+            bool proceed;
 
-            if (txtInstallBaseFolder.Text != "" && txtInstallSubFolder.Text != "" && txtSiteNamePrefix.Text != "")
+            if (String.IsNullOrWhiteSpace(txtInstallBaseFolder.Text) || String.IsNullOrWhiteSpace(txtInstallSubFolder.Text) || String.IsNullOrWhiteSpace(txtSiteNamePrefix.Text))
             {
-                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
+                MessageBox.Show("Please make sure you have entered a Site Name and Install Folder.", "Site Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                if (!Directory.Exists(installFolder))
+            if (!Directory.Exists(this.installFolder))
+            {
+                var dialogMessage = "The entered location does not exist. Do you wish to create it?";
+                var dialogIcon = SystemIcons.Warning.ToBitmap();
+                var doNotWarnAgain = Properties.Settings.Default.LocationDoNotWarnAgain;
+                var msgBoxYesNoIgnore = new MsgBoxYesNoIgnore(doNotWarnAgain, dialogMessage, dialogIcon);
+                if (!doNotWarnAgain)
                 {
-                    var dialogMessage = "The entered location does not exist. Do you wish to create it?";
-                    var dialogIcon = SystemIcons.Warning.ToBitmap();
-                    var doNotWarnAgain = Properties.Settings.Default.LocationDoNotWarnAgain;
-                    var msgBoxYesNoIgnore = new MsgBoxYesNoIgnore(doNotWarnAgain, dialogMessage, dialogIcon);
-                    if (!doNotWarnAgain)
+                    var result = msgBoxYesNoIgnore.ShowDialog();
+                    if (result == DialogResult.Yes)
                     {
-                        var result = msgBoxYesNoIgnore.ShowDialog();
-                        if (result == DialogResult.Yes)
-                        {
-                            Directory.CreateDirectory(installFolder);
-                            proceed = true;
-                        }
-                        else
-                        {
-                            proceed = false;
-                        }
+                        Directory.CreateDirectory(this.installFolder);
+                        proceed = true;
                     }
                     else
                     {
-                        Directory.CreateDirectory(installFolder);
-                        proceed = true;
-
+                        proceed = false;
                     }
-                    Properties.Settings.Default.LocationDoNotWarnAgain = msgBoxYesNoIgnore.DoNotWarnAgain;
-                    Properties.Settings.Default.Save();
+                }
+                else
+                {
+                    Directory.CreateDirectory(this.installFolder);
+                    proceed = true;
+
+                }
+                Properties.Settings.Default.LocationDoNotWarnAgain = msgBoxYesNoIgnore.DoNotWarnAgain;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                proceed = true;
+            }
+
+            if (proceed)
+            {
+                if (!FileSystemController.DirectoryEmpty(this.installFolder))
+                {
+                    var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
+                                                "Confirm Installation",
+                                                MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    if (confirmResult == DialogResult.No)
+                    {
+                        proceed = false;
+                    }
+                    else
+                    {
+                        proceed = true;
+                    }
                 }
                 else
                 {
                     proceed = true;
                 }
-
-                if (proceed)
-                {
-                    if (!DirectoryEmpty(installFolder))
-                    {
-                        var confirmResult = MessageBox.Show("All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
-                                                    "Confirm Installation",
-                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                        if (confirmResult == DialogResult.No)
-                        {
-                            proceed = false;
-                        }
-                        else
-                        {
-                            proceed = true;
-                        }
-                    }
-                    else
-                    {
-                        proceed = true;
-                    }
-                }
-
-                if (proceed)
-                {
-                    tabInstallPackage.Enabled = false;
-                    tabSiteInfo.Enabled = false;
-                    tabControl.TabPages.Insert(2, tabDatabaseInfo);
-                    tabDatabaseInfo.Enabled = true;
-                    tabProgress.Enabled = false;
-                    tabControl.SelectedIndex = 2;
-                    if (Properties.Settings.Default.RememberFieldValues)
-                    {
-                        Properties.Settings.Default.SiteNamePrefixRecent = txtSiteNamePrefix.Text;
-                        Properties.Settings.Default.SiteNameSuffixRecent = txtSiteNameSuffix.Text;
-                        Properties.Settings.Default.AppPoolRecent = chkSiteSpecificAppPool.Checked;
-                        Properties.Settings.Default.DeleteSiteInIISRecent = chkDeleteSiteIfExists.Checked;
-                        Properties.Settings.Default.Save();
-                    }
-                }
             }
-            else
+
+            if (proceed)
             {
-                MessageBox.Show("Please make sure you have entered a Site Name and Install Folder.", "Site Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tabInstallPackage.Enabled = false;
+                tabSiteInfo.Enabled = false;
+                tabControl.TabPages.Insert(2, tabDatabaseInfo);
+                tabDatabaseInfo.Enabled = true;
+                tabProgress.Enabled = false;
+                tabControl.SelectedIndex = 2;
+                SaveUserSettings();
             }
-        }
-
-        private bool DirectoryEmpty(string path)
-        {
-            return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 
         #endregion
@@ -483,607 +497,132 @@ namespace nvQuickSite
 
         private void btnDatabaseInfoNext_Click(object sender, EventArgs e)
         {
-            if (txtDBServerName.Text != "" && txtDBName.Text != "")
-            {
-                if (CreateSiteInIIS())
-                {
-                    if (UpdateHostsFile())
-                    {
-                        if (CreateDirectories())
-                        {
-                            if (CreateDatabase())
-                            {
-                                if (SetDatabasePermissions())
-                                {
-                                    tabInstallPackage.Enabled = false;
-                                    tabSiteInfo.Enabled = false;
-                                    tabDatabaseInfo.Enabled = false;
-                                    tabControl.TabPages.Insert(3, tabProgress);
-                                    tabProgress.Enabled = true;
-                                    lblProgress.Visible = true;
-                                    progressBar.Visible = true;
-                                    tabControl.SelectedIndex = 3;
-
-                                    if (Properties.Settings.Default.RememberFieldValues)
-                                    {
-                                        Properties.Settings.Default.DatabaseServerNameRecent = txtDBServerName.Text;
-                                        Properties.Settings.Default.DatabaseNameRecent = txtDBName.Text;
-                                        Properties.Settings.Default.Save();
-                                    }
-
-                                    if (ReadAndExtract(txtLocalInstallPackage.Text, txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text + "\\Website"))
-                                    {
-                                        if (ModifyConfig())
-                                        {
-                                            btnVisitSite.Visible = true;
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                RemoveDirectories();
-                            }
-                        }
-                    }
-                }
-            }
-            else
+            if (String.IsNullOrWhiteSpace(txtDBServerName.Text) || String.IsNullOrWhiteSpace(txtDBName.Text))
             {
                 MessageBox.Show("Please make sure you have entered a Database Server Name and a Database Name.", "Database Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-        }
 
-        private bool CreateSiteInIIS()
-        {
             try
             {
-                //Create website in IIS
-                ServerManager iisManager = new ServerManager();
-                var siteName = txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
-                var bindingInfo = "*:80:" + siteName;
-                string installFolder = txtInstallBaseFolder.Text.TrimEnd('\\') + "\\" + txtInstallSubFolder.Text;
+                IISController.CreateSite(
+                    this.siteName, 
+                    this.installFolder, 
+                    chkSiteSpecificAppPool.Checked, 
+                    chkDeleteSiteIfExists.Checked);
+                
+                FileSystemController.UpdateHostsFile(
+                    this.siteName);
 
-                Boolean siteExists = SiteExists(siteName);
-                if (!siteExists)
-                {
-                    Site mySite = iisManager.Sites.Add(siteName, "http", bindingInfo, installFolder + "\\Website");
-                    mySite.TraceFailedRequestsLogging.Enabled = true;
-                    mySite.TraceFailedRequestsLogging.Directory = installFolder + "\\Logs";
-                    mySite.LogFile.Directory = installFolder + "\\Logs" + "\\W3svc" + mySite.Id.ToString();
+                FileSystemController.CreateDirectories(
+                    this.installFolder, 
+                    this.siteName, 
+                    chkSiteSpecificAppPool.Checked, 
+                    txtDBServerName.Text.Trim(), 
+                    txtDBServerName.Text, 
+                    rdoWindowsAuthentication.Checked, 
+                    txtDBUserName.Text, 
+                    txtDBPassword.Text);
 
-                    if (chkSiteSpecificAppPool.Checked) 
-                    {
-                        var appPoolName = siteName + "_nvQuickSite";
-                        ApplicationPool newPool = iisManager.ApplicationPools.Add(appPoolName);
-                        newPool.ManagedRuntimeVersion = "v4.0";
-                        mySite.ApplicationDefaults.ApplicationPoolName = appPoolName;
-                    }
-                    iisManager.CommitChanges();
-                    //MessageBox.Show("New DNN site (" + siteName + ") added sucessfully!", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Site name (" + siteName + ") already exists.", "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                return true;
+                var databaseController = new DatabaseController(
+                    txtDBName.Text, 
+                    txtDBServerName.Text, 
+                    rdoWindowsAuthentication.Checked, 
+                    txtDBUserName.Text, 
+                    txtDBPassword.Text, 
+                    this.installFolder, 
+                    chkSiteSpecificAppPool.Checked, 
+                    this.siteName);
+                databaseController.CreateDatabase();
+                databaseController.SetDatabasePermissions();
+
+                tabInstallPackage.Enabled = false;
+                tabSiteInfo.Enabled = false;
+                tabDatabaseInfo.Enabled = false;
+                tabControl.TabPages.Insert(3, tabProgress);
+                tabProgress.Enabled = true;
+                lblProgress.Visible = true;
+                progressBar.Visible = true;
+                tabControl.SelectedIndex = 3;
+
+                SaveUserSettings();
+
+                this.ReadAndExtract(txtLocalInstallPackage.Text, Path.Combine(txtInstallBaseFolder.Text, txtInstallSubFolder.Text, "Website"));
+                FileSystemController.ModifyConfig(
+                    txtDBServerName.Text, 
+                    rdoWindowsAuthentication.Checked, 
+                    txtDBUserName.Text, 
+                    txtDBPassword.Text, 
+                    txtDBName.Text, 
+                    this.installFolder);
+
+                btnVisitSite.Visible = true;
+            }
+            catch (SiteExistsException ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (IISControllerException ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (FileSystemControllerException ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (DatabaseControllerException ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Create Site", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                MessageBox.Show(ex.Message, "Database Info Next", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private bool SiteExists(string siteName)
-        {
-            Boolean flag = false;
-            ServerManager iisManager = new ServerManager();
-            SiteCollection siteCollection = iisManager.Sites;
+        private int fileCount;
+        private long totalSize = 0, total = 0, lastVal = 0, sum = 0;
 
-            foreach (Site site in siteCollection)
-            {
-                if (site.Name == siteName.ToString())
-                {
-                    flag = true;
-                    if (chkDeleteSiteIfExists.Checked)
-                    {
-                        if (site.ApplicationDefaults.ApplicationPoolName == siteName + "_nvQuickSite")
-                        {
-                            ApplicationPoolCollection appPools = iisManager.ApplicationPools;
-                            foreach (ApplicationPool appPool in appPools)
-                            {
-                                if (appPool.Name == siteName + "_nvQuickSite")
-                                {
-                                    iisManager.ApplicationPools.Remove(appPool);
-                                    break;
-                                }
-                            }
-                        }
-                        iisManager.Sites.Remove(site);
-                        iisManager.CommitChanges();
-                        flag = false;
-                        break;
-                    }
-                    break;
-                }
-                else
-                {
-                    flag = false;
-                }
-            }
-            return flag;
-        }
-
-        private bool UpdateHostsFile()
+        private void ReadAndExtract(string openPath, string savePath)
         {
             try
             {
-                string hostsFile = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\drivers\etc\hosts";
-
-                var newEntry = "\t127.0.0.1 \t" + txtSiteNamePrefix.Text + txtSiteNameSuffix.Text;
-                if (!File.ReadAllLines(hostsFile).Contains(newEntry))
-                {
-                    if (File.ReadAllText(hostsFile).EndsWith(Environment.NewLine))
-                    {
-                        using (StreamWriter w = File.AppendText(hostsFile))
-                        {
-                            w.WriteLine(newEntry);
-                        }
-                    }
-                    else
-                    {
-                        using (StreamWriter w = File.AppendText(hostsFile))
-                        {
-                            w.WriteLine(Environment.NewLine + newEntry);
-                        }
-                    }
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-
-                if (errorMessage.IndexOf("is denied") > 0)
-                    errorMessage +=
-                        "\r\r\nnvQuickSite is unable to add a new host entry to the above file. Please make sure the file is not read only. If it's not, make sure your antivirus software is not blocking changes made to the file. You can pause your antivirus software until nvQuickSite has completed its work, or add an exception for nvQuickSite in the antivirus software.";
-
-
-                MessageBox.Show("Error: " + errorMessage, "Update HOSTS File", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
-
-        private bool CreateDirectories()
-        {
-            try
-            {
-                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-
-                var websiteDir = installFolder + "\\Website";
-                var logsDir = installFolder + "\\Logs";
-                var databaseDir = installFolder + "\\Database";
-
-                var appPoolName = @"IIS APPPOOL\DefaultAppPool";
-                var dbServiceAccount = GetDBServiceAccount();
-                var authenticatedUsers = GetAuthenticatedUsersAccount();
-
-                if (chkSiteSpecificAppPool.Checked)
-                {
-                    appPoolName = @"IIS APPPOOL\" + txtSiteNamePrefix.Text + txtSiteNameSuffix.Text + "_nvQuickSite";
-                }
-
-                if (!Directory.Exists(websiteDir))
-                {
-                    Directory.CreateDirectory(websiteDir);
-                    SetFolderPermission(appPoolName, websiteDir);
-                    SetFolderPermission(authenticatedUsers, websiteDir);
-                }
-                else
-                {
-                    Directory.Delete(websiteDir, true);
-                    Directory.CreateDirectory(websiteDir);
-                    SetFolderPermission(appPoolName, websiteDir);
-                    SetFolderPermission(authenticatedUsers, websiteDir);
-                }
-
-                if (!Directory.Exists(logsDir))
-                {
-                    Directory.CreateDirectory(logsDir);
-                    SetFolderPermission(dbServiceAccount, logsDir);
-                    SetFolderPermission(authenticatedUsers, logsDir);
-                }
-                else
-                {
-                    Directory.Delete(logsDir, true);
-                    Directory.CreateDirectory(logsDir);
-                    SetFolderPermission(dbServiceAccount, logsDir);
-                    SetFolderPermission(authenticatedUsers, logsDir);
-                }
-
-                if (!Directory.Exists(databaseDir))
-                {
-                    Directory.CreateDirectory(databaseDir);
-                    SetFolderPermission(dbServiceAccount, databaseDir);
-                    SetFolderPermission(authenticatedUsers, databaseDir);
-                }
-                else
-                {
-                    if (!DirectoryEmpty(databaseDir))
-                    {
-                        var myDBFile = Directory.EnumerateFiles(databaseDir, "*.mdf").First().Split('_').First().Split('\\').Last();
-                        DropDatabase(myDBFile);
-                    }
-                    Directory.Delete(databaseDir);
-                    Directory.CreateDirectory(databaseDir);
-                    SetFolderPermission(dbServiceAccount, databaseDir);
-                    SetFolderPermission(authenticatedUsers, databaseDir);
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Create Directories", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
-
-        private static string GetAuthenticatedUsersAccount()
-        {
-            var sid = new System.Security.Principal.SecurityIdentifier("S-1-5-11"); //Authenticated Users
-            var account = sid.Translate(typeof(System.Security.Principal.NTAccount));
-            return account.Value;
-        }
-
-        private string GetDBServiceAccount()
-        {
-            string dbServiceAccount = @"NT Service\MSSQLSERVER";
-            string instanceName = txtDBServerName.Text.Trim();
-
-            if (instanceName.IndexOf(@"\") > -1)
-            {
-                dbServiceAccount = @"NT Service\MSSQL$" + instanceName.Substring(instanceName.LastIndexOf(@"\") + 1).ToUpper();
-            }
-
-
-            return dbServiceAccount;
-        }
-
-        private static void SetFolderPermission(String accountName, String folderPath)
-        {
-            try
-            {
-                FileSystemRights Rights;
-                Rights = FileSystemRights.Modify;
-                bool modified;
-                var none = new InheritanceFlags();
-                none = InheritanceFlags.None;
-
-                var accessRule = new FileSystemAccessRule(accountName, Rights, none, PropagationFlags.NoPropagateInherit, AccessControlType.Allow);
-                var dInfo = new DirectoryInfo(folderPath);
-                var dSecurity = dInfo.GetAccessControl();
-                dSecurity.ModifyAccessRule(AccessControlModification.Set, accessRule, out modified);
-
-                var iFlags = new InheritanceFlags();
-                iFlags = InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit;
-
-                var accessRule2 = new FileSystemAccessRule(accountName, Rights, iFlags, PropagationFlags.InheritOnly, AccessControlType.Allow);
-                dSecurity.ModifyAccessRule(AccessControlModification.Add, accessRule2, out modified);
-                 
-                dInfo.SetAccessControl(dSecurity);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Set Folder Permissions", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void RemoveDirectories()
-        {
-            string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-
-            var websiteDir = installFolder + "\\Website";
-            var logsDir = installFolder + "\\Logs";
-            var databaseDir = installFolder + "\\Database";
-
-            Directory.Delete(websiteDir, true);
-            Directory.Delete(logsDir, true);
-            Directory.Delete(databaseDir);
-        }
-
-        private bool CreateDatabase()
-        {
-            string myDBServerName = txtDBServerName.Text;
-            string connectionStringAuthSection = "";
-            string connectionTimeout = "Connection Timeout=5;";
-            if (rdoWindowsAuthentication.Checked)
-            {
-                connectionStringAuthSection = "Integrated Security=True;";
-            }
-            else
-            {
-                connectionStringAuthSection = "User ID=" + txtDBUserName.Text + ";Password=" + txtDBPassword.Text + ";";
-            }
-
-            SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection + connectionTimeout);
-
-            string myDBName = txtDBName.Text;
-            string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-
-            string str = "CREATE DATABASE [" + myDBName + "] ON PRIMARY " +
-                "(NAME = [" + myDBName + "_Data], " +
-                "FILENAME = '" + installFolder + "\\Database\\" + myDBName + "_Data.mdf', " +
-                "SIZE = 20MB, MAXSIZE = 200MB, FILEGROWTH = 10%) " +
-                "LOG ON (NAME = [" + myDBName + "_Log], " +
-                "FILENAME = '" + installFolder + "\\Database\\" + myDBName + "_Log.ldf', " +
-                "SIZE = 13MB, " +
-                "MAXSIZE = 50MB, " +
-                "FILEGROWTH = 10%)";
-
-            SqlCommand myCommand = new SqlCommand(str, myConn);
-            try
-            {
-                //if (CanConnectToDatabase(myDBServerName))
-                //{
-                    myConn.Open();
-                    myCommand.ExecuteNonQuery();
-                    //MessageBox.Show("Database created successfully", "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return true;
-                //}
-                //else
-                //{
-                //    MessageBox.Show("There was a problem connecting to the database. Please check the database name for accuracy.", "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //    return false;
-                //}
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            finally
-            {
-                if (myConn.State == ConnectionState.Open)
-                {
-                    myConn.Close();
-                }
-            }
-        }
-
-        static bool CanConnectToDatabase(string server)
-        {
-            bool returnVal = false;
-            try
-            {
-                if (server == "(local)")
-                {
-                    server = "127.0.0.1";
-                }
-                using (TcpClient tcpSocket = new TcpClient())
-                {
-                    AsyncCallback ConnectCallback = null;
-                    IAsyncResult async = tcpSocket.BeginConnect(server, 1433, ConnectCallback, null);
-                    DateTime startTime = DateTime.Now;
-                    do
-                    {
-                        System.Threading.Thread.Sleep(500);
-                        if (async.IsCompleted) break;
-                    } while (DateTime.Now.Subtract(startTime).TotalSeconds < 5);
-                    if (async.IsCompleted)
-                    {
-                        tcpSocket.EndConnect(async);
-                        returnVal = true;
-                    }
-                    tcpSocket.Close();
-                    if (!async.IsCompleted)
-                    {
-                        returnVal = false;
-                    }
-                }
-                return returnVal;
-            }
-            catch (SocketException ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Database Connection", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return returnVal;
-            }
-        }
-
-        private bool SetDatabasePermissions()
-        {
-            string myDBServerName = txtDBServerName.Text;
-            string connectionStringAuthSection = "";
-            if (rdoWindowsAuthentication.Checked)
-            {
-                connectionStringAuthSection = "Integrated Security=True;";
-            }
-            else
-            {
-                connectionStringAuthSection = "User ID=" + txtDBUserName.Text + ";Password=" + txtDBPassword.Text + ";";
-            }
-
-            SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection);
-
-            string myDBName = txtDBName.Text;
-
-            var appPoolNameFull = @"IIS APPPOOL\DefaultAppPool";
-            var appPoolName = "DefaultAppPool";
-
-            if (chkSiteSpecificAppPool.Checked)
-            {
-                appPoolNameFull = @"IIS APPPOOL\" + txtSiteNamePrefix.Text + txtSiteNameSuffix.Text + "_nvQuickSite";
-                appPoolName = txtSiteNamePrefix.Text + txtSiteNameSuffix.Text + "_nvQuickSite";
-            }
-
-            string str1 = "USE master";
-            string str2 = "sp_grantlogin '" + appPoolNameFull + "'";
-            string str3 = "USE [" + txtDBName.Text + "]";
-            string str4 = "sp_grantdbaccess '" + appPoolNameFull + "', '" + appPoolName + "'";
-            string str5 = "sp_addrolemember 'db_owner', '" + appPoolName + "'";
-
-            SqlCommand myCommand1 = new SqlCommand(str1, myConn);
-            SqlCommand myCommand2 = new SqlCommand(str2, myConn);
-            SqlCommand myCommand3 = new SqlCommand(str3, myConn);
-            SqlCommand myCommand4 = new SqlCommand(str4, myConn);
-            SqlCommand myCommand5 = new SqlCommand(str5, myConn);
-            try
-            {
-                myConn.Open();
-                myCommand1.ExecuteNonQuery();
-                myCommand2.ExecuteNonQuery();
-                myCommand3.ExecuteNonQuery();
-                myCommand4.ExecuteNonQuery();
-                myCommand5.ExecuteNonQuery();
-                //MessageBox.Show("Database created successfully", "Set Database Permissions", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return true;
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Set Database Permissions", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return false;
-            }
-            finally
-            {
-                if (myConn.State == ConnectionState.Open)
-                {
-                    myConn.Close();
-                }
-            }
-        }
-
-        private void DropDatabase(string myDBName)
-        {
-            string myDBServerName = txtDBServerName.Text;
-            string connectionStringAuthSection = "";
-            if (rdoWindowsAuthentication.Checked)
-            {
-                connectionStringAuthSection = "Integrated Security=True;";
-            }
-            else
-            {
-                connectionStringAuthSection = "User ID=" + txtDBUserName.Text + ";Password=" + txtDBPassword.Text + ";";
-            }
-
-            SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection);
-
-            string str1 = @"USE master";
-            string str2 = @"IF EXISTS(SELECT name FROM sys.databases WHERE name = '" + myDBName + "')" +
-                "DROP DATABASE [" + myDBName + "]";
-
-            SqlCommand myCommand1 = new SqlCommand(str1, myConn);
-            SqlCommand myCommand2 = new SqlCommand(str2, myConn);
-            try
-            {
-                myConn.Open();
-                myCommand1.ExecuteNonQuery();
-                myCommand2.ExecuteNonQuery();
-                //MessageBox.Show("Database created successfully", "Create Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Drop Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (myConn.State == ConnectionState.Open)
-                {
-                    myConn.Close();
-                }
-            }
-        }
-
-        int fileCount;
-        long totalSize = 0, total = 0, lastVal = 0, sum = 0;
-
-        public bool ReadAndExtract(string openPath, string savePath)
-        {
-            try
-            {
-                fileCount = 0;
+                this.fileCount = 0;
                 ZipFile myZip = new ZipFile();
                 myZip = ZipFile.Read(openPath);
                 foreach (var entry in myZip)
                 {
-                    fileCount++;
-                    totalSize += entry.UncompressedSize;
+                    this.fileCount++;
+                    this.totalSize += entry.UncompressedSize;
                 }
-                progressBar.Maximum = (Int32)totalSize;
+                progressBar.Maximum = (Int32)this.totalSize;
                 myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(myZip_ExtractProgress);
                 myZip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
                 lblProgressStatus.Text = "Congratulations! Your new site is now ready to visit!";
-                return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Read And Extract Install Package", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                throw new ReadAndExtractException("There was an error attempting to read and extract the package", ex) { Source = "Read And Extract Package" };
             }
         }
 
-        void myZip_ExtractProgress(object sender, Ionic.Zip.ExtractProgressEventArgs e)
+        void myZip_ExtractProgress(object sender, ExtractProgressEventArgs e)
         {
             System.Windows.Forms.Application.DoEvents();
-            if (total != e.TotalBytesToTransfer)
+            if (this.total != e.TotalBytesToTransfer)
             {
-                sum += total - lastVal + e.BytesTransferred;
-                total = e.TotalBytesToTransfer;
+                this.sum += this.total - this.lastVal + e.BytesTransferred;
+                this.total = e.TotalBytesToTransfer;
                 lblProgressStatus.Text = "Copying: " + e.CurrentEntry.FileName;
             }
             else
-                sum += e.BytesTransferred - lastVal;
+            {
+                this.sum += e.BytesTransferred - this.lastVal;
+            }
 
-            lastVal = e.BytesTransferred;
+            this.lastVal = e.BytesTransferred;
 
             progressBar.Value = (Int32)sum;
-        }
-
-        private bool ModifyConfig()
-        {
-            try
-            {
-                string myDBServerName = txtDBServerName.Text;
-                string connectionStringAuthSection = "";
-                if (rdoWindowsAuthentication.Checked)
-                {
-                    connectionStringAuthSection = "Integrated Security=True;";
-                }
-                else
-                {
-                    connectionStringAuthSection = "User ID=" + txtDBUserName.Text + ";Password=" + txtDBPassword.Text +
-                                                  ";";
-                }
-
-                string key = "SiteSqlServer";
-                string value = @"Server=" + myDBServerName + ";Database=" + txtDBName.Text + ";" +
-                               connectionStringAuthSection;
-                //string providerName = "System.Data.SqlClient";
-
-                string installFolder = txtInstallBaseFolder.Text + "\\" + txtInstallSubFolder.Text;
-                string path = installFolder + @"\Website\web.config";
-
-                var config = XDocument.Load(path);
-                var targetNode = config.Root.Element("connectionStrings").Element("add").Attribute("connectionString");
-                targetNode.Value = value;
-
-                var list = from appNode in config.Descendants("appSettings").Elements()
-                    where appNode.Attribute("key").Value == key
-                    select appNode;
-
-                var e = list.FirstOrDefault();
-                if (e != null)
-                {
-                    e.Attribute("value").SetValue(value);
-                }
-
-                config.Save(path);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Modify Config", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
         }
 
         #endregion
@@ -1092,7 +631,7 @@ namespace nvQuickSite
 
         private void btnVisitSite_Click(object sender, EventArgs e)
         {
-            Process.Start("http://" + txtSiteNamePrefix.Text + txtSiteNameSuffix.Text);
+            Process.Start("http://" + this.siteName);
             Main.ActiveForm.Close();
         }
 
@@ -1142,5 +681,25 @@ namespace nvQuickSite
 
         #endregion
 
+    }
+
+    [Serializable]
+    internal class ReadAndExtractException : Exception
+    {
+        public ReadAndExtractException()
+        {
+        }
+
+        public ReadAndExtractException(string message) : base(message)
+        {
+        }
+
+        public ReadAndExtractException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected ReadAndExtractException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }
