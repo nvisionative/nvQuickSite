@@ -32,22 +32,25 @@ namespace nvQuickSite.Controllers
         {
             var localPackages = GetLocalPackages();
             var packages = localPackages.ToList();
-            var remotePackages = GetRemotePackages();
-            if (remotePackages.Count() > 0)
+            if (Start.isOnline)
             {
-                packages = localPackages.Where(p => p.keep == true).ToList();
-                foreach (var package in remotePackages)
+                var remotePackages = GetRemotePackages();
+                if (remotePackages.Count() > 0)
                 {
-                    if (packages.SingleOrDefault(p => p.did == package.did && p.version == package.version) == null)
+                    packages = localPackages.Where(p => p.keep == true).ToList();
+                    foreach (var package in remotePackages)
                     {
-                        packages.Add(package);
+                        if (packages.SingleOrDefault(p => p.did == package.did && p.version == package.version) == null)
+                        {
+                            packages.Add(package);
+                        }
                     }
                 }
-            }
-            var ghPackages = GetGitHubPackages();
-            if (ghPackages.Count() > 0)
-            {
-                packages = packages.Union(ghPackages).ToList();
+                var ghPackages = GetGitHubPackages();
+                if (ghPackages.Count() > 0)
+                {
+                    packages = packages.Union(ghPackages).ToList();
+                }
             }
             SaveLocalPackagesFile(packages);
             return packages;
@@ -93,10 +96,10 @@ namespace nvQuickSite.Controllers
                 var res = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Package>>(result);
                 return res;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                return new List<Package>();
             }
-            return new List<Package>();
         }
 
         private static string GetDownloadDirectory()
@@ -146,12 +149,12 @@ namespace nvQuickSite.Controllers
                         index++;
                     }
                 }
+                return res;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
             }
-            return res;
         }
 
         private static string TrimTagName(Release release)

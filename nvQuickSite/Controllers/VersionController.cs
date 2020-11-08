@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace nvQuickSite.Controllers
 {
@@ -36,9 +37,29 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
+                throw new VersionControllerException("There was an error reading the latest version of nvQuickSite. Please check your internet connection.", ex) { Source = "Get Remote Latest Version" };
             }
-            return "";
         }
 
+    }
+
+    [Serializable]
+    internal class VersionControllerException : Exception
+    {
+        public VersionControllerException()
+        {
+        }
+
+        public VersionControllerException(string message) : base(message)
+        {
+        }
+
+        public VersionControllerException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected VersionControllerException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

@@ -60,6 +60,13 @@ namespace nvQuickSite
 
             }
         }
+        internal static bool isOnline
+        {
+            get
+            {
+                return new WebClient().OpenRead("https://github.com/nvisionative/nvQuickSite").CanRead;
+            }
+        }
 
         public Start()
         {
@@ -98,9 +105,9 @@ namespace nvQuickSite
                     LoadPackageVersions(((ComboItem)cboProductName.SelectedItem).Value);
                 }
             }
-            catch (Exception ex)
+            catch (WebException ex)
             {
-                lblLatestReleases.Text = "Error: " + ex.Message + " --- you may be able to use a Local Install Package"; // "INTERNET CURRENTLY UNAVAILABLE: Use Local Install Package Instead";
+                lblLatestReleases.Text = "It appears you have no internet, but you can still use Local Install Packages.";
                 lblLatestReleases.CustomForeColor = true;
                 lblLatestReleases.ForeColor = Color.DarkRed;
                 cboProductName.Enabled = false;
@@ -308,7 +315,10 @@ namespace nvQuickSite
         {
             if (txtLocalInstallPackage.Text == "")
             {
-                GetOnlineVersion();
+                if (isOnline)
+                {
+                    GetOnlineVersion();
+                }
             }
             else
             {
@@ -316,7 +326,10 @@ namespace nvQuickSite
                     "Confirm: Use Local Package?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.No)
                 {
-                    GetOnlineVersion();
+                    if (isOnline)
+                    {
+                        GetOnlineVersion();
+                    }
                 }
                 else
                 {
