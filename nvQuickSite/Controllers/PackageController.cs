@@ -40,6 +40,8 @@ namespace nvQuickSite.Controllers
         {
             var localPackages = GetLocalPackages();
             var packages = localPackages.ToList();
+            if (Start.isOnline)
+            {
             var remotePackages = GetRemotePackages();
             if (remotePackages.Any())
             {
@@ -57,6 +59,7 @@ namespace nvQuickSite.Controllers
             if (ghPackages.Any())
             {
                 packages = packages.Union(ghPackages).ToList();
+            }
             }
 
             SaveLocalPackagesFile(packages);
@@ -174,13 +177,13 @@ namespace nvQuickSite.Controllers
                         index++;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
 
-            return res;
+                return res;
+            }
+            catch (Exception)
+            {
+                return res;
+            }
         }
 
         private static string TrimTagName(Release release)

@@ -55,6 +55,23 @@ namespace nvQuickSite
             this.ReadUserSettings();
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the system can access the github.
+        /// </summary>
+        internal static bool isOnline
+        {
+            get
+            {
+                bool canRead;
+                using (var client = new WebClient())
+                {
+                    canRead = client.OpenRead("https://github.com/nvisionative/nvQuickSite").CanRead;
+                }
+
+                return canRead;
+            }
+        }
+
         private IEnumerable<Package> Packages { get; set; }
 
         private string InstallFolder => Path.Combine(this.txtInstallBaseFolder.Text, this.txtInstallSubFolder.Text);
@@ -95,9 +112,9 @@ namespace nvQuickSite
                     this.LoadPackageVersions(((ComboItem)this.cboProductName.SelectedItem).Value);
                 }
             }
-            catch (WebException ex)
+            catch (WebException)
             {
-                this.lblLatestReleases.Text = "Error: " + ex.Message + " --- you may be able to use a Local Install Package"; // "INTERNET CURRENTLY UNAVAILABLE: Use Local Install Package Instead";
+                this.lblLatestReleases.Text = "It appears you have no internet, but you can still use Local Install Packages.";
                 this.lblLatestReleases.CustomForeColor = true;
                 this.lblLatestReleases.ForeColor = Color.DarkRed;
                 this.cboProductName.Enabled = false;
@@ -326,7 +343,10 @@ namespace nvQuickSite
                     MessageBoxIcon.Question);
                 if (result == DialogResult.No)
                 {
+                    if (isOnline)
+                    {
                     this.GetOnlineVersion();
+                }
                 }
                 else
                 {

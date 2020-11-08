@@ -66,10 +66,17 @@ namespace nvQuickSite
 
             this.lblVersion.Text = "v" + Application.ProductVersion;
 
+            try
+            {
             var latestVersion = VersionController.GetRemoteLatestVersion();
             if (Version.Parse(latestVersion) > Version.Parse(Application.ProductVersion))
             {
                 this.tileGetNewVersion.Visible = true;
+            }
+            }
+            catch (VersionControllerException ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             Start control = new Start();

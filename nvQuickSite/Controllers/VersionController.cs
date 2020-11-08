@@ -44,12 +44,11 @@ namespace nvQuickSite.Controllers
                     Models.Version res = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.Version>(result);
                     return res.latestVersion;
                 }
-                catch (WebException)
+                catch (WebException ex)
                 {
+                    throw new VersionControllerException("There was an error reading the latest version of nvQuickSite. Please check your internet connection.", ex) { Source = "Get Remote Latest Version" };
                 }
             }
-
-            return string.Empty;
         }
     }
 }
