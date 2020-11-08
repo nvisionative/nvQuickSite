@@ -135,6 +135,7 @@ namespace nvQuickSite
 
                 this.txtDBServerName.Text = Properties.Settings.Default.DatabaseServerNameRecent;
                 this.txtDBName.Text = Properties.Settings.Default.DatabaseNameRecent;
+                this.txtDBUserName.Text = Properties.Settings.Default.DatabaseUserNameRecent;
             }
         }
 
@@ -146,8 +147,12 @@ namespace nvQuickSite
                 Properties.Settings.Default.SiteNameSuffixRecent = this.txtSiteNameSuffix.Text;
                 Properties.Settings.Default.AppPoolRecent = this.chkSiteSpecificAppPool.Checked;
                 Properties.Settings.Default.DeleteSiteInIISRecent = this.chkDeleteSiteIfExists.Checked;
+                Properties.Settings.Default.InstallBaseFolderRecent = this.txtInstallBaseFolder.Text;
+                
                 Properties.Settings.Default.DatabaseServerNameRecent = this.txtDBServerName.Text;
                 Properties.Settings.Default.DatabaseNameRecent = this.txtDBName.Text;
+                Properties.Settings.Default.DatabaseUserNameRecent = this.txtDBUserName.Text;
+
                 Properties.Settings.Default.Save();
             }
         }
