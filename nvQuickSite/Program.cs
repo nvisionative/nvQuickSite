@@ -1,34 +1,37 @@
-﻿//Copyright (c) 2016-2020 nvisionative, Inc.
+﻿// Copyright (c) 2016-2020 nvisionative, Inc.
+//
+// This file is part of nvQuickSite.
+//
+// nvQuickSite is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// nvQuickSite is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace nvQuickSite
 {
-    //This file is part of nvQuickSite.
-
-    //nvQuickSite is free software: you can redistribute it and/or modify
-    //it under the terms of the GNU General Public License as published by
-    //the Free Software Foundation, either version 3 of the License, or
-    //(at your option) any later version.
-
-    //nvQuickSite is distributed in the hope that it will be useful,
-    //but WITHOUT ANY WARRANTY; without even the implied warranty of
-    //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-    //GNU General Public License for more details.
-
-    //You should have received a copy of the GNU General Public License
-    //along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
-
     using System;
     using System.Diagnostics;
     using System.Security.Principal;
     using System.Windows.Forms;
 
-    static class Program
+    /// <summary>
+    /// Implements the program entry point.
+    /// </summary>
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -47,13 +50,16 @@ namespace nvQuickSite
                 }
                 catch
                 {
-                    return;
+                    throw;
                 }
+
                 return;
             }
 
-            Application.Run(new Main());
-
+            using (var main = new Main())
+            {
+                Application.Run(main);
+            }
         }
     }
 }

@@ -21,43 +21,43 @@ namespace nvQuickSite.Controllers
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Thrown when a database related error occurs.
+    /// Thrown when a site aleady exists and the user did not allow it's deletion.
     /// </summary>
     [Serializable]
-    public class DatabaseControllerException : Exception
+    public class SiteExistsException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
+        /// Initializes a new instance of the <see cref="SiteExistsException"/> class.
         /// </summary>
-        public DatabaseControllerException()
+        public SiteExistsException()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
+        /// Initializes a new instance of the <see cref="SiteExistsException"/> class.
         /// </summary>
-        /// <param name="message">A friendly error message to display to the user.</param>
-        public DatabaseControllerException(string message)
+        /// <param name="message">A friendly message to display to the user.</param>
+        public SiteExistsException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
+        /// Initializes a new instance of the <see cref="SiteExistsException"/> class.
         /// </summary>
-        /// <param name="message">A friendly error message to display to the user.</param>
+        /// <param name="message">A friendly message to display to the user.</param>
         /// <param name="innerException">The details of the exception that triggered this exception.</param>
-        public DatabaseControllerException(string message, Exception innerException)
+        public SiteExistsException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
+        /// Initializes a new instance of the <see cref="SiteExistsException"/> class.
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The streaming context.</param>
-        protected DatabaseControllerException(SerializationInfo info, StreamingContext context)
+        protected SiteExistsException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

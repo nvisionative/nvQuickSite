@@ -15,49 +15,49 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace nvQuickSite.Controllers
+namespace nvQuickSite
 {
     using System;
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Thrown when a database related error occurs.
+    /// Thrown when an error occurs while tryint to read and extract a package.
     /// </summary>
     [Serializable]
-    public class DatabaseControllerException : Exception
+    public class ReadAndExtractException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
+        /// Initializes a new instance of the <see cref="ReadAndExtractException"/> class.
         /// </summary>
-        public DatabaseControllerException()
+        public ReadAndExtractException()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
+        /// Initializes a new instance of the <see cref="ReadAndExtractException"/> class.
         /// </summary>
-        /// <param name="message">A friendly error message to display to the user.</param>
-        public DatabaseControllerException(string message)
+        /// <param name="message">A friendly message to display to the user.</param>
+        public ReadAndExtractException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
+        /// Initializes a new instance of the <see cref="ReadAndExtractException"/> class.
         /// </summary>
-        /// <param name="message">A friendly error message to display to the user.</param>
+        /// <param name="message">A friendly message to display to the user.</param>
         /// <param name="innerException">The details of the exception that triggered this exception.</param>
-        public DatabaseControllerException(string message, Exception innerException)
+        public ReadAndExtractException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
+        /// Initializes a new instance of the <see cref="ReadAndExtractException"/> class.
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The streaming context.</param>
-        protected DatabaseControllerException(SerializationInfo info, StreamingContext context)
+        protected ReadAndExtractException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
