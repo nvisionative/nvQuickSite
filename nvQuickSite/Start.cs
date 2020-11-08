@@ -1,44 +1,40 @@
 //Copyright (c) 2016-2020 nvisionative, Inc.
 
-//This file is part of nvQuickSite.
-
-//nvQuickSite is free software: you can redistribute it and/or modify
-//it under the terms of the GNU General Public License as published by
-//the Free Software Foundation, either version 3 of the License, or
-//(at your option) any later version.
-
-//nvQuickSite is distributed in the hope that it will be useful,
-//but WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-//GNU General Public License for more details.
-
-//You should have received a copy of the GNU General Public License
-//along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
-
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Net;
-using System.Xml.Linq;
-using System.Windows.Forms;
-using System.IO;
-using System.Security.AccessControl;
-using System.Net.Sockets;
-using System.Diagnostics;
-using MetroFramework.Controls;
-using Microsoft.Web.Administration;
-using Ionic.Zip;
-using Ookii.Dialogs;
-using nvQuickSite.Controllers;
-using nvQuickSite.Models;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-
 namespace nvQuickSite
 {
+    //This file is part of nvQuickSite.
+
+    //nvQuickSite is free software: you can redistribute it and/or modify
+    //it under the terms of the GNU General Public License as published by
+    //the Free Software Foundation, either version 3 of the License, or
+    //(at your option) any later version.
+
+    //nvQuickSite is distributed in the hope that it will be useful,
+    //but WITHOUT ANY WARRANTY; without even the implied warranty of
+    //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+    //GNU General Public License for more details.
+
+    //You should have received a copy of the GNU General Public License
+    //along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
+
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Runtime.Serialization;
+    using System.Windows.Forms;
+
+    using Ionic.Zip;
+    using MetroFramework.Controls;
+    using nvQuickSite.Controllers;
+    using nvQuickSite.Models;
+    using Ookii.Dialogs;
+
     public partial class Start : MetroUserControl
     {
 
@@ -182,8 +178,7 @@ namespace nvQuickSite
         {
             if (cboProductName.SelectedItem == null || cboProductVersion.SelectedItem == null) { return; }
             Models.Package package;
-            var url = "";
-            var fileName = "";
+            var fileName = string.Empty;
 
             package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
             fileName = package.url.Split('/').Last();
@@ -262,8 +257,7 @@ namespace nvQuickSite
         void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             Models.Package package;
-            var url = "";
-            var fileName = "";
+            var fileName = string.Empty;
 
             package = Packages.FirstOrDefault(p => p.did == ((ComboItem)cboProductName.SelectedItem).Value && p.version == ((ComboItem)cboProductVersion.SelectedItem).Value);
             fileName = package.url.Split('/').Last();
@@ -306,7 +300,7 @@ namespace nvQuickSite
 
         private void btnInstallPackageNext_Click(object sender, EventArgs e)
         {
-            if (txtLocalInstallPackage.Text == "")
+            if (txtLocalInstallPackage.Text == string.Empty)
             {
                 GetOnlineVersion();
             }
