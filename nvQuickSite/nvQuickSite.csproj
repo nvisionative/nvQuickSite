@@ -112,16 +112,16 @@
   <ItemGroup>
     <Compile Include="ComboItem.cs" />
     <Compile Include="Controllers\DatabaseController.cs" />
-    <Compile Include="Controllers\DatabaseControllerException.cs" />
+    <Compile Include="Controllers\Exceptions\DatabaseControllerException.cs" />
     <Compile Include="Controllers\FileSystemController.cs" />
-    <Compile Include="Controllers\FileSystemControllerException.cs" />
+    <Compile Include="Controllers\Exceptions\FileSystemControllerException.cs" />
     <Compile Include="Controllers\IISController.cs" />
-    <Compile Include="Controllers\IISControllerException.cs" />
+    <Compile Include="Controllers\Exceptions\IISControllerException.cs" />
     <Compile Include="Controllers\PackageController.cs" />
-    <Compile Include="Controllers\SiteExistsException.cs" />
+    <Compile Include="Controllers\Exceptions\SiteExistsException.cs" />
     <Compile Include="Controllers\DialogController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
-    <Compile Include="Controllers\VersionControllerException.cs" />
+    <Compile Include="Controllers\Exceptions\VersionControllerException.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\Version.cs" />
     <Compile Include="Controls\Dialogs\MsgBoxOk.cs">
@@ -136,7 +136,7 @@
     <Compile Include="Controls\Dialogs\MsgBoxYesNo.Designer.cs">
       <DependentUpon>MsgBoxYesNo.cs</DependentUpon>
     </Compile>
-    <Compile Include="ReadAndExtractException.cs" />
+    <Compile Include="Exceptions\ReadAndExtractException.cs" />
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>

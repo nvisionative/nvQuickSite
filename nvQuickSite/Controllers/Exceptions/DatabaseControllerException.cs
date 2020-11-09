@@ -15,49 +15,49 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace nvQuickSite.Controllers
+namespace nvQuickSite.Controllers.Exceptions
 {
     using System;
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Thrown when an error occurs in the <see cref="IISController"/>.
+    /// Thrown when a database related error occurs.
     /// </summary>
     [Serializable]
-    public class IISControllerException : Exception
+    public class DatabaseControllerException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="IISControllerException"/> class.
+        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
         /// </summary>
-        public IISControllerException()
+        public DatabaseControllerException()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IISControllerException"/> class.
+        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
         /// </summary>
-        /// <param name="message">A friendly error message to show to the user.</param>
-        public IISControllerException(string message)
+        /// <param name="message">A friendly error message to display to the user.</param>
+        public DatabaseControllerException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IISControllerException"/> class.
+        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
         /// </summary>
-        /// <param name="message">A friendly error message to show to the user.</param>
+        /// <param name="message">A friendly error message to display to the user.</param>
         /// <param name="innerException">The details of the exception that triggered this exception.</param>
-        public IISControllerException(string message, Exception innerException)
+        public DatabaseControllerException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IISControllerException"/> class.
+        /// Initializes a new instance of the <see cref="DatabaseControllerException"/> class.
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The streaming context.</param>
-        protected IISControllerException(SerializationInfo info, StreamingContext context)
+        protected DatabaseControllerException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

@@ -15,49 +15,49 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace nvQuickSite.Controllers
+namespace nvQuickSite.Controllers.Exceptions
 {
     using System;
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Thrown when a site aleady exists and the user did not allow it's deletion.
+    /// Thrown when an error occurs in the <see cref="IISController"/>.
     /// </summary>
     [Serializable]
-    public class SiteExistsException : Exception
+    public class IISControllerException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SiteExistsException"/> class.
+        /// Initializes a new instance of the <see cref="IISControllerException"/> class.
         /// </summary>
-        public SiteExistsException()
+        public IISControllerException()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SiteExistsException"/> class.
+        /// Initializes a new instance of the <see cref="IISControllerException"/> class.
         /// </summary>
-        /// <param name="message">A friendly message to display to the user.</param>
-        public SiteExistsException(string message)
+        /// <param name="message">A friendly error message to show to the user.</param>
+        public IISControllerException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SiteExistsException"/> class.
+        /// Initializes a new instance of the <see cref="IISControllerException"/> class.
         /// </summary>
-        /// <param name="message">A friendly message to display to the user.</param>
+        /// <param name="message">A friendly error message to show to the user.</param>
         /// <param name="innerException">The details of the exception that triggered this exception.</param>
-        public SiteExistsException(string message, Exception innerException)
+        public IISControllerException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SiteExistsException"/> class.
+        /// Initializes a new instance of the <see cref="IISControllerException"/> class.
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The streaming context.</param>
-        protected SiteExistsException(SerializationInfo info, StreamingContext context)
+        protected IISControllerException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
