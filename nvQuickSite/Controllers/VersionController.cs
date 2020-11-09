@@ -46,7 +46,7 @@ namespace nvQuickSite.Controllers
                 }
                 catch (WebException ex)
                 {
-                    throw new VersionControllerException("There was an error reading the latest version of nvQuickSite. Please check your internet connection.", ex) { Source = "Get Remote Latest Version" };
+                    throw new VersionControllerException("There was an error reading the latest version of nvQuickSite. Please\ncheck your internet connection.", ex) { Source = "Get Remote Latest Version" };
                 }
             }
         }

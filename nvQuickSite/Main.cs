@@ -20,6 +20,7 @@ namespace nvQuickSite
     using System;
     using System.Configuration;
     using System.Diagnostics;
+    using System.Drawing;
     using System.Globalization;
     using System.Linq;
     using System.Windows.Forms;
@@ -76,7 +77,7 @@ namespace nvQuickSite
             }
             catch (VersionControllerException ex)
             {
-                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
             }
 
             Start control = new Start();
