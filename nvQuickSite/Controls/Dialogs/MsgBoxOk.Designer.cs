@@ -1,6 +1,6 @@
-﻿namespace nvQuickSite
+﻿namespace nvQuickSite.Controls.Dialogs
 {
-    partial class MsgBoxYesNo
+    partial class MsgBoxOk
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,8 @@
         private void InitializeComponent()
         {
             this.lblTitle = new MetroFramework.Controls.MetroLabel();
-            this.btnNo = new MetroFramework.Controls.MetroButton();
+            this.btnOk = new MetroFramework.Controls.MetroButton();
             this.dialogIcon = new System.Windows.Forms.PictureBox();
-            this.btnYes = new MetroFramework.Controls.MetroButton();
             this.lblMessage = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
@@ -46,19 +45,19 @@
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Message";
             // 
-            // btnNo
+            // btnOk
             // 
-            this.btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.btnNo.Location = new System.Drawing.Point(429, 129);
-            this.btnNo.Name = "btnNo";
-            this.btnNo.Size = new System.Drawing.Size(75, 23);
-            this.btnNo.TabIndex = 2;
-            this.btnNo.Text = "No";
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.No;
+            this.btnOk.Location = new System.Drawing.Point(429, 129);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 2;
+            this.btnOk.Text = "OK";
             // 
             // dialogIcon
             // 
-            this.dialogIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dialogIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dialogIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.dialogIcon.Location = new System.Drawing.Point(4, 11);
@@ -67,15 +66,6 @@
             this.dialogIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.dialogIcon.TabIndex = 4;
             this.dialogIcon.TabStop = false;
-            // 
-            // btnYes
-            // 
-            this.btnYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.btnYes.Location = new System.Drawing.Point(330, 129);
-            this.btnYes.Name = "btnYes";
-            this.btnYes.Size = new System.Drawing.Size(75, 23);
-            this.btnYes.TabIndex = 1;
-            this.btnYes.Text = "Yes";
             // 
             // lblMessage
             // 
@@ -86,7 +76,7 @@
             this.lblMessage.TabIndex = 5;
             this.lblMessage.Text = "Message";
             // 
-            // MsgBoxYesNo
+            // MsgBoxOk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -95,9 +85,8 @@
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.dialogIcon);
-            this.Controls.Add(this.btnNo);
-            this.Controls.Add(this.btnYes);
-            this.Name = "MsgBoxYesNo";
+            this.Controls.Add(this.btnOk);
+            this.Name = "MsgBoxOk";
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -107,9 +96,8 @@
         #endregion
 
         private MetroFramework.Controls.MetroLabel lblTitle;
-        private MetroFramework.Controls.MetroButton btnNo;
+        private MetroFramework.Controls.MetroButton btnOk;
         private System.Windows.Forms.PictureBox dialogIcon;
-        private MetroFramework.Controls.MetroButton btnYes;
         private MetroFramework.Controls.MetroLabel lblMessage;
     }
 }

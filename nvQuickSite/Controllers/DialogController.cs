@@ -20,6 +20,8 @@ namespace nvQuickSite.Controllers
     using System.Drawing;
     using System.Windows.Forms;
 
+    using nvQuickSite.Controls.Dialogs;
+
     /// <summary>
     /// Manages versions.
     /// </summary>

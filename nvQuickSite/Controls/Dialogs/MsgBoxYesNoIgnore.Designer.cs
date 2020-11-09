@@ -1,6 +1,6 @@
-﻿namespace nvQuickSite
+﻿namespace nvQuickSite.Controls.Dialogs
 {
-    partial class MsgBoxOk
+    partial class MsgBoxYesNoIgnore
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,11 @@
         private void InitializeComponent()
         {
             this.lblTitle = new MetroFramework.Controls.MetroLabel();
-            this.btnOk = new MetroFramework.Controls.MetroButton();
-            this.dialogIcon = new System.Windows.Forms.PictureBox();
             this.lblMessage = new MetroFramework.Controls.MetroLabel();
+            this.btnYes = new MetroFramework.Controls.MetroButton();
+            this.btnNo = new MetroFramework.Controls.MetroButton();
+            this.chkDoNotWarnAgain = new MetroFramework.Controls.MetroCheckBox();
+            this.dialogIcon = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,14 +47,42 @@
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Message";
             // 
-            // btnOk
+            // lblMessage
             // 
-            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.btnOk.Location = new System.Drawing.Point(429, 129);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 2;
-            this.btnOk.Text = "OK";
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.Location = new System.Drawing.Point(77, 43);
+            this.lblMessage.Name = "lblMessage";
+            this.lblMessage.Size = new System.Drawing.Size(64, 20);
+            this.lblMessage.TabIndex = 5;
+            this.lblMessage.Text = "Message";
+            // 
+            // btnYes
+            // 
+            this.btnYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
+            this.btnYes.Location = new System.Drawing.Point(330, 129);
+            this.btnYes.Name = "btnYes";
+            this.btnYes.Size = new System.Drawing.Size(75, 23);
+            this.btnYes.TabIndex = 1;
+            this.btnYes.Text = "Yes";
+            // 
+            // btnNo
+            // 
+            this.btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
+            this.btnNo.Location = new System.Drawing.Point(429, 129);
+            this.btnNo.Name = "btnNo";
+            this.btnNo.Size = new System.Drawing.Size(75, 23);
+            this.btnNo.TabIndex = 2;
+            this.btnNo.Text = "No";
+            // 
+            // chkDoNotWarnAgain
+            // 
+            this.chkDoNotWarnAgain.AutoSize = true;
+            this.chkDoNotWarnAgain.Location = new System.Drawing.Point(17, 129);
+            this.chkDoNotWarnAgain.Name = "chkDoNotWarnAgain";
+            this.chkDoNotWarnAgain.Size = new System.Drawing.Size(140, 15);
+            this.chkDoNotWarnAgain.TabIndex = 3;
+            this.chkDoNotWarnAgain.Text = "Do not warn me again";
+            this.chkDoNotWarnAgain.UseVisualStyleBackColor = true;
             // 
             // dialogIcon
             // 
@@ -67,26 +97,19 @@
             this.dialogIcon.TabIndex = 4;
             this.dialogIcon.TabStop = false;
             // 
-            // lblMessage
-            // 
-            this.lblMessage.AutoSize = true;
-            this.lblMessage.Location = new System.Drawing.Point(77, 43);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(64, 20);
-            this.lblMessage.TabIndex = 5;
-            this.lblMessage.Text = "Message";
-            // 
-            // MsgBoxOk
+            // MsgBoxYesNoIgnore
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(527, 170);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.dialogIcon);
-            this.Controls.Add(this.btnOk);
-            this.Name = "MsgBoxOk";
+            this.Controls.Add(this.chkDoNotWarnAgain);
+            this.Controls.Add(this.btnNo);
+            this.Controls.Add(this.btnYes);
+            this.Controls.Add(this.lblMessage);
+            this.Name = "MsgBoxYesNoIgnore";
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -96,8 +119,10 @@
         #endregion
 
         private MetroFramework.Controls.MetroLabel lblTitle;
-        private MetroFramework.Controls.MetroButton btnOk;
-        private System.Windows.Forms.PictureBox dialogIcon;
         private MetroFramework.Controls.MetroLabel lblMessage;
+        private MetroFramework.Controls.MetroButton btnYes;
+        private MetroFramework.Controls.MetroButton btnNo;
+        private MetroFramework.Controls.MetroCheckBox chkDoNotWarnAgain;
+        private System.Windows.Forms.PictureBox dialogIcon;
     }
 }

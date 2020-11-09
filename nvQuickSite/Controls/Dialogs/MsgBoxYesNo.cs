@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace nvQuickSite
+namespace nvQuickSite.Controls.Dialogs
 {
     using System.Drawing;
 
@@ -24,15 +24,15 @@ namespace nvQuickSite
     /// <summary>
     /// A custom messagebox with yes, no and ignore.
     /// </summary>
-    public partial class MsgBoxOk : MetroForm
+    public partial class MsgBoxYesNo : MetroForm
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MsgBoxOk"/> class.
+        /// Initializes a new instance of the <see cref="MsgBoxYesNo"/> class.
         /// </summary>
         /// <param name="dialogTitle">The title to show in the dialog.</param>
         /// <param name="dialogMessage">The message to show in the dialog.</param>
         /// <param name="dialogIconImage">The image to use as the dialog icon.</param>
-        public MsgBoxOk(string dialogTitle, string dialogMessage, Image dialogIconImage)
+        public MsgBoxYesNo(string dialogTitle, string dialogMessage, Image dialogIconImage)
         {
             this.InitializeComponent();
             this.lblTitle.Text = dialogTitle;

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace nvQuickSite
+namespace nvQuickSite.Controls.Dialogs
 {
     using System.Drawing;
 
@@ -24,20 +24,27 @@ namespace nvQuickSite
     /// <summary>
     /// A custom messagebox with yes, no and ignore.
     /// </summary>
-    public partial class MsgBoxYesNo : MetroForm
+    public partial class MsgBoxYesNoIgnore : MetroForm
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MsgBoxYesNo"/> class.
+        /// Initializes a new instance of the <see cref="MsgBoxYesNoIgnore"/> class.
         /// </summary>
+        /// <param name="doNotWarnAgain">A value indicating whether the Do Not Warn Again checkbox should be checked.</param>
         /// <param name="dialogTitle">The title to show in the dialog.</param>
         /// <param name="dialogMessage">The message to show in the dialog.</param>
         /// <param name="dialogIconImage">The image to use as the dialog icon.</param>
-        public MsgBoxYesNo(string dialogTitle, string dialogMessage, Image dialogIconImage)
+        public MsgBoxYesNoIgnore(bool doNotWarnAgain, string dialogTitle, string dialogMessage, Image dialogIconImage)
         {
             this.InitializeComponent();
+            this.chkDoNotWarnAgain.Checked = doNotWarnAgain;
             this.lblTitle.Text = dialogTitle;
             this.lblMessage.Text = dialogMessage;
             this.dialogIcon.Image = dialogIconImage;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether to not warn again.
+        /// </summary>
+        public bool DoNotWarnAgain => this.chkDoNotWarnAgain.Checked;
     }
 }
