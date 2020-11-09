@@ -28,6 +28,7 @@ namespace nvQuickSite
     using JCS;
     using MetroFramework.Forms;
     using nvQuickSite.Controllers;
+    using nvQuickSite.Controllers.Exceptions;
     using Segment;
 
     /// <summary>

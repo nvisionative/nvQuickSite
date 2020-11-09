@@ -23,6 +23,8 @@ namespace nvQuickSite.Controllers
     using System.Security.AccessControl;
     using System.Xml.Linq;
 
+    using nvQuickSite.Controllers.Exceptions;
+
     /// <summary>
     /// Controls file system operations.
     /// </summary>

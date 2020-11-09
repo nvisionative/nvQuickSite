@@ -31,6 +31,8 @@ namespace nvQuickSite
     using Ionic.Zip;
     using MetroFramework.Controls;
     using nvQuickSite.Controllers;
+    using nvQuickSite.Controllers.Exceptions;
+    using nvQuickSite.Exceptions;
     using nvQuickSite.Models;
     using Ookii.Dialogs;
 

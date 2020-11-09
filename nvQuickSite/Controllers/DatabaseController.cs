@@ -21,6 +21,8 @@ namespace nvQuickSite.Controllers
     using System.Data;
     using System.Data.SqlClient;
 
+    using nvQuickSite.Controllers.Exceptions;
+
     /// <summary>
     /// Controls database operations.
     /// </summary>

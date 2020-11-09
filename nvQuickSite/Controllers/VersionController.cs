@@ -19,6 +19,8 @@ namespace nvQuickSite.Controllers
 {
     using System.Net;
 
+    using nvQuickSite.Controllers.Exceptions;
+
     /// <summary>
     /// Manages versions.
     /// </summary>
