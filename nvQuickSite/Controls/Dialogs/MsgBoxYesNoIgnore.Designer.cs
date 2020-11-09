@@ -1,4 +1,4 @@
-﻿namespace nvQuickSite
+﻿namespace nvQuickSite.Controls.Dialogs
 {
     partial class MsgBoxYesNoIgnore
     {
@@ -28,21 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.lblTitle = new MetroFramework.Controls.MetroLabel();
             this.lblMessage = new MetroFramework.Controls.MetroLabel();
             this.btnYes = new MetroFramework.Controls.MetroButton();
-            this.metroButton2 = new MetroFramework.Controls.MetroButton();
+            this.btnNo = new MetroFramework.Controls.MetroButton();
             this.chkDoNotWarnAgain = new MetroFramework.Controls.MetroCheckBox();
             this.dialogIcon = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
             // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.lblTitle.Location = new System.Drawing.Point(77, 23);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(70, 20);
+            this.lblTitle.TabIndex = 0;
+            this.lblTitle.Text = "Message";
+            // 
             // lblMessage
             // 
             this.lblMessage.AutoSize = true;
-            this.lblMessage.Location = new System.Drawing.Point(97, 23);
+            this.lblMessage.Location = new System.Drawing.Point(77, 43);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(60, 19);
-            this.lblMessage.TabIndex = 0;
+            this.lblMessage.Size = new System.Drawing.Size(64, 20);
+            this.lblMessage.TabIndex = 5;
             this.lblMessage.Text = "Message";
             // 
             // btnYes
@@ -54,14 +65,14 @@
             this.btnYes.TabIndex = 1;
             this.btnYes.Text = "Yes";
             // 
-            // metroButton2
+            // btnNo
             // 
-            this.metroButton2.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.metroButton2.Location = new System.Drawing.Point(429, 129);
-            this.metroButton2.Name = "metroButton2";
-            this.metroButton2.Size = new System.Drawing.Size(75, 23);
-            this.metroButton2.TabIndex = 2;
-            this.metroButton2.Text = "No";
+            this.btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
+            this.btnNo.Location = new System.Drawing.Point(429, 129);
+            this.btnNo.Name = "btnNo";
+            this.btnNo.Size = new System.Drawing.Size(75, 23);
+            this.btnNo.TabIndex = 2;
+            this.btnNo.Text = "No";
             // 
             // chkDoNotWarnAgain
             // 
@@ -75,9 +86,14 @@
             // 
             // dialogIcon
             // 
-            this.dialogIcon.Location = new System.Drawing.Point(17, 35);
+            this.dialogIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dialogIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.dialogIcon.Location = new System.Drawing.Point(4, 11);
             this.dialogIcon.Name = "dialogIcon";
-            this.dialogIcon.Size = new System.Drawing.Size(67, 67);
+            this.dialogIcon.Size = new System.Drawing.Size(77, 77);
+            this.dialogIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.dialogIcon.TabIndex = 4;
             this.dialogIcon.TabStop = false;
             // 
@@ -87,9 +103,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(527, 170);
+            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.dialogIcon);
             this.Controls.Add(this.chkDoNotWarnAgain);
-            this.Controls.Add(this.metroButton2);
+            this.Controls.Add(this.btnNo);
             this.Controls.Add(this.btnYes);
             this.Controls.Add(this.lblMessage);
             this.Name = "MsgBoxYesNoIgnore";
@@ -101,9 +118,10 @@
 
         #endregion
 
+        private MetroFramework.Controls.MetroLabel lblTitle;
         private MetroFramework.Controls.MetroLabel lblMessage;
         private MetroFramework.Controls.MetroButton btnYes;
-        private MetroFramework.Controls.MetroButton metroButton2;
+        private MetroFramework.Controls.MetroButton btnNo;
         private MetroFramework.Controls.MetroCheckBox chkDoNotWarnAgain;
         private System.Windows.Forms.PictureBox dialogIcon;
     }

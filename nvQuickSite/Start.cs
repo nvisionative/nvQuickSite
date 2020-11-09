@@ -148,7 +148,7 @@ namespace nvQuickSite
                 Properties.Settings.Default.AppPoolRecent = this.chkSiteSpecificAppPool.Checked;
                 Properties.Settings.Default.DeleteSiteInIISRecent = this.chkDeleteSiteIfExists.Checked;
                 Properties.Settings.Default.InstallBaseFolderRecent = this.txtInstallBaseFolder.Text;
-                
+
                 Properties.Settings.Default.DatabaseServerNameRecent = this.txtDBServerName.Text;
                 Properties.Settings.Default.DatabaseNameRecent = this.txtDBName.Text;
                 Properties.Settings.Default.DatabaseUserNameRecent = this.txtDBUserName.Text;
@@ -251,11 +251,11 @@ namespace nvQuickSite
                 var dlContinue = true;
                 if (File.Exists(downloadDirectory + fileName))
                 {
-                    DialogResult result = MessageBox.Show(
-                        "Install Package is already downloaded. Would you like to download it again? This will replace the existing download.",
-                        "Download Install Package",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning);
+                    var result = DialogController.ShowMessage(
+                        "Get Online Version",
+                        "Install Package is already downloaded. Would you like to download\nit again? This will replace the existing download.",
+                        SystemIcons.Warning,
+                        DialogController.DialogButtons.YesNo);
 
                     if (result == DialogResult.No)
                     {
@@ -341,17 +341,18 @@ namespace nvQuickSite
             }
             else
             {
-                DialogResult result = MessageBox.Show(
-                    "Click 'Yes' to use the Local Install Package. Click 'No' to attempt download of the selected Download Install Package.",
+                var result = DialogController.ShowMessage(
                     "Confirm: Use Local Package?",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                    "Click 'Yes' to use the Local Install Package. Click 'No' to attempt\ndownload of the selected Download Install Package.",
+                    SystemIcons.Question,
+                    DialogController.DialogButtons.YesNo);
+
                 if (result == DialogResult.No)
                 {
                     if (isOnline)
                     {
-                    this.GetOnlineVersion();
-                }
+                        this.GetOnlineVersion();
+                    }
                 }
                 else
                 {
@@ -413,19 +414,28 @@ namespace nvQuickSite
 
             if (string.IsNullOrWhiteSpace(this.txtInstallBaseFolder.Text) || string.IsNullOrWhiteSpace(this.txtInstallSubFolder.Text) || string.IsNullOrWhiteSpace(this.txtSiteNamePrefix.Text))
             {
-                MessageBox.Show("Please make sure you have entered a Site Name and Install Folder.", "Site Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogController.ShowMessage(
+                    "Site Info",
+                    "Please make sure you have entered a Site Name and Install Folder",
+                    SystemIcons.Warning,
+                    DialogController.DialogButtons.OK);
+
                 return;
             }
 
             if (!Directory.Exists(this.InstallFolder))
             {
-                var dialogMessage = "The entered location does not exist. Do you wish to create it?";
-                var dialogIcon = SystemIcons.Warning.ToBitmap();
                 var doNotWarnAgain = Properties.Settings.Default.LocationDoNotWarnAgain;
-                var msgBoxYesNoIgnore = new MsgBoxYesNoIgnore(doNotWarnAgain, dialogMessage, dialogIcon);
+
                 if (!doNotWarnAgain)
                 {
-                    var result = msgBoxYesNoIgnore.ShowDialog();
+                    var result = DialogController.ShowMessage(
+                        "Site Info",
+                        "The entered location does not exist. Do you wish to create it?",
+                        SystemIcons.Warning,
+                        DialogController.DialogButtons.YesNoIgnore,
+                        Properties.Settings.Default.LocationDoNotWarnAgain);
+
                     if (result == DialogResult.Yes)
                     {
                         Directory.CreateDirectory(this.InstallFolder);
@@ -435,15 +445,15 @@ namespace nvQuickSite
                     {
                         proceed = false;
                     }
+
+                    Properties.Settings.Default.LocationDoNotWarnAgain = DialogController.DoNotWarnAgain;
+                    Properties.Settings.Default.Save();
                 }
                 else
                 {
                     Directory.CreateDirectory(this.InstallFolder);
                     proceed = true;
                 }
-
-                Properties.Settings.Default.LocationDoNotWarnAgain = msgBoxYesNoIgnore.DoNotWarnAgain;
-                Properties.Settings.Default.Save();
             }
             else
             {
@@ -454,13 +464,13 @@ namespace nvQuickSite
             {
                 if (!FileSystemController.DirectoryEmpty(this.InstallFolder))
                 {
-                    var confirmResult = MessageBox.Show(
-                        "All files and folders at this location will be deleted prior to installation of the new DNN instance. Do you wish to proceed?",
+                    var result = DialogController.ShowMessage(
                         "Confirm Installation",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information);
+                        "All files and folders at this location will be deleted prior to installation of\nthe new DNN instance. Do you wish to proceed?",
+                        SystemIcons.Information,
+                        DialogController.DialogButtons.YesNo);
 
-                    if (confirmResult == DialogResult.No)
+                    if (result == DialogResult.No)
                     {
                         proceed = false;
                     }
@@ -520,7 +530,12 @@ namespace nvQuickSite
         {
             if (string.IsNullOrWhiteSpace(this.txtDBServerName.Text) || string.IsNullOrWhiteSpace(this.txtDBName.Text))
             {
-                MessageBox.Show("Please make sure you have entered a Database Server Name and a Database Name.", "Database Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogController.ShowMessage(
+                    "Database Info",
+                    "Please make sure you have entered a Database Server Name and\na Database Name.",
+                    SystemIcons.Warning,
+                    DialogController.DialogButtons.OK);
+
                 return;
             }
 
@@ -581,23 +596,23 @@ namespace nvQuickSite
             }
             catch (SiteExistsException ex)
             {
-                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Warning, DialogController.DialogButtons.OK);
             }
             catch (IISControllerException ex)
             {
-                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
             }
             catch (FileSystemControllerException ex)
             {
-                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
             }
             catch (DatabaseControllerException ex)
             {
-                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Database Info Next", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogController.ShowMessage("Database Info Next", ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
                 throw;
             }
         }
