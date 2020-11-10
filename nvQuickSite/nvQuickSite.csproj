@@ -137,6 +137,18 @@
       <DependentUpon>MsgBoxYesNo.cs</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\ReadAndExtractException.cs" />
+    <Compile Include="DeleteSiteProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeleteSiteProgress.Designer.cs">
+      <DependentUpon>DeleteSiteProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewExistingSites.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewExistingSites.Designer.cs">
+      <DependentUpon>ViewExistingSites.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +181,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Dialogs\MsgBoxYesNo.resx">
       <DependentUpon>MsgBoxYesNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeleteSiteProgress.resx">
+      <DependentUpon>DeleteSiteProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewExistingSites.resx">
+      <DependentUpon>ViewExistingSites.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserSettings.resx">
       <DependentUpon>UserSettings.cs</DependentUpon>

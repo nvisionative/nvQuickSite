@@ -18,7 +18,12 @@
 namespace nvQuickSite.Controllers
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Drawing;
     using System.Globalization;
+    using System.Linq;
+    using System.Runtime.InteropServices;
 
     using Microsoft.Web.Administration;
     using nvQuickSite.Controllers.Exceptions;
@@ -67,6 +72,104 @@ namespace nvQuickSite.Controllers
             catch (Exception ex)
             {
                 throw new IISControllerException("Something went wrong creating the site in IIS: ", ex) { Source = "Create Site" };
+            }
+        }
+
+        /// <summary>
+        /// Attempts to delete a site in IIS, optionnally reporting progress.
+        /// </summary>
+        /// <param name="siteId">The id of the site to delete.</param>
+        /// <param name="progress">The progress reporter.</param>
+        internal static void DeleteSite(long siteId, IProgress<int> progress = null)
+        {
+            using (var iisManager = new ServerManager())
+            {
+                try
+                {
+                    var site = iisManager.Sites.FirstOrDefault(s => s.Id == siteId);
+
+                    if (site == null)
+                    {
+                        progress?.Report(100);
+                        return;
+                    }
+
+                    iisManager.Sites.Remove(site);
+                    iisManager.CommitChanges();
+                    progress?.Report(100);
+                }
+                catch (COMException ex)
+                {
+                    progress?.Report(100);
+                    DialogController.ShowMessage(
+                        "Site Deletion Error",
+                        ex.Message,
+                        SystemIcons.Error,
+                        DialogController.DialogButtons.OK);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Attempts to delete an application pool.
+        /// </summary>
+        /// <param name="appPoolName">The name of the application pool.</param>
+        /// <param name="progress">The progress reporter.</param>
+        internal static void DeleteAppPool(string appPoolName, IProgress<int> progress)
+        {
+            try
+            {
+                using (var iisManager = new ServerManager())
+                {
+                    var appPool = iisManager.ApplicationPools.FirstOrDefault(a => a.Name == appPoolName);
+                    if (appPool == null)
+                    {
+                        progress?.Report(100);
+                        return;
+                    }
+
+                    iisManager.ApplicationPools.Remove(appPool);
+                    iisManager.CommitChanges();
+                    progress?.Report(100);
+                }
+            }
+            catch (COMException ex)
+            {
+                progress?.Report(100);
+                DialogController.ShowMessage(
+                    "Delete AppPool Error",
+                    ex.Message,
+                    SystemIcons.Error,
+                    DialogController.DialogButtons.OK);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of IIS sites.
+        /// </summary>
+        /// <param name="createdByThisToolOnly">When true, will filter the results to only show sites created by this tool.</param>
+        /// <returns>An enumeration of sites.</returns>
+        internal static IEnumerable<Site> GetSites(bool createdByThisToolOnly = false)
+        {
+            List<Site> sites;
+            using (ServerManager iisManager = new ServerManager())
+            {
+                sites = iisManager.Sites.ToList();
+                if (!createdByThisToolOnly)
+                {
+                    return sites;
+                }
+
+                sites = sites
+                    .Where(s =>
+                        s.ApplicationDefaults.ApplicationPoolName.EndsWith(
+                            "_nvQuickSite",
+                            StringComparison.Ordinal))
+                    .ToList();
+
+                return sites;
             }
         }
 

@@ -76,8 +76,9 @@
             this.tileDNNDocs = new MetroFramework.Controls.MetroTile();
             this.tileMorenvQuickProducts = new MetroFramework.Controls.MetroTile();
             this.lblRemember = new MetroFramework.Controls.MetroLabel();
-            this.tileQuickSettings = new MetroFramework.Controls.MetroTile();
             this.tileDNNCommunity = new MetroFramework.Controls.MetroTile();
+            this.btnViewExistingSites = new MetroFramework.Controls.MetroButton();
+            this.tileQuickSettings = new MetroFramework.Controls.MetroTile();
             this.tabSiteInfo.SuspendLayout();
             this.tabInstallPackage.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -100,21 +101,17 @@
             this.tabSiteInfo.Controls.Add(this.lblSiteName);
             this.tabSiteInfo.Controls.Add(this.txtSiteNamePrefix);
             this.tabSiteInfo.HorizontalScrollbarBarColor = true;
-            this.tabSiteInfo.HorizontalScrollbarSize = 19;
-            this.tabSiteInfo.Location = new System.Drawing.Point(8, 42);
-            this.tabSiteInfo.Margin = new System.Windows.Forms.Padding(6);
+            this.tabSiteInfo.Location = new System.Drawing.Point(4, 35);
             this.tabSiteInfo.Name = "tabSiteInfo";
-            this.tabSiteInfo.Size = new System.Drawing.Size(1198, 515);
+            this.tabSiteInfo.Size = new System.Drawing.Size(599, 255);
             this.tabSiteInfo.TabIndex = 1;
             this.tabSiteInfo.Text = "Site Info";
             this.tabSiteInfo.VerticalScrollbarBarColor = true;
-            this.tabSiteInfo.VerticalScrollbarSize = 20;
             // 
             // lblInstallSubFolder
             // 
             this.lblInstallSubFolder.AutoSize = true;
-            this.lblInstallSubFolder.Location = new System.Drawing.Point(646, 277);
-            this.lblInstallSubFolder.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblInstallSubFolder.Location = new System.Drawing.Point(323, 144);
             this.lblInstallSubFolder.Name = "lblInstallSubFolder";
             this.lblInstallSubFolder.Size = new System.Drawing.Size(109, 19);
             this.lblInstallSubFolder.TabIndex = 14;
@@ -122,28 +119,25 @@
             // 
             // txtInstallSubFolder
             // 
-            this.txtInstallSubFolder.Location = new System.Drawing.Point(646, 325);
-            this.txtInstallSubFolder.Margin = new System.Windows.Forms.Padding(6);
+            this.txtInstallSubFolder.Location = new System.Drawing.Point(323, 169);
             this.txtInstallSubFolder.Name = "txtInstallSubFolder";
-            this.txtInstallSubFolder.Size = new System.Drawing.Size(434, 44);
+            this.txtInstallSubFolder.Size = new System.Drawing.Size(217, 23);
             this.txtInstallSubFolder.TabIndex = 13;
             // 
             // txtSiteNameSuffix
             // 
             this.txtSiteNameSuffix.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
-            this.txtSiteNameSuffix.Location = new System.Drawing.Point(646, 71);
-            this.txtSiteNameSuffix.Margin = new System.Windows.Forms.Padding(6);
+            this.txtSiteNameSuffix.Location = new System.Drawing.Point(323, 37);
             this.txtSiteNameSuffix.Name = "txtSiteNameSuffix";
-            this.txtSiteNameSuffix.Size = new System.Drawing.Size(434, 44);
+            this.txtSiteNameSuffix.Size = new System.Drawing.Size(217, 23);
             this.txtSiteNameSuffix.TabIndex = 12;
             this.txtSiteNameSuffix.Text = ".dnndev.me";
             // 
             // btnSiteInfoBack
             // 
-            this.btnSiteInfoBack.Location = new System.Drawing.Point(0, 413);
-            this.btnSiteInfoBack.Margin = new System.Windows.Forms.Padding(6);
+            this.btnSiteInfoBack.Location = new System.Drawing.Point(0, 215);
             this.btnSiteInfoBack.Name = "btnSiteInfoBack";
-            this.btnSiteInfoBack.Size = new System.Drawing.Size(180, 69);
+            this.btnSiteInfoBack.Size = new System.Drawing.Size(90, 36);
             this.btnSiteInfoBack.TabIndex = 11;
             this.btnSiteInfoBack.Text = "&Back";
             this.btnSiteInfoBack.Click += new System.EventHandler(this.btnSiteInfoBack_Click);
@@ -151,10 +145,9 @@
             // btnSiteInfoNext
             // 
             this.btnSiteInfoNext.Highlight = true;
-            this.btnSiteInfoNext.Location = new System.Drawing.Point(1014, 415);
-            this.btnSiteInfoNext.Margin = new System.Windows.Forms.Padding(6);
+            this.btnSiteInfoNext.Location = new System.Drawing.Point(507, 216);
             this.btnSiteInfoNext.Name = "btnSiteInfoNext";
-            this.btnSiteInfoNext.Size = new System.Drawing.Size(180, 69);
+            this.btnSiteInfoNext.Size = new System.Drawing.Size(90, 36);
             this.btnSiteInfoNext.TabIndex = 10;
             this.btnSiteInfoNext.Text = "&Next";
             this.btnSiteInfoNext.Click += new System.EventHandler(this.btnSiteInfoNext_Click);
@@ -162,10 +155,9 @@
             // btnLocation
             // 
             this.btnLocation.Highlight = true;
-            this.btnLocation.Location = new System.Drawing.Point(556, 325);
-            this.btnLocation.Margin = new System.Windows.Forms.Padding(6);
+            this.btnLocation.Location = new System.Drawing.Point(278, 169);
             this.btnLocation.Name = "btnLocation";
-            this.btnLocation.Size = new System.Drawing.Size(76, 44);
+            this.btnLocation.Size = new System.Drawing.Size(38, 23);
             this.btnLocation.Style = MetroFramework.MetroColorStyle.Blue;
             this.btnLocation.TabIndex = 8;
             this.btnLocation.Text = "...";
@@ -174,8 +166,7 @@
             // lblInstallBaseFolder
             // 
             this.lblInstallBaseFolder.AutoSize = true;
-            this.lblInstallBaseFolder.Location = new System.Drawing.Point(0, 277);
-            this.lblInstallBaseFolder.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblInstallBaseFolder.Location = new System.Drawing.Point(0, 144);
             this.lblInstallBaseFolder.Name = "lblInstallBaseFolder";
             this.lblInstallBaseFolder.Size = new System.Drawing.Size(114, 19);
             this.lblInstallBaseFolder.TabIndex = 7;
@@ -184,10 +175,9 @@
             // txtInstallBaseFolder
             // 
             this.txtInstallBaseFolder.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
-            this.txtInstallBaseFolder.Location = new System.Drawing.Point(0, 325);
-            this.txtInstallBaseFolder.Margin = new System.Windows.Forms.Padding(6);
+            this.txtInstallBaseFolder.Location = new System.Drawing.Point(0, 169);
             this.txtInstallBaseFolder.Name = "txtInstallBaseFolder";
-            this.txtInstallBaseFolder.Size = new System.Drawing.Size(544, 44);
+            this.txtInstallBaseFolder.Size = new System.Drawing.Size(272, 23);
             this.txtInstallBaseFolder.TabIndex = 6;
             // 
             // chkDeleteSiteIfExists
@@ -195,8 +185,7 @@
             this.chkDeleteSiteIfExists.AutoSize = true;
             this.chkDeleteSiteIfExists.Checked = true;
             this.chkDeleteSiteIfExists.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDeleteSiteIfExists.Location = new System.Drawing.Point(0, 217);
-            this.chkDeleteSiteIfExists.Margin = new System.Windows.Forms.Padding(6);
+            this.chkDeleteSiteIfExists.Location = new System.Drawing.Point(0, 113);
             this.chkDeleteSiteIfExists.Name = "chkDeleteSiteIfExists";
             this.chkDeleteSiteIfExists.Size = new System.Drawing.Size(156, 15);
             this.chkDeleteSiteIfExists.TabIndex = 5;
@@ -208,8 +197,7 @@
             this.chkSiteSpecificAppPool.AutoSize = true;
             this.chkSiteSpecificAppPool.Checked = true;
             this.chkSiteSpecificAppPool.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSiteSpecificAppPool.Location = new System.Drawing.Point(0, 158);
-            this.chkSiteSpecificAppPool.Margin = new System.Windows.Forms.Padding(6);
+            this.chkSiteSpecificAppPool.Location = new System.Drawing.Point(0, 82);
             this.chkSiteSpecificAppPool.Name = "chkSiteSpecificAppPool";
             this.chkSiteSpecificAppPool.Size = new System.Drawing.Size(303, 15);
             this.chkSiteSpecificAppPool.TabIndex = 4;
@@ -219,8 +207,7 @@
             // lblSiteName
             // 
             this.lblSiteName.AutoSize = true;
-            this.lblSiteName.Location = new System.Drawing.Point(0, 23);
-            this.lblSiteName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblSiteName.Location = new System.Drawing.Point(0, 12);
             this.lblSiteName.Name = "lblSiteName";
             this.lblSiteName.Size = new System.Drawing.Size(105, 19);
             this.lblSiteName.TabIndex = 3;
@@ -229,10 +216,9 @@
             // txtSiteNamePrefix
             // 
             this.txtSiteNamePrefix.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
-            this.txtSiteNamePrefix.Location = new System.Drawing.Point(0, 71);
-            this.txtSiteNamePrefix.Margin = new System.Windows.Forms.Padding(6);
+            this.txtSiteNamePrefix.Location = new System.Drawing.Point(0, 37);
             this.txtSiteNamePrefix.Name = "txtSiteNamePrefix";
-            this.txtSiteNamePrefix.Size = new System.Drawing.Size(632, 44);
+            this.txtSiteNamePrefix.Size = new System.Drawing.Size(316, 23);
             this.txtSiteNamePrefix.TabIndex = 2;
             this.txtSiteNamePrefix.Text = "MySite";
             this.txtSiteNamePrefix.UseStyleColors = true;
@@ -243,10 +229,9 @@
             this.toggleSiteInfoRemember.AutoSize = true;
             this.toggleSiteInfoRemember.Checked = true;
             this.toggleSiteInfoRemember.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toggleSiteInfoRemember.Location = new System.Drawing.Point(8, 869);
-            this.toggleSiteInfoRemember.Margin = new System.Windows.Forms.Padding(6);
+            this.toggleSiteInfoRemember.Location = new System.Drawing.Point(4, 452);
             this.toggleSiteInfoRemember.Name = "toggleSiteInfoRemember";
-            this.toggleSiteInfoRemember.Size = new System.Drawing.Size(80, 29);
+            this.toggleSiteInfoRemember.Size = new System.Drawing.Size(80, 17);
             this.toggleSiteInfoRemember.TabIndex = 12;
             this.toggleSiteInfoRemember.Text = "On";
             this.toggleSiteInfoRemember.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -267,34 +252,29 @@
             this.tabInstallPackage.Controls.Add(this.btnGetLatestRelease);
             this.tabInstallPackage.Controls.Add(this.btnViewAllReleases);
             this.tabInstallPackage.HorizontalScrollbarBarColor = true;
-            this.tabInstallPackage.HorizontalScrollbarSize = 19;
-            this.tabInstallPackage.Location = new System.Drawing.Point(8, 42);
-            this.tabInstallPackage.Margin = new System.Windows.Forms.Padding(6);
+            this.tabInstallPackage.Location = new System.Drawing.Point(4, 35);
             this.tabInstallPackage.Name = "tabInstallPackage";
-            this.tabInstallPackage.Size = new System.Drawing.Size(1198, 515);
+            this.tabInstallPackage.Size = new System.Drawing.Size(599, 255);
             this.tabInstallPackage.TabIndex = 0;
             this.tabInstallPackage.Text = "Install Package Info";
             this.tabInstallPackage.VerticalScrollbarBarColor = true;
-            this.tabInstallPackage.VerticalScrollbarSize = 20;
             // 
             // cboProductVersion
             // 
             this.cboProductVersion.FormattingEnabled = true;
             this.cboProductVersion.ItemHeight = 23;
-            this.cboProductVersion.Location = new System.Drawing.Point(834, 63);
-            this.cboProductVersion.Margin = new System.Windows.Forms.Padding(6);
+            this.cboProductVersion.Location = new System.Drawing.Point(417, 33);
             this.cboProductVersion.Name = "cboProductVersion";
-            this.cboProductVersion.Size = new System.Drawing.Size(242, 29);
+            this.cboProductVersion.Size = new System.Drawing.Size(123, 29);
             this.cboProductVersion.TabIndex = 30;
             this.cboProductVersion.SelectedIndexChanged += new System.EventHandler(this.cboProductVersion_SelectedIndexChanged);
             // 
             // progressBarDownload
             // 
             this.progressBarDownload.HideProgressText = false;
-            this.progressBarDownload.Location = new System.Drawing.Point(2, 127);
-            this.progressBarDownload.Margin = new System.Windows.Forms.Padding(6);
+            this.progressBarDownload.Location = new System.Drawing.Point(1, 66);
             this.progressBarDownload.Name = "progressBarDownload";
-            this.progressBarDownload.Size = new System.Drawing.Size(1078, 44);
+            this.progressBarDownload.Size = new System.Drawing.Size(539, 23);
             this.progressBarDownload.Style = MetroFramework.MetroColorStyle.Blue;
             this.progressBarDownload.TabIndex = 29;
             this.progressBarDownload.Visible = false;
@@ -302,10 +282,9 @@
             // btnInstallPackageNext
             // 
             this.btnInstallPackageNext.Highlight = true;
-            this.btnInstallPackageNext.Location = new System.Drawing.Point(1014, 415);
-            this.btnInstallPackageNext.Margin = new System.Windows.Forms.Padding(6);
+            this.btnInstallPackageNext.Location = new System.Drawing.Point(507, 216);
             this.btnInstallPackageNext.Name = "btnInstallPackageNext";
-            this.btnInstallPackageNext.Size = new System.Drawing.Size(180, 69);
+            this.btnInstallPackageNext.Size = new System.Drawing.Size(90, 36);
             this.btnInstallPackageNext.TabIndex = 28;
             this.btnInstallPackageNext.Text = "&Next";
             this.btnInstallPackageNext.Click += new System.EventHandler(this.btnInstallPackageNext_Click);
@@ -313,10 +292,9 @@
             // btnLocalInstallPackage
             // 
             this.btnLocalInstallPackage.Highlight = true;
-            this.btnLocalInstallPackage.Location = new System.Drawing.Point(1118, 325);
-            this.btnLocalInstallPackage.Margin = new System.Windows.Forms.Padding(6);
+            this.btnLocalInstallPackage.Location = new System.Drawing.Point(559, 169);
             this.btnLocalInstallPackage.Name = "btnLocalInstallPackage";
-            this.btnLocalInstallPackage.Size = new System.Drawing.Size(76, 44);
+            this.btnLocalInstallPackage.Size = new System.Drawing.Size(38, 23);
             this.btnLocalInstallPackage.TabIndex = 27;
             this.btnLocalInstallPackage.Text = "...";
             this.btnLocalInstallPackage.Click += new System.EventHandler(this.btnLocalInstallPackage_Click);
@@ -324,19 +302,17 @@
             // txtLocalInstallPackage
             // 
             this.txtLocalInstallPackage.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
-            this.txtLocalInstallPackage.Location = new System.Drawing.Point(2, 325);
-            this.txtLocalInstallPackage.Margin = new System.Windows.Forms.Padding(6);
+            this.txtLocalInstallPackage.Location = new System.Drawing.Point(1, 169);
             this.txtLocalInstallPackage.Name = "txtLocalInstallPackage";
             this.txtLocalInstallPackage.ReadOnly = true;
-            this.txtLocalInstallPackage.Size = new System.Drawing.Size(1078, 44);
+            this.txtLocalInstallPackage.Size = new System.Drawing.Size(539, 23);
             this.txtLocalInstallPackage.TabIndex = 26;
             this.txtLocalInstallPackage.Click += new System.EventHandler(this.txtLocalInstallPackage_Click);
             // 
             // lblLatestReleases
             // 
             this.lblLatestReleases.AutoSize = true;
-            this.lblLatestReleases.Location = new System.Drawing.Point(0, 21);
-            this.lblLatestReleases.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblLatestReleases.Location = new System.Drawing.Point(0, 11);
             this.lblLatestReleases.Name = "lblLatestReleases";
             this.lblLatestReleases.Size = new System.Drawing.Size(161, 19);
             this.lblLatestReleases.TabIndex = 20;
@@ -345,8 +321,7 @@
             // lblLocalInstallPackage
             // 
             this.lblLocalInstallPackage.AutoSize = true;
-            this.lblLocalInstallPackage.Location = new System.Drawing.Point(0, 277);
-            this.lblLocalInstallPackage.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblLocalInstallPackage.Location = new System.Drawing.Point(0, 144);
             this.lblLocalInstallPackage.Name = "lblLocalInstallPackage";
             this.lblLocalInstallPackage.Size = new System.Drawing.Size(127, 19);
             this.lblLocalInstallPackage.TabIndex = 25;
@@ -356,19 +331,17 @@
             // 
             this.cboProductName.FormattingEnabled = true;
             this.cboProductName.ItemHeight = 23;
-            this.cboProductName.Location = new System.Drawing.Point(2, 63);
-            this.cboProductName.Margin = new System.Windows.Forms.Padding(6);
+            this.cboProductName.Location = new System.Drawing.Point(1, 33);
             this.cboProductName.Name = "cboProductName";
-            this.cboProductName.Size = new System.Drawing.Size(816, 29);
+            this.cboProductName.Size = new System.Drawing.Size(410, 29);
             this.cboProductName.TabIndex = 31;
             this.cboProductName.SelectedIndexChanged += new System.EventHandler(this.cboProductName_SelectedIndexChanged);
             // 
             // btnGetLatestRelease
             // 
-            this.btnGetLatestRelease.Location = new System.Drawing.Point(1118, 63);
-            this.btnGetLatestRelease.Margin = new System.Windows.Forms.Padding(6);
+            this.btnGetLatestRelease.Location = new System.Drawing.Point(559, 33);
             this.btnGetLatestRelease.Name = "btnGetLatestRelease";
-            this.btnGetLatestRelease.Size = new System.Drawing.Size(76, 56);
+            this.btnGetLatestRelease.Size = new System.Drawing.Size(38, 29);
             this.btnGetLatestRelease.TabIndex = 22;
             this.btnGetLatestRelease.Text = ">";
             this.btnGetLatestRelease.Visible = false;
@@ -376,10 +349,9 @@
             // 
             // btnViewAllReleases
             // 
-            this.btnViewAllReleases.Location = new System.Drawing.Point(0, 183);
-            this.btnViewAllReleases.Margin = new System.Windows.Forms.Padding(6);
+            this.btnViewAllReleases.Location = new System.Drawing.Point(0, 95);
             this.btnViewAllReleases.Name = "btnViewAllReleases";
-            this.btnViewAllReleases.Size = new System.Drawing.Size(1080, 71);
+            this.btnViewAllReleases.Size = new System.Drawing.Size(540, 37);
             this.btnViewAllReleases.Style = MetroFramework.MetroColorStyle.Blue;
             this.btnViewAllReleases.TabIndex = 23;
             this.btnViewAllReleases.Text = "View ALL Releases";
@@ -392,12 +364,11 @@
             this.tabControl.Controls.Add(this.tabSiteInfo);
             this.tabControl.Controls.Add(this.tabDatabaseInfo);
             this.tabControl.Controls.Add(this.tabProgress);
-            this.tabControl.Location = new System.Drawing.Point(6, 27);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(6);
+            this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1214, 565);
+            this.tabControl.Size = new System.Drawing.Size(607, 294);
             this.tabControl.TabIndex = 26;
             // 
             // tabDatabaseInfo
@@ -415,22 +386,18 @@
             this.tabDatabaseInfo.Controls.Add(this.lblDBServerName);
             this.tabDatabaseInfo.Controls.Add(this.txtDBServerName);
             this.tabDatabaseInfo.HorizontalScrollbarBarColor = true;
-            this.tabDatabaseInfo.HorizontalScrollbarSize = 19;
-            this.tabDatabaseInfo.Location = new System.Drawing.Point(8, 42);
-            this.tabDatabaseInfo.Margin = new System.Windows.Forms.Padding(6);
+            this.tabDatabaseInfo.Location = new System.Drawing.Point(4, 35);
             this.tabDatabaseInfo.Name = "tabDatabaseInfo";
-            this.tabDatabaseInfo.Size = new System.Drawing.Size(1198, 515);
+            this.tabDatabaseInfo.Size = new System.Drawing.Size(599, 255);
             this.tabDatabaseInfo.TabIndex = 3;
             this.tabDatabaseInfo.Text = "Database Info";
             this.tabDatabaseInfo.VerticalScrollbarBarColor = true;
-            this.tabDatabaseInfo.VerticalScrollbarSize = 20;
             // 
             // btnDatabaseInfoBack
             // 
-            this.btnDatabaseInfoBack.Location = new System.Drawing.Point(0, 415);
-            this.btnDatabaseInfoBack.Margin = new System.Windows.Forms.Padding(6);
+            this.btnDatabaseInfoBack.Location = new System.Drawing.Point(0, 216);
             this.btnDatabaseInfoBack.Name = "btnDatabaseInfoBack";
-            this.btnDatabaseInfoBack.Size = new System.Drawing.Size(180, 69);
+            this.btnDatabaseInfoBack.Size = new System.Drawing.Size(90, 36);
             this.btnDatabaseInfoBack.TabIndex = 13;
             this.btnDatabaseInfoBack.Text = "&Back";
             this.btnDatabaseInfoBack.Click += new System.EventHandler(this.btnDatabaseInfoBack_Click);
@@ -438,10 +405,9 @@
             // btnDatabaseInfoNext
             // 
             this.btnDatabaseInfoNext.Highlight = true;
-            this.btnDatabaseInfoNext.Location = new System.Drawing.Point(1014, 415);
-            this.btnDatabaseInfoNext.Margin = new System.Windows.Forms.Padding(6);
+            this.btnDatabaseInfoNext.Location = new System.Drawing.Point(507, 216);
             this.btnDatabaseInfoNext.Name = "btnDatabaseInfoNext";
-            this.btnDatabaseInfoNext.Size = new System.Drawing.Size(180, 69);
+            this.btnDatabaseInfoNext.Size = new System.Drawing.Size(90, 36);
             this.btnDatabaseInfoNext.TabIndex = 12;
             this.btnDatabaseInfoNext.Text = "&Next";
             this.btnDatabaseInfoNext.Click += new System.EventHandler(this.btnDatabaseInfoNext_Click);
@@ -449,8 +415,7 @@
             // lblDBName
             // 
             this.lblDBName.AutoSize = true;
-            this.lblDBName.Location = new System.Drawing.Point(0, 212);
-            this.lblDBName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblDBName.Location = new System.Drawing.Point(0, 110);
             this.lblDBName.Name = "lblDBName";
             this.lblDBName.Size = new System.Drawing.Size(103, 19);
             this.lblDBName.TabIndex = 11;
@@ -458,10 +423,9 @@
             // 
             // txtDBName
             // 
-            this.txtDBName.Location = new System.Drawing.Point(0, 258);
-            this.txtDBName.Margin = new System.Windows.Forms.Padding(6);
+            this.txtDBName.Location = new System.Drawing.Point(0, 134);
             this.txtDBName.Name = "txtDBName";
-            this.txtDBName.Size = new System.Drawing.Size(540, 44);
+            this.txtDBName.Size = new System.Drawing.Size(270, 23);
             this.txtDBName.TabIndex = 3;
             this.txtDBName.Text = "MySite";
             this.txtDBName.UseStyleColors = true;
@@ -469,10 +433,9 @@
             // txtDBPassword
             // 
             this.txtDBPassword.Enabled = false;
-            this.txtDBPassword.Location = new System.Drawing.Point(680, 258);
-            this.txtDBPassword.Margin = new System.Windows.Forms.Padding(6);
+            this.txtDBPassword.Location = new System.Drawing.Point(340, 134);
             this.txtDBPassword.Name = "txtDBPassword";
-            this.txtDBPassword.Size = new System.Drawing.Size(514, 44);
+            this.txtDBPassword.Size = new System.Drawing.Size(257, 23);
             this.txtDBPassword.TabIndex = 9;
             // 
             // lblDBPassword
@@ -480,8 +443,7 @@
             this.lblDBPassword.AutoSize = true;
             this.lblDBPassword.Enabled = false;
             this.lblDBPassword.FontSize = MetroFramework.MetroLabelSize.Small;
-            this.lblDBPassword.Location = new System.Drawing.Point(680, 213);
-            this.lblDBPassword.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblDBPassword.Location = new System.Drawing.Point(340, 111);
             this.lblDBPassword.Name = "lblDBPassword";
             this.lblDBPassword.Size = new System.Drawing.Size(55, 15);
             this.lblDBPassword.TabIndex = 8;
@@ -492,8 +454,7 @@
             this.lblDBUserName.AutoSize = true;
             this.lblDBUserName.Enabled = false;
             this.lblDBUserName.FontSize = MetroFramework.MetroLabelSize.Small;
-            this.lblDBUserName.Location = new System.Drawing.Point(680, 121);
-            this.lblDBUserName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblDBUserName.Location = new System.Drawing.Point(340, 63);
             this.lblDBUserName.Name = "lblDBUserName";
             this.lblDBUserName.Size = new System.Drawing.Size(64, 15);
             this.lblDBUserName.TabIndex = 7;
@@ -502,17 +463,15 @@
             // txtDBUserName
             // 
             this.txtDBUserName.Enabled = false;
-            this.txtDBUserName.Location = new System.Drawing.Point(680, 163);
-            this.txtDBUserName.Margin = new System.Windows.Forms.Padding(6);
+            this.txtDBUserName.Location = new System.Drawing.Point(340, 85);
             this.txtDBUserName.Name = "txtDBUserName";
-            this.txtDBUserName.Size = new System.Drawing.Size(514, 44);
+            this.txtDBUserName.Size = new System.Drawing.Size(257, 23);
             this.txtDBUserName.TabIndex = 6;
             // 
             // rdoSQLServerAuthentication
             // 
             this.rdoSQLServerAuthentication.AutoSize = true;
-            this.rdoSQLServerAuthentication.Location = new System.Drawing.Point(642, 87);
-            this.rdoSQLServerAuthentication.Margin = new System.Windows.Forms.Padding(6);
+            this.rdoSQLServerAuthentication.Location = new System.Drawing.Point(321, 45);
             this.rdoSQLServerAuthentication.Name = "rdoSQLServerAuthentication";
             this.rdoSQLServerAuthentication.Size = new System.Drawing.Size(161, 15);
             this.rdoSQLServerAuthentication.TabIndex = 5;
@@ -524,8 +483,7 @@
             // 
             this.rdoWindowsAuthentication.AutoSize = true;
             this.rdoWindowsAuthentication.Checked = true;
-            this.rdoWindowsAuthentication.Location = new System.Drawing.Point(642, 44);
-            this.rdoWindowsAuthentication.Margin = new System.Windows.Forms.Padding(6);
+            this.rdoWindowsAuthentication.Location = new System.Drawing.Point(321, 23);
             this.rdoWindowsAuthentication.Name = "rdoWindowsAuthentication";
             this.rdoWindowsAuthentication.Size = new System.Drawing.Size(154, 15);
             this.rdoWindowsAuthentication.TabIndex = 4;
@@ -537,8 +495,7 @@
             // lblDBServerName
             // 
             this.lblDBServerName.AutoSize = true;
-            this.lblDBServerName.Location = new System.Drawing.Point(0, 23);
-            this.lblDBServerName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblDBServerName.Location = new System.Drawing.Point(0, 12);
             this.lblDBServerName.Name = "lblDBServerName";
             this.lblDBServerName.Size = new System.Drawing.Size(145, 19);
             this.lblDBServerName.TabIndex = 3;
@@ -546,10 +503,9 @@
             // 
             // txtDBServerName
             // 
-            this.txtDBServerName.Location = new System.Drawing.Point(0, 71);
-            this.txtDBServerName.Margin = new System.Windows.Forms.Padding(6);
+            this.txtDBServerName.Location = new System.Drawing.Point(0, 37);
             this.txtDBServerName.Name = "txtDBServerName";
-            this.txtDBServerName.Size = new System.Drawing.Size(540, 44);
+            this.txtDBServerName.Size = new System.Drawing.Size(270, 23);
             this.txtDBServerName.TabIndex = 2;
             this.txtDBServerName.Text = "(local)";
             this.txtDBServerName.UseStyleColors = true;
@@ -561,24 +517,20 @@
             this.tabProgress.Controls.Add(this.lblProgress);
             this.tabProgress.Controls.Add(this.progressBar);
             this.tabProgress.HorizontalScrollbarBarColor = true;
-            this.tabProgress.HorizontalScrollbarSize = 19;
             this.tabProgress.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.tabProgress.Location = new System.Drawing.Point(8, 42);
-            this.tabProgress.Margin = new System.Windows.Forms.Padding(6);
+            this.tabProgress.Location = new System.Drawing.Point(4, 35);
             this.tabProgress.Name = "tabProgress";
-            this.tabProgress.Size = new System.Drawing.Size(1198, 515);
+            this.tabProgress.Size = new System.Drawing.Size(599, 255);
             this.tabProgress.TabIndex = 2;
             this.tabProgress.Text = "Progress";
             this.tabProgress.VerticalScrollbarBarColor = true;
-            this.tabProgress.VerticalScrollbarSize = 20;
             // 
             // btnVisitSite
             // 
             this.btnVisitSite.Highlight = true;
-            this.btnVisitSite.Location = new System.Drawing.Point(6, 369);
-            this.btnVisitSite.Margin = new System.Windows.Forms.Padding(6);
+            this.btnVisitSite.Location = new System.Drawing.Point(3, 192);
             this.btnVisitSite.Name = "btnVisitSite";
-            this.btnVisitSite.Size = new System.Drawing.Size(1186, 115);
+            this.btnVisitSite.Size = new System.Drawing.Size(593, 60);
             this.btnVisitSite.Style = MetroFramework.MetroColorStyle.Purple;
             this.btnVisitSite.TabIndex = 5;
             this.btnVisitSite.Text = "&Visit Site";
@@ -588,18 +540,16 @@
             // lblProgressStatus
             // 
             this.lblProgressStatus.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblProgressStatus.Location = new System.Drawing.Point(0, 119);
-            this.lblProgressStatus.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblProgressStatus.Location = new System.Drawing.Point(0, 62);
             this.lblProgressStatus.Name = "lblProgressStatus";
-            this.lblProgressStatus.Size = new System.Drawing.Size(1194, 37);
+            this.lblProgressStatus.Size = new System.Drawing.Size(597, 19);
             this.lblProgressStatus.TabIndex = 4;
             this.lblProgressStatus.UseStyleColors = true;
             // 
             // lblProgress
             // 
             this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(0, 21);
-            this.lblProgress.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblProgress.Location = new System.Drawing.Point(0, 11);
             this.lblProgress.Name = "lblProgress";
             this.lblProgress.Size = new System.Drawing.Size(60, 19);
             this.lblProgress.TabIndex = 3;
@@ -609,20 +559,18 @@
             // progressBar
             // 
             this.progressBar.HideProgressText = false;
-            this.progressBar.Location = new System.Drawing.Point(0, 69);
-            this.progressBar.Margin = new System.Windows.Forms.Padding(6);
+            this.progressBar.Location = new System.Drawing.Point(0, 36);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(1194, 44);
+            this.progressBar.Size = new System.Drawing.Size(597, 23);
             this.progressBar.TabIndex = 2;
             this.progressBar.Visible = false;
             // 
             // tileDNNAwareness
             // 
             this.tileDNNAwareness.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tileDNNAwareness.Location = new System.Drawing.Point(946, 646);
-            this.tileDNNAwareness.Margin = new System.Windows.Forms.Padding(6);
+            this.tileDNNAwareness.Location = new System.Drawing.Point(473, 336);
             this.tileDNNAwareness.Name = "tileDNNAwareness";
-            this.tileDNNAwareness.Size = new System.Drawing.Size(262, 96);
+            this.tileDNNAwareness.Size = new System.Drawing.Size(131, 50);
             this.tileDNNAwareness.Style = MetroFramework.MetroColorStyle.Blue;
             this.tileDNNAwareness.TabIndex = 28;
             this.tileDNNAwareness.Text = "@DNNAwareness";
@@ -632,10 +580,9 @@
             // tileDNNDocs
             // 
             this.tileDNNDocs.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tileDNNDocs.Location = new System.Drawing.Point(352, 748);
-            this.tileDNNDocs.Margin = new System.Windows.Forms.Padding(6);
+            this.tileDNNDocs.Location = new System.Drawing.Point(176, 389);
             this.tileDNNDocs.Name = "tileDNNDocs";
-            this.tileDNNDocs.Size = new System.Drawing.Size(288, 96);
+            this.tileDNNDocs.Size = new System.Drawing.Size(144, 50);
             this.tileDNNDocs.Style = MetroFramework.MetroColorStyle.Lime;
             this.tileDNNDocs.TabIndex = 29;
             this.tileDNNDocs.Text = "DNN Docs";
@@ -647,10 +594,9 @@
             // 
             this.tileMorenvQuickProducts.BackColor = System.Drawing.SystemColors.Control;
             this.tileMorenvQuickProducts.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tileMorenvQuickProducts.Location = new System.Drawing.Point(352, 644);
-            this.tileMorenvQuickProducts.Margin = new System.Windows.Forms.Padding(6);
+            this.tileMorenvQuickProducts.Location = new System.Drawing.Point(176, 335);
             this.tileMorenvQuickProducts.Name = "tileMorenvQuickProducts";
-            this.tileMorenvQuickProducts.Size = new System.Drawing.Size(582, 96);
+            this.tileMorenvQuickProducts.Size = new System.Drawing.Size(291, 50);
             this.tileMorenvQuickProducts.Style = MetroFramework.MetroColorStyle.Yellow;
             this.tileMorenvQuickProducts.TabIndex = 30;
             this.tileMorenvQuickProducts.Text = "nvQuickSite Wiki";
@@ -661,8 +607,7 @@
             // lblRemember
             // 
             this.lblRemember.AutoSize = true;
-            this.lblRemember.Location = new System.Drawing.Point(180, 865);
-            this.lblRemember.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblRemember.Location = new System.Drawing.Point(90, 450);
             this.lblRemember.Name = "lblRemember";
             this.lblRemember.Size = new System.Drawing.Size(146, 19);
             this.lblRemember.TabIndex = 13;
@@ -670,13 +615,37 @@
             this.lblRemember.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblRemember.Visible = false;
             // 
+            // tileDNNCommunity
+            // 
+            this.tileDNNCommunity.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tileDNNCommunity.Location = new System.Drawing.Point(326, 389);
+            this.tileDNNCommunity.Name = "tileDNNCommunity";
+            this.tileDNNCommunity.Size = new System.Drawing.Size(278, 50);
+            this.tileDNNCommunity.Style = MetroFramework.MetroColorStyle.Purple;
+            this.tileDNNCommunity.TabIndex = 31;
+            this.tileDNNCommunity.Text = "DNN Community";
+            this.tileDNNCommunity.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.tileDNNCommunity.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.tileDNNCommunity.Click += new System.EventHandler(this.tileDNNCommunity_Click);
+            // 
+            // btnViewExistingSites
+            // 
+            this.btnViewExistingSites.Highlight = true;
+            this.btnViewExistingSites.Location = new System.Drawing.Point(7, 312);
+            this.btnViewExistingSites.Name = "btnViewExistingSites";
+            this.btnViewExistingSites.Size = new System.Drawing.Size(162, 23);
+            this.btnViewExistingSites.Style = MetroFramework.MetroColorStyle.Orange;
+            this.btnViewExistingSites.TabIndex = 32;
+            this.btnViewExistingSites.Text = "View Existing Sites";
+            this.btnViewExistingSites.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.btnViewExistingSites.Click += new System.EventHandler(this.btnViewExistingSites_Click);
+            // 
             // tileQuickSettings
             // 
             this.tileQuickSettings.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tileQuickSettings.Location = new System.Drawing.Point(14, 644);
-            this.tileQuickSettings.Margin = new System.Windows.Forms.Padding(6);
+            this.tileQuickSettings.Location = new System.Drawing.Point(7, 335);
             this.tileQuickSettings.Name = "tileQuickSettings";
-            this.tileQuickSettings.Size = new System.Drawing.Size(324, 200);
+            this.tileQuickSettings.Size = new System.Drawing.Size(162, 104);
             this.tileQuickSettings.Style = MetroFramework.MetroColorStyle.Orange;
             this.tileQuickSettings.TabIndex = 27;
             this.tileQuickSettings.Text = "nvQuickSite Settings";
@@ -687,24 +656,11 @@
             this.tileQuickSettings.UseTileImage = true;
             this.tileQuickSettings.Click += new System.EventHandler(this.tileQuickSettings_Click);
             // 
-            // tileDNNCommunity
-            // 
-            this.tileDNNCommunity.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tileDNNCommunity.Location = new System.Drawing.Point(652, 748);
-            this.tileDNNCommunity.Margin = new System.Windows.Forms.Padding(6);
-            this.tileDNNCommunity.Name = "tileDNNCommunity";
-            this.tileDNNCommunity.Size = new System.Drawing.Size(556, 96);
-            this.tileDNNCommunity.Style = MetroFramework.MetroColorStyle.Purple;
-            this.tileDNNCommunity.TabIndex = 31;
-            this.tileDNNCommunity.Text = "DNN Community";
-            this.tileDNNCommunity.TextAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.tileDNNCommunity.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.tileDNNCommunity.Click += new System.EventHandler(this.tileDNNCommunity_Click);
-            // 
             // Start
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnViewExistingSites);
             this.Controls.Add(this.tileDNNCommunity);
             this.Controls.Add(this.lblRemember);
             this.Controls.Add(this.tileMorenvQuickProducts);
@@ -713,9 +669,8 @@
             this.Controls.Add(this.toggleSiteInfoRemember);
             this.Controls.Add(this.tileQuickSettings);
             this.Controls.Add(this.tabControl);
-            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Start";
-            this.Size = new System.Drawing.Size(1220, 904);
+            this.Size = new System.Drawing.Size(610, 470);
             this.tabSiteInfo.ResumeLayout(false);
             this.tabSiteInfo.PerformLayout();
             this.tabInstallPackage.ResumeLayout(false);
@@ -782,5 +737,6 @@
         private MetroFramework.Controls.MetroTextBox txtInstallSubFolder;
         private MetroFramework.Controls.MetroComboBox cboProductVersion;
         private MetroFramework.Controls.MetroTile tileDNNCommunity;
+        private MetroFramework.Controls.MetroButton btnViewExistingSites;
     }
 }
