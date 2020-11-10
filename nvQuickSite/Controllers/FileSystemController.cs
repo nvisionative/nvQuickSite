@@ -18,9 +18,12 @@
 namespace nvQuickSite.Controllers
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Security.AccessControl;
+    using System.Threading;
     using System.Xml.Linq;
 
     using nvQuickSite.Controllers.Exceptions;
@@ -30,6 +33,8 @@ namespace nvQuickSite.Controllers
     /// </summary>
     public static class FileSystemController
     {
+        private static string hostsFile => Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\drivers\etc\hosts";
+
         /// <summary>
         /// Checks if a directory is empty.
         /// </summary>
@@ -41,6 +46,44 @@ namespace nvQuickSite.Controllers
         }
 
         /// <summary>
+        /// Removes an existing host entry.
+        /// </summary>
+        /// <param name="siteName">The site alias to remove.</param>
+        /// <param name="progress">A progress reported (optional).</param>
+        internal static void RemoveHostEntry(string siteName, IProgress<int> progress = null)
+        {
+            string tempFile = hostsFile + ".new";
+            var lineCount = File.ReadAllLines(hostsFile).Length;
+            int currentLine = 0;
+
+            using (var sr = new StreamReader(hostsFile))
+            using (var sw = new StreamWriter(tempFile))
+            {
+                string line;
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    currentLine++;
+                    int percent = currentLine / lineCount;
+                    if (percent < 100)
+                    {
+                        progress?.Report(percent);
+                    }
+
+                    if (!line.Contains(siteName))
+                    {
+                        sw.WriteLine(line);
+                    }
+                }
+            }
+
+            File.Delete(hostsFile);
+            File.Move(tempFile, hostsFile);
+
+            progress?.Report(100);
+        }
+
+        /// <summary>
         /// Adds the site alias to the operating system hosts file.
         /// </summary>
         /// <param name="siteName">The alias of the site.</param>
@@ -48,8 +91,6 @@ namespace nvQuickSite.Controllers
         {
             try
             {
-                string hostsFile = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\drivers\etc\hosts";
-
                 var newEntry = "\t127.0.0.1 \t" + siteName;
                 if (!File.ReadAllLines(hostsFile).Contains(newEntry))
                 {
@@ -224,23 +265,70 @@ namespace nvQuickSite.Controllers
             }
         }
 
-        private static void DeleteDirectory(string target_dir)
+        /// <summary>
+        /// Counts all files and directories recursively.
+        /// </summary>
+        /// <param name="targetDir">The root path for which to get the count from.</param>
+        /// <returns>The total number of files and directories counted recursivelly.</returns>
+        internal static int CountFilesAndDirectories(string targetDir)
         {
-            string[] files = Directory.GetFiles(target_dir);
-            string[] dirs = Directory.GetDirectories(target_dir);
-
-            foreach (string file in files)
+            try
             {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
-            }
+                var files = Directory.GetFiles(targetDir);
+                var directories = Directory.GetDirectories(targetDir);
 
-            foreach (string dir in dirs)
+                var count = files.Length;
+                count += directories.Length;
+
+                foreach (var directory in directories)
+                {
+                    count += CountFilesAndDirectories(directory);
+                }
+
+                return count;
+            }
+            catch (DirectoryNotFoundException)
             {
-                DeleteDirectory(dir);
+                return 0;
             }
+        }
 
-            Directory.Delete(target_dir, false);
+        /// <summary>
+        /// Deletes files and directories recursivelly, optionally reporting progress.
+        /// </summary>
+        /// <param name="target_dir">The target directory to delete.</param>
+        /// <param name="progress">Reports progress by firing up for each file or folder with it's name.</param>
+        internal static void DeleteDirectory(string target_dir, IProgress<string> progress = null)
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(target_dir);
+                string[] dirs = Directory.GetDirectories(target_dir);
+
+                foreach (string file in files)
+                {
+                    File.SetAttributes(file, FileAttributes.Normal);
+                    File.Delete(file);
+                    progress?.Report(file);
+                }
+
+                foreach (string dir in dirs)
+                {
+                    DeleteDirectory(dir, progress);
+                    progress?.Report(dir);
+                }
+
+                Directory.Delete(target_dir, false);
+                progress?.Report(target_dir);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                progress?.Report(ex.Message);
+            }
+            catch (FileNotFoundException ex)
+            {
+                progress?.Report(ex.Message);
+            }
         }
 
         private static string GetDBServiceAccount(string dbInstanceName)

@@ -704,5 +704,13 @@ namespace nvQuickSite
                 }
             }
         }
+
+        private void btnViewExistingSites_Click(object sender, EventArgs e)
+        {
+            using (var viewExistingSites = new ViewExistingSites())
+            {
+                viewExistingSites.ShowDialog();
+            }
+        }
     }
 }
