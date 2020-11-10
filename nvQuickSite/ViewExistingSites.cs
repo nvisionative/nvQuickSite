@@ -50,6 +50,7 @@ namespace nvQuickSite
             {
                 deleteButton.Text = "Delete";
                 deleteButton.Name = "Delete";
+                deleteButton.HeaderText = string.Empty;
 
                 this.dataGridViewSites.AllowUserToDeleteRows = true;
                 this.dataGridViewSites.Columns.Clear();
