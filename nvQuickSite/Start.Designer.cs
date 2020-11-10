@@ -630,6 +630,7 @@
             // 
             // btnViewExistingSites
             // 
+            this.btnViewExistingSites.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnViewExistingSites.Highlight = true;
             this.btnViewExistingSites.Location = new System.Drawing.Point(7, 312);
             this.btnViewExistingSites.Name = "btnViewExistingSites";
@@ -637,7 +638,6 @@
             this.btnViewExistingSites.Style = MetroFramework.MetroColorStyle.Orange;
             this.btnViewExistingSites.TabIndex = 32;
             this.btnViewExistingSites.Text = "View Existing Sites";
-            this.btnViewExistingSites.Theme = MetroFramework.MetroThemeStyle.Light;
             this.btnViewExistingSites.Click += new System.EventHandler(this.btnViewExistingSites_Click);
             // 
             // tileQuickSettings
