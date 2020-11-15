@@ -154,7 +154,7 @@ namespace nvQuickSite
             }
 
             Log.Logger.Information("User settings changed");
-            Log.Logger.Debug("User settings have changed to {@userSettings}", Properties.Settings.Default);
+            Log.Logger.Debug("User settings changed: {@userSettings}", Properties.Settings.Default);
         }
 
         private void InitializeTabs()
