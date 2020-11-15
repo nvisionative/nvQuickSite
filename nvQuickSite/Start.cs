@@ -149,7 +149,7 @@ namespace nvQuickSite
 
                 Properties.Settings.Default.Save();
                 Log.Logger.Information("Saved user settings");
-                Log.Logger.Debug("User settings have been saved with the following new values {@userSettings}", Properties.Settings.Default);
+                Log.Logger.Debug("Saved user settings: {@userSettings}", Properties.Settings.Default);
                 return;
             }
 
