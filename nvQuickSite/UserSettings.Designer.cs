@@ -34,6 +34,7 @@
             this.chkShowReleaseCandidates = new MetroFramework.Controls.MetroCheckBox();
             this.dialogIcon = new System.Windows.Forms.PictureBox();
             this.chkShareStatistics = new MetroFramework.Controls.MetroCheckBox();
+            this.chkEnableLocalPackageInstall = new MetroFramework.Controls.MetroCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -103,12 +104,23 @@
             this.chkShareStatistics.Text = "Share Statistics";
             this.chkShareStatistics.UseVisualStyleBackColor = true;
             // 
+            // chkEnableLocalPackageInstall
+            // 
+            this.chkEnableLocalPackageInstall.AutoSize = true;
+            this.chkEnableLocalPackageInstall.Location = new System.Drawing.Point(118, 95);
+            this.chkEnableLocalPackageInstall.Name = "chkEnableLocalPackageInstall";
+            this.chkEnableLocalPackageInstall.Size = new System.Drawing.Size(170, 15);
+            this.chkEnableLocalPackageInstall.TabIndex = 6;
+            this.chkEnableLocalPackageInstall.Text = "Enable Local Package Install";
+            this.chkEnableLocalPackageInstall.UseVisualStyleBackColor = true;
+            // 
             // UserSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(527, 170);
+            this.Controls.Add(this.chkEnableLocalPackageInstall);
             this.Controls.Add(this.chkShareStatistics);
             this.Controls.Add(this.dialogIcon);
             this.Controls.Add(this.chkShowReleaseCandidates);
@@ -130,5 +142,6 @@
         private MetroFramework.Controls.MetroCheckBox chkShowReleaseCandidates;
         private System.Windows.Forms.PictureBox dialogIcon;
         private MetroFramework.Controls.MetroCheckBox chkShareStatistics;
+        private MetroFramework.Controls.MetroCheckBox chkEnableLocalPackageInstall;
     }
 }
