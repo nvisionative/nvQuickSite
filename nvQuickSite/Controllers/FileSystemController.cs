@@ -409,7 +409,7 @@ namespace nvQuickSite.Controllers
                 dSecurity.ModifyAccessRule(AccessControlModification.Add, accessRule2, out modified);
 
                 dInfo.SetAccessControl(dSecurity);
-                Log.Logger.Debug("Permissions for {accountName} have been set on folder {folderPath}", accountName, folderPath);
+                Log.Logger.Debug("Permissions for {accountName} set on folder {folderPath}", accountName, folderPath);
             }
             catch (Exception ex)
             {
