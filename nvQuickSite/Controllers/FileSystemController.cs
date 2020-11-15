@@ -114,7 +114,7 @@ namespace nvQuickSite.Controllers
                     return;
                 }
 
-                Log.Logger.Information("Sites {siteName} was already in {hostsFile}", siteName, hostsFile);
+                Log.Logger.Information("{siteName} already in {hostsFile}", siteName, hostsFile);
             }
             catch (Exception ex)
             {
