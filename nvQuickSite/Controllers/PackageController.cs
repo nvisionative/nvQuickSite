@@ -91,7 +91,7 @@ namespace nvQuickSite.Controllers
 
             SaveLocalPackagesFile(packages);
             Log.Logger.Information("Saved local packages file");
-            Log.Logger.Debug("Saved the following packages to the local package file {@packages}", packages);
+            Log.Logger.Debug("Saved packages to local packages file: {@packages}", packages);
             return packages;
         }
 
