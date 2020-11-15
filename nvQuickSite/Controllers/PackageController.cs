@@ -213,7 +213,7 @@ namespace nvQuickSite.Controllers
                 }
 
                 Log.Logger.Information("Retrieved DNN packages from GitHub");
-                Log.Logger.Debug("Found the following packages {@packages}", packages);
+                Log.Logger.Debug("Retrieved DNN packages from GitHub: {@packages}", packages);
                 return packages;
             }
             catch (Exception ex)
