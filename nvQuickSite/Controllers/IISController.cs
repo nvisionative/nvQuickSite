@@ -46,7 +46,7 @@ namespace nvQuickSite.Controllers
             Log.Logger.Information("Creating site {siteName} in {installFolder}", siteName, installFolder);
             if (SiteExists(siteName, deleteSiteIfExists))
             {
-                Log.Logger.Error("The site {siteName} already exists, aborting operation", siteName);
+                Log.Logger.Error("Site {siteName} already exists, aborting operation", siteName);
                 throw new SiteExistsException("Site name (" + siteName + ") already exists.") { Source = "Create Site: Site Exists" };
             }
 
