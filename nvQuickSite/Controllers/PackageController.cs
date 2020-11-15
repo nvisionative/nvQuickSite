@@ -218,7 +218,7 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "An unexpected error occurred while trying to fetch the github DNN releases.");
+                Log.Logger.Error(ex, "Unexpected error occurred retrieving DNN packages from GitHub");
                 return packages;
             }
         }
