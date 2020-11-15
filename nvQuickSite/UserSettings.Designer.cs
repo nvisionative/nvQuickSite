@@ -35,6 +35,8 @@
             this.dialogIcon = new System.Windows.Forms.PictureBox();
             this.chkShareStatistics = new MetroFramework.Controls.MetroCheckBox();
             this.chkEnableLocalPackageInstall = new MetroFramework.Controls.MetroCheckBox();
+            this.cboLogginLevel = new MetroFramework.Controls.MetroComboBox();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -114,12 +116,32 @@
             this.chkEnableLocalPackageInstall.Text = "Enable Local Package Install";
             this.chkEnableLocalPackageInstall.UseVisualStyleBackColor = true;
             // 
+            // cboLogginLevel
+            // 
+            this.cboLogginLevel.FormattingEnabled = true;
+            this.cboLogginLevel.ItemHeight = 23;
+            this.cboLogginLevel.Location = new System.Drawing.Point(330, 81);
+            this.cboLogginLevel.Name = "cboLogginLevel";
+            this.cboLogginLevel.Size = new System.Drawing.Size(174, 29);
+            this.cboLogginLevel.TabIndex = 7;
+            // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.Location = new System.Drawing.Point(330, 49);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(90, 19);
+            this.metroLabel1.TabIndex = 8;
+            this.metroLabel1.Text = "Logging Level";
+            // 
             // UserSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(527, 170);
+            this.Controls.Add(this.metroLabel1);
+            this.Controls.Add(this.cboLogginLevel);
             this.Controls.Add(this.chkEnableLocalPackageInstall);
             this.Controls.Add(this.chkShareStatistics);
             this.Controls.Add(this.dialogIcon);
@@ -143,5 +165,7 @@
         private System.Windows.Forms.PictureBox dialogIcon;
         private MetroFramework.Controls.MetroCheckBox chkShareStatistics;
         private MetroFramework.Controls.MetroCheckBox chkEnableLocalPackageInstall;
+        private MetroFramework.Controls.MetroComboBox cboLogginLevel;
+        private MetroFramework.Controls.MetroLabel metroLabel1;
     }
 }

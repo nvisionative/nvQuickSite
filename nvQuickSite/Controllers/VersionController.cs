@@ -18,8 +18,9 @@
 namespace nvQuickSite.Controllers
 {
     using System.Net;
-
+    using System.Threading;
     using nvQuickSite.Controllers.Exceptions;
+    using Serilog;
 
     /// <summary>
     /// Manages versions.
@@ -44,11 +45,14 @@ namespace nvQuickSite.Controllers
                     var url = "https://raw.githubusercontent.com/nvisionative/nvQuickSite/master/nvQuickSite/data/latestVersion.json";
                     string result = client.DownloadString(url);
                     Models.Version res = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.Version>(result);
+                    Log.Logger.Debug("v{version} available on GitHub.", res.latestVersion);
                     return res.latestVersion;
                 }
                 catch (WebException ex)
                 {
-                    throw new VersionControllerException("There was an error reading the latest version of nvQuickSite. Please\ncheck your internet connection.", ex) { Source = "Get Remote Latest Version" };
+                    var message = "There was an error reading the latest version of nvQuickSite. Please\ncheck your internet connection.";
+                    Log.Logger.Error(ex, message.Replace("\n", " "));
+                    throw new VersionControllerException(message, ex) { Source = "Get Remote Latest Version" };
                 }
             }
         }

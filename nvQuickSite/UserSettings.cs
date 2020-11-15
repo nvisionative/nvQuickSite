@@ -17,23 +17,34 @@
 
 namespace nvQuickSite
 {
+    using MetroFramework.Controls;
     using MetroFramework.Forms;
+    using Serilog;
+    using Serilog.Core;
+    using Serilog.Events;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// Implementes the user specific settings form.
     /// </summary>
     public partial class UserSettings : MetroForm
     {
+        private readonly LoggingLevelSwitch loggingLevelSwitch;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSettings"/> class.
         /// </summary>
-        public UserSettings()
+        /// <param name="loggingLevelSwitch">An object used to change logging level at runtime.</param>
+        public UserSettings(Serilog.Core.LoggingLevelSwitch loggingLevelSwitch)
         {
             this.InitializeComponent();
             this.lblMessage.Text = "User Settings";
             this.chkShowReleaseCandidates.Checked = Properties.Settings.Default.ShowReleaseCandidates;
             this.chkShareStatistics.Checked = Properties.Settings.Default.ShareStatistics;
             this.chkEnableLocalPackageInstall.Checked = Properties.Settings.Default.EnableLocalPackageInstall;
+            this.loggingLevelSwitch = loggingLevelSwitch;
+            this.PopulateLoggingLevelSwitchCombo();
         }
 
         /// <summary>
@@ -50,5 +61,32 @@ namespace nvQuickSite
         /// Gets a value indicating whether the user wants to enable local package install.
         /// </summary>
         public bool EnableLocalPackageInstall => this.chkEnableLocalPackageInstall.Checked;
+
+        private void PopulateLoggingLevelSwitchCombo()
+        {
+            this.cboLogginLevel.Items.Clear();
+            var levels = Enum.GetValues(typeof(LogEventLevel)).Cast<LogEventLevel>();
+            foreach (var level in levels)
+            {
+                this.cboLogginLevel.Items.Add(level);
+            }
+
+            this.cboLogginLevel.SelectedItem = this.loggingLevelSwitch.MinimumLevel;
+            this.cboLogginLevel.SelectedValueChanged += this.CboLogginLevel_SelectedValueChanged;
+        }
+
+        private void CboLogginLevel_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var cbo = (MetroComboBox)sender;
+            var newLevel = (LogEventLevel)cbo.SelectedItem;
+
+            // To log information about the level change we must:
+            // 1. Force the level to Information (in case the level was set lower and it would not log information)
+            // 2. Log information about the level change
+            // 3. Change the level.
+            this.loggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
+            Log.Logger.Information("Logging level changed to {newLevel}", newLevel);
+            this.loggingLevelSwitch.MinimumLevel = newLevel;
+        }
     }
 }

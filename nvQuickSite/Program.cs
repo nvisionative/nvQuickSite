@@ -22,6 +22,9 @@ namespace nvQuickSite
     using System.Security.Principal;
     using System.Windows.Forms;
 
+    using Serilog;
+    using Serilog.Core;
+
     /// <summary>
     /// Implements the program entry point.
     /// </summary>
@@ -33,14 +36,28 @@ namespace nvQuickSite
         [STAThread]
         private static void Main()
         {
+            var loggingLevelSwitch = new LoggingLevelSwitch();
+            var log = new LoggerConfiguration()
+                .MinimumLevel.ControlledBy(loggingLevelSwitch)
+                .WriteTo.File(
+                    path: "logs\\log-.txt",
+                    rollingInterval: RollingInterval.Day)
+                .WriteTo.Console()
+                .WriteTo.Debug()
+                .CreateLogger();
+            log.Information("Application Started v{version}", Application.ProductVersion);
+            Log.Logger = log;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             WindowsPrincipal principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            log.Debug("Current user is {@principal}", principal.Identity.Name);
             bool administrativeMode = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
             if (!administrativeMode)
             {
+                log.Information("Starting as an administrator.");
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.Verb = "runas";
                 startInfo.FileName = Application.ExecutablePath;
@@ -56,7 +73,7 @@ namespace nvQuickSite
                 return;
             }
 
-            using (var main = new Main())
+            using (var main = new Main(loggingLevelSwitch))
             {
                 Application.Run(main);
             }

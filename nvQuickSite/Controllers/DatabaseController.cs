@@ -22,6 +22,7 @@ namespace nvQuickSite.Controllers
     using System.Data.SqlClient;
 
     using nvQuickSite.Controllers.Exceptions;
+    using Serilog;
 
     /// <summary>
     /// Controls database operations.
@@ -74,6 +75,7 @@ namespace nvQuickSite.Controllers
         /// <exception cref="DatabaseControllerException">Is thrown when the database could not be dropped.</exception>
         public void DropDatabase()
         {
+            Log.Logger.Information("Dropping database {dbName}", this.dbName);
             string myDBServerName = this.dbServerName;
             string connectionStringAuthSection = string.Empty;
             if (this.usesWindowsAuthentication)
@@ -102,7 +104,9 @@ namespace nvQuickSite.Controllers
                 }
                 catch (Exception ex)
                 {
-                    throw new DatabaseControllerException("Something when wrong while attempting to drop the database " + this.dbName, ex) { Source = "Drop Database" };
+                    var message = $"Error attempting to drop database {this.dbName}";
+                    Log.Logger.Error(ex, message);
+                    throw new DatabaseControllerException(message, ex) { Source = "Drop Database" };
                 }
                 finally
                 {
@@ -114,6 +118,8 @@ namespace nvQuickSite.Controllers
                     }
                 }
             }
+
+            Log.Logger.Information("Database {dbName} dropped", this.dbName);
         }
 
         /// <summary>
@@ -121,6 +127,7 @@ namespace nvQuickSite.Controllers
         /// </summary>
         public void CreateDatabase()
         {
+            Log.Logger.Information("Creating database {dbName}", this.dbName);
             string connectionStringAuthSection = string.Empty;
             string connectionTimeout = "Connection Timeout=5;";
             if (this.usesWindowsAuthentication)
@@ -152,8 +159,10 @@ namespace nvQuickSite.Controllers
                 }
                 catch (Exception ex)
                 {
+                    var message = $"Error creating database {this.dbName}";
+                    Log.Error(ex, message);
                     FileSystemController.RemoveDirectories(this.installFolder);
-                    throw new DatabaseControllerException($"Error creating database {this.dbName}", ex) { Source = "Create Database" };
+                    throw new DatabaseControllerException(message, ex) { Source = "Create Database" };
                 }
                 finally
                 {
@@ -164,6 +173,8 @@ namespace nvQuickSite.Controllers
                     }
                 }
             }
+
+            Log.Information("Database {dbName} created", this.dbName);
         }
 
         /// <summary>
@@ -171,6 +182,7 @@ namespace nvQuickSite.Controllers
         /// </summary>
         internal void SetDatabasePermissions()
         {
+            Log.Logger.Information("Setting permissions on database {dbName}", this.dbName);
             string connectionStringAuthSection = string.Empty;
             if (this.usesWindowsAuthentication)
             {
@@ -207,9 +219,11 @@ namespace nvQuickSite.Controllers
                     grantDbAccess.ExecuteNonQuery();
                     addRoleMember.ExecuteNonQuery();
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
-                    throw new DatabaseControllerException($"Error setting database permissions for database {this.dbName}", ex) { Source = "Set Database Permissions" };
+                    var message = $"Error setting database permissions for database {this.dbName}";
+                    Log.Logger.Error(ex, message);
+                    throw new DatabaseControllerException(message, ex) { Source = "Set Database Permissions" };
                 }
                 finally
                 {
@@ -224,6 +238,8 @@ namespace nvQuickSite.Controllers
                     }
                 }
             }
+
+            Log.Logger.Information("Permissions set for database {dbName}", this.dbName);
         }
     }
 }

@@ -26,12 +26,39 @@ namespace nvQuickSite.Controllers
 
     using nvQuickSite.Models;
     using Octokit;
+    using Serilog;
 
     /// <summary>
     /// Manages packages.
     /// </summary>
     public static class PackageController
     {
+        /// <summary>
+        /// Gets a value indicating whether the system can access the GitHub repository.
+        /// </summary>
+        internal static bool IsOnline
+        {
+            get
+            {
+                bool canRead;
+                try
+                {
+                    using (var client = new WebClient())
+                    {
+                        canRead = client.OpenRead("https://github.com/nvisionative/nvQuickSite").CanRead;
+                        Log.Logger.Information("Internet appears to be " + (canRead ? "online" : "offline"));
+                        return canRead;
+                    }
+                }
+                catch (WebException ex)
+                {
+                    Log.Logger.Information("Internet appears offline");
+                    Log.Logger.Error(ex, "Unexpected error occurred while checking internet access to GitHub repository");
+                    return false;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets the list of packages available.
         /// </summary>
@@ -40,46 +67,50 @@ namespace nvQuickSite.Controllers
         {
             var localPackages = GetLocalPackages();
             var packages = localPackages.ToList();
-            if (Start.isOnline)
+            if (PackageController.IsOnline)
             {
-            var remotePackages = GetRemotePackages();
-            if (remotePackages.Any())
-            {
-                packages = localPackages.Where(p => p.keep == true).ToList();
-                foreach (var package in remotePackages)
+                var remotePackages = GetRemotePackages();
+                if (remotePackages.Any())
                 {
-                    if (packages.SingleOrDefault(p => p.did == package.did && p.version == package.version) == null)
+                    packages = localPackages.Where(p => p.keep == true).ToList();
+                    foreach (var package in remotePackages)
                     {
-                        packages.Add(package);
+                        if (packages.SingleOrDefault(p => p.did == package.did && p.version == package.version) == null)
+                        {
+                            packages.Add(package);
+                        }
                     }
+                }
+
+                var ghPackages = GetGitHubPackages();
+                if (ghPackages.Any())
+                {
+                    packages = packages.Union(ghPackages).ToList();
                 }
             }
 
-            var ghPackages = GetGitHubPackages();
-            if (ghPackages.Any())
-            {
-                packages = packages.Union(ghPackages).ToList();
-            }
-            }
-
             SaveLocalPackagesFile(packages);
+            Log.Logger.Information("Saved local packages file");
+            Log.Logger.Debug("Saved packages to local packages file: {@packages}", packages);
             return packages;
         }
 
         private static IEnumerable<Package> GetLocalPackages()
         {
-            var res = new List<Package>();
-            var pfile = Directory.GetCurrentDirectory() + @"\Downloads\packages.json";
-            if (File.Exists(pfile))
+            var localPackages = new List<Package>();
+            var packagesFile = Directory.GetCurrentDirectory() + @"\Downloads\packages.json";
+            if (File.Exists(packagesFile))
             {
-                using (var sr = new StreamReader(pfile))
+                using (var sr = new StreamReader(packagesFile))
                 {
                     var content = sr.ReadToEnd();
-                    res = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Package>>(content);
+                    localPackages = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Package>>(content);
                 }
             }
 
-            return res;
+            Log.Logger.Information("Loaded local packages");
+            Log.Logger.Debug("Loaded local packages: {@localPackages}", localPackages);
+            return localPackages;
         }
 
         private static void SaveLocalPackagesFile(IEnumerable<Package> packages)
@@ -105,11 +136,14 @@ namespace nvQuickSite.Controllers
                 {
                     var url = "https://github.com/nvisionative/nvQuickSite/raw/master/nvQuickSite/data/packages.json";
                     string result = client.DownloadString(url);
-                    var res = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Package>>(result);
-                    return res;
+                    var packages = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Package>>(result);
+                    Log.Logger.Information("Loaded remote packages");
+                    Log.Logger.Debug("Loaded remote packages: {@packages}", packages);
+                    return packages;
                 }
-                catch (WebException)
+                catch (WebException ex)
                 {
+                    Log.Logger.Error(ex, "Unexpected error occurred retrieving remote packages.");
                     return new List<Package>();
                 }
             }
@@ -123,10 +157,10 @@ namespace nvQuickSite.Controllers
         [System.Diagnostics.CodeAnalysis.SuppressMessage(
             "Design",
             "CA1031:Do not catch general exception types",
-            Justification = "Not sure what more exception to catch here.")]
+            Justification = "On purpose so any exception here does not prevent using local packages.")]
         private static IEnumerable<Package> GetGitHubPackages()
         {
-            var res = new List<Package>();
+            var packages = new List<Package>();
             try
             {
                 var client = new GitHubClient(new ProductHeaderValue("nvQuickSite"));
@@ -162,7 +196,7 @@ namespace nvQuickSite.Controllers
                             ghPackage.name = "DNN Platform Release Candidate";
                             ghPackage.url = installPackage.BrowserDownloadUrl;
                             ghPackage.upgradeurl = upgradePackage.BrowserDownloadUrl;
-                            res.Add(ghPackage);
+                            packages.Add(ghPackage);
                         }
                         else if (!release.Name.ToUpperInvariant().Contains("RC") &&
                             installPackage != null)
@@ -171,18 +205,21 @@ namespace nvQuickSite.Controllers
                             ghPackage.name = "DNN Platform " + ghPackage.version.Substring(0, 1);
                             ghPackage.url = installPackage.BrowserDownloadUrl;
                             ghPackage.upgradeurl = upgradePackage.BrowserDownloadUrl;
-                            res.Add(ghPackage);
+                            packages.Add(ghPackage);
                         }
 
                         index++;
                     }
                 }
 
-                return res;
+                Log.Logger.Information("Retrieved DNN packages from GitHub");
+                Log.Logger.Debug("Retrieved DNN packages from GitHub: {@packages}", packages);
+                return packages;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return res;
+                Log.Logger.Error(ex, "Unexpected error occurred retrieving DNN packages from GitHub");
+                return packages;
             }
         }
 

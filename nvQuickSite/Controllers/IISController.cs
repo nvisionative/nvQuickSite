@@ -27,6 +27,7 @@ namespace nvQuickSite.Controllers
 
     using Microsoft.Web.Administration;
     using nvQuickSite.Controllers.Exceptions;
+    using Serilog;
 
     /// <summary>
     /// Controls IIS operations.
@@ -42,8 +43,10 @@ namespace nvQuickSite.Controllers
         /// <param name="deleteSiteIfExists">If true will delete and recreate the site.</param>
         internal static void CreateSite(string siteName, string installFolder, bool useSiteSpecificAppPool, bool deleteSiteIfExists)
         {
+            Log.Logger.Information("Creating site {siteName} in {installFolder}", siteName, installFolder);
             if (SiteExists(siteName, deleteSiteIfExists))
             {
+                Log.Logger.Error("Site {siteName} already exists, aborting operation", siteName);
                 throw new SiteExistsException("Site name (" + siteName + ") already exists.") { Source = "Create Site: Site Exists" };
             }
 
@@ -67,11 +70,14 @@ namespace nvQuickSite.Controllers
                     }
 
                     iisManager.CommitChanges();
+                    Log.Logger.Information("Created site {siteName}", siteName);
                 }
             }
             catch (Exception ex)
             {
-                throw new IISControllerException("Something went wrong creating the site in IIS: ", ex) { Source = "Create Site" };
+                var message = "Error creating site in IIS";
+                Log.Logger.Error(ex, message);
+                throw new IISControllerException(message, ex) { Source = "Create Site" };
             }
         }
 

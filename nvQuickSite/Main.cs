@@ -18,11 +18,9 @@
 namespace nvQuickSite
 {
     using System;
-    using System.Configuration;
     using System.Diagnostics;
     using System.Drawing;
     using System.Globalization;
-    using System.Linq;
     using System.Windows.Forms;
 
     using JCS;
@@ -30,6 +28,8 @@ namespace nvQuickSite
     using nvQuickSite.Controllers;
     using nvQuickSite.Controllers.Exceptions;
     using Segment;
+    using Serilog;
+    using Serilog.Core;
 
     /// <summary>
     /// Implements the logic of the main form.
@@ -39,20 +39,27 @@ namespace nvQuickSite
         /// <summary>
         /// Initializes a new instance of the <see cref="Main"/> class.
         /// </summary>
-        public Main()
+        /// <param name="loggingLevelSwitch">An object that can be used to dynamically change the logging level at runtime.</param>
+        public Main(LoggingLevelSwitch loggingLevelSwitch)
         {
             this.InitializeComponent();
 
             if (Properties.Settings.Default.UpdateSettings)
             {
+                Log.Logger.Information("Updating user settings per new release.");
+                Log.Logger.Information("OLD user settings: {@settings}", Properties.Settings.Default);
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateSettings = false;
                 Properties.Settings.Default.Save();
+                Log.Logger.Information("NEW user settings: {@settings}", Properties.Settings.Default);
             }
 
+            var osInfo = $"{OSVersionInfo.Name} {OSVersionInfo.Edition} {OSVersionInfo.ServicePack}";
+            var versionString = OSVersionInfo.VersionString;
+            Log.Logger.Information("Operating System information: {osInfo} {versionString}", osInfo, versionString);
             if (Properties.Settings.Default.ShareStatistics)
             {
-                var userGuid = System.Guid.NewGuid().ToString("B").ToUpper(CultureInfo.InvariantCulture);
+                var userGuid = Guid.NewGuid().ToString("B").ToUpper(CultureInfo.InvariantCulture);
                 Analytics.Initialize("pzNi0MJVC1P9tVZdnvDOyptvUwPov9BN", new Config().SetAsync(false));
                 Analytics.Client.Track(
                     userGuid,
@@ -61,7 +68,7 @@ namespace nvQuickSite
                     {
                         {
                             "dimension1",
-                            OSVersionInfo.Name + " " + OSVersionInfo.Edition + " " + OSVersionInfo.ServicePack
+                            osInfo
                         },
                     });
             }
@@ -70,28 +77,24 @@ namespace nvQuickSite
 
             try
             {
-            var latestVersion = VersionController.GetRemoteLatestVersion();
-            if (Version.Parse(latestVersion) > Version.Parse(Application.ProductVersion))
-            {
-                this.tileGetNewVersion.Visible = true;
-            }
+                var latestVersion = VersionController.GetRemoteLatestVersion();
+                if (Version.Parse(latestVersion) > Version.Parse(Application.ProductVersion))
+                {
+                    Log.Information("Version {version} is available.", latestVersion);
+                    this.tileGetNewVersion.Visible = true;
+                }
             }
             catch (VersionControllerException ex)
             {
                 DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
             }
 
-            Start control = new Start();
+            Start control = new Start(loggingLevelSwitch);
             control.Dock = DockStyle.Fill;
             this.Controls.Add(control);
         }
 
-        private static bool SettingExists(string settingName)
-        {
-            return Properties.Settings.Default.Properties.Cast<SettingsProperty>().Any(prop => prop.Name == settingName);
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void footerImageLink_Click(object sender, EventArgs e)
         {
             Process.Start("http://www.nvisionative.com");
         }
