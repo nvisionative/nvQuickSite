@@ -27,6 +27,7 @@ namespace nvQuickSite.Controllers
     using System.Xml.Linq;
 
     using nvQuickSite.Controllers.Exceptions;
+    using Serilog;
 
     /// <summary>
     /// Controls file system operations.
@@ -108,7 +109,12 @@ namespace nvQuickSite.Controllers
                             w.WriteLine(Environment.NewLine + newEntry);
                         }
                     }
+
+                    Log.Logger.Information("Added {siteName} to {hostsFile}", siteName, hostsFile);
+                    return;
                 }
+
+                Log.Logger.Information("Sites {siteName} was already in {hostsFile}", siteName, hostsFile);
             }
             catch (Exception ex)
             {
@@ -119,6 +125,7 @@ namespace nvQuickSite.Controllers
                         "\r\r\nnvQuickSite is unable to add a new host entry to the above file. Please make sure the file is not read only. If it's not, make sure your antivirus software is not blocking changes made to the file. You can pause your antivirus software until nvQuickSite has completed its work, or add an exception for nvQuickSite in the antivirus software.";
                 }
 
+                Log.Logger.Error(ex, "Failed to edit {hostsFile}", hostsFile);
                 throw new FileSystemControllerException(errorMessage, ex) { Source = "Update Hosts File" };
             }
         }
@@ -136,6 +143,7 @@ namespace nvQuickSite.Controllers
         /// <param name="dbPassword">The database password.</param>
         internal static void CreateDirectories(string installFolder, string siteName, bool useSiteSpecificAppPool, string dbInstanceName, string dbServerName, bool usesWindowsAuthentication, string dbUserName, string dbPassword)
         {
+            Log.Logger.Information("Creating hosting directories for {siteName}", siteName);
             var websiteDir = installFolder + "\\Website";
             var logsDir = installFolder + "\\Logs";
             var databaseDir = installFolder + "\\Database";
@@ -197,6 +205,9 @@ namespace nvQuickSite.Controllers
                 SetFolderPermission(dbServiceAccount, databaseDir);
                 SetFolderPermission(authenticatedUsers, databaseDir);
             }
+
+            string[] createdFolders = { websiteDir, logsDir, databaseDir };
+            Log.Logger.Information("Created folders {createdFolders}", createdFolders);
         }
 
         /// <summary>
@@ -215,6 +226,17 @@ namespace nvQuickSite.Controllers
         }
 
         /// <summary>
+        /// Gets the directory used to store package downloads.
+        /// </summary>
+        /// <returns>The path to the downloads directory.</returns>
+        internal static string GetDownloadDirectory()
+        {
+            var downloadDirectory = Directory.GetCurrentDirectory() + @"\Downloads\";
+            Log.Logger.Debug("The download directory is {downloadDirectory}", downloadDirectory);
+            return downloadDirectory;
+        }
+
+        /// <summary>
         /// Modifies the website web.config file as needed.
         /// </summary>
         /// <param name="dbServerName">The name of the database server.</param>
@@ -227,6 +249,8 @@ namespace nvQuickSite.Controllers
         {
             try
             {
+                Log.Logger.Information("Modifying site config");
+
                 string myDBServerName = dbServerName;
                 string connectionStringAuthSection = string.Empty;
                 if (usesWindowsAuthentication)
@@ -261,7 +285,9 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                throw new FileSystemControllerException("There was an error attempting to modify the web.config file", ex) { Source = "Modify Config" };
+                const string Message = "There was an error attempting to modify the web.config file";
+                Log.Logger.Error(ex, Message);
+                throw new FileSystemControllerException(Message, ex) { Source = "Modify Config" };
             }
         }
 
@@ -296,19 +322,20 @@ namespace nvQuickSite.Controllers
         /// <summary>
         /// Deletes files and directories recursivelly, optionally reporting progress.
         /// </summary>
-        /// <param name="target_dir">The target directory to delete.</param>
+        /// <param name="targetDir">The target directory to delete.</param>
         /// <param name="progress">Reports progress by firing up for each file or folder with it's name.</param>
-        internal static void DeleteDirectory(string target_dir, IProgress<string> progress = null)
+        internal static void DeleteDirectory(string targetDir, IProgress<string> progress = null)
         {
             try
             {
-                string[] files = Directory.GetFiles(target_dir);
-                string[] dirs = Directory.GetDirectories(target_dir);
+                string[] files = Directory.GetFiles(targetDir);
+                string[] dirs = Directory.GetDirectories(targetDir);
 
                 foreach (string file in files)
                 {
                     File.SetAttributes(file, FileAttributes.Normal);
                     File.Delete(file);
+                    Log.Logger.Debug("Deleted {file}", file);
                     progress?.Report(file);
                 }
 
@@ -318,15 +345,18 @@ namespace nvQuickSite.Controllers
                     progress?.Report(dir);
                 }
 
-                Directory.Delete(target_dir, false);
-                progress?.Report(target_dir);
+                Directory.Delete(targetDir, false);
+                Log.Logger.Debug("Deleted directory {targetDir}", targetDir);
+                progress?.Report(targetDir);
             }
             catch (DirectoryNotFoundException ex)
             {
+                Log.Logger.Error(ex, "Directory not found");
                 progress?.Report(ex.Message);
             }
             catch (FileNotFoundException ex)
             {
+                Log.Logger.Error(ex, "File not found");
                 progress?.Report(ex.Message);
             }
         }
@@ -379,9 +409,11 @@ namespace nvQuickSite.Controllers
                 dSecurity.ModifyAccessRule(AccessControlModification.Add, accessRule2, out modified);
 
                 dInfo.SetAccessControl(dSecurity);
+                Log.Logger.Debug("Permissions for {accountName} have been set on folder {folderPath}", accountName, folderPath);
             }
             catch (Exception ex)
             {
+                Log.Logger.Error(ex, "An error occured while attempting to set folder permissions");
                 throw new FileSystemControllerException("There was a problem setting the folder permissions for folder path: " + folderPath, ex) { Source = "Set Folder Permission" };
             }
         }

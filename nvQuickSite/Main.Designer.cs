@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.footerImageLink = new System.Windows.Forms.PictureBox();
             this.lblVersion = new System.Windows.Forms.Label();
             this.tileGetNewVersion = new MetroFramework.Controls.MetroTile();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.footerImageLink)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox2
@@ -47,16 +47,16 @@
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
-            // pictureBox1
+            // footerImageLink
             // 
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(26, 513);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(604, 55);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.footerImageLink.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.footerImageLink.Image = ((System.Drawing.Image)(resources.GetObject("footerImageLink.Image")));
+            this.footerImageLink.Location = new System.Drawing.Point(26, 513);
+            this.footerImageLink.Name = "footerImageLink";
+            this.footerImageLink.Size = new System.Drawing.Size(604, 55);
+            this.footerImageLink.TabIndex = 3;
+            this.footerImageLink.TabStop = false;
+            this.footerImageLink.Click += new System.EventHandler(this.footerImageLink_Click);
             // 
             // lblVersion
             // 
@@ -93,7 +93,7 @@
             this.ClientSize = new System.Drawing.Size(650, 580);
             this.Controls.Add(this.tileGetNewVersion);
             this.Controls.Add(this.lblVersion);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.footerImageLink);
             this.Controls.Add(this.pictureBox2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -103,7 +103,7 @@
             this.Style = MetroFramework.MetroColorStyle.Blue;
             this.Theme = MetroFramework.MetroThemeStyle.Light;
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.footerImageLink)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -111,7 +111,7 @@
 
         #endregion
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox footerImageLink;
         private System.Windows.Forms.Label lblVersion;
         private MetroFramework.Controls.MetroTile tileGetNewVersion;
     }

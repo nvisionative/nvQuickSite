@@ -35,12 +35,16 @@ namespace nvQuickSite
     using nvQuickSite.Exceptions;
     using nvQuickSite.Models;
     using Ookii.Dialogs;
+    using Serilog;
+    using Serilog.Core;
 
     /// <summary>
     /// Implementes the UI tabs and tiles logic.
     /// </summary>
     public partial class Start : MetroUserControl
     {
+        private readonly LoggingLevelSwitch loggingLevelSwitch;
+        private readonly Timer downloadProgressLogTimer;
         private long totalSize;
         private long total;
         private long lastVal;
@@ -49,29 +53,16 @@ namespace nvQuickSite
         /// <summary>
         /// Initializes a new instance of the <see cref="Start"/> class.
         /// </summary>
-        public Start()
+        /// <param name="loggingLevelSwitch">An object that can be used to dynamically change the logging level at runtime.</param>
+        public Start(Serilog.Core.LoggingLevelSwitch loggingLevelSwitch)
         {
             this.InitializeComponent();
             this.InitializeTabs();
             this.LoadPackages();
             this.ReadUserSettings();
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the system can access the github.
-        /// </summary>
-        internal static bool isOnline
-        {
-            get
-            {
-                bool canRead;
-                using (var client = new WebClient())
-                {
-                    canRead = client.OpenRead("https://github.com/nvisionative/nvQuickSite").CanRead;
-                }
-
-                return canRead;
-            }
+            this.loggingLevelSwitch = loggingLevelSwitch;
+            this.downloadProgressLogTimer = new Timer() { Interval = 2000 };
+            this.downloadProgressLogTimer.Tick += DownloadProgressLogTimer_Tick;
         }
 
         private IEnumerable<Package> Packages { get; set; }
@@ -79,11 +70,6 @@ namespace nvQuickSite
         private string InstallFolder => Path.Combine(this.txtInstallBaseFolder.Text, this.txtInstallSubFolder.Text);
 
         private string SiteName => this.txtSiteNamePrefix.Text + this.txtSiteNameSuffix.Text;
-
-        private static string GetDownloadDirectory()
-        {
-            return Directory.GetCurrentDirectory() + @"\Downloads\";
-        }
 
         private void LoadPackages()
         {
@@ -126,6 +112,8 @@ namespace nvQuickSite
 
         private void ReadUserSettings()
         {
+            Log.Logger.Information("Reading current user settings");
+            Log.Logger.Debug("Current user settings are {@userSettings}", Properties.Settings.Default);
             if (Properties.Settings.Default.RememberFieldValues)
             {
                 var enableLocalInstallPackage = Properties.Settings.Default.EnableLocalPackageInstall;
@@ -160,7 +148,13 @@ namespace nvQuickSite
                 Properties.Settings.Default.DatabaseUserNameRecent = this.txtDBUserName.Text;
 
                 Properties.Settings.Default.Save();
+                Log.Logger.Information("Saved user settings");
+                Log.Logger.Debug("User settings have been saved with the following new values {@userSettings}", Properties.Settings.Default);
+                return;
             }
+
+            Log.Logger.Information("User settings have changed");
+            Log.Logger.Debug("User settings have changed to {@userSettings}", Properties.Settings.Default);
         }
 
         private void InitializeTabs()
@@ -208,13 +202,13 @@ namespace nvQuickSite
                 return;
             }
 
-            Models.Package package;
+            Package package;
             var fileName = string.Empty;
 
             package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
             fileName = package.url.Split('/').Last();
 
-            var downloadDirectory = GetDownloadDirectory();
+            var downloadDirectory = FileSystemController.GetDownloadDirectory();
             var packageFullpath = downloadDirectory + fileName;
 
             if (File.Exists(packageFullpath))
@@ -239,7 +233,7 @@ namespace nvQuickSite
                 return;
             }
 
-            Models.Package package;
+            Package package;
             package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
             var url = package.url;
             var fileName = package.url.Split('/').Last();
@@ -248,7 +242,7 @@ namespace nvQuickSite
             {
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.client_DownloadProgressChanged);
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.client_DownloadFileCompleted);
-                var downloadDirectory = GetDownloadDirectory();
+                var downloadDirectory = FileSystemController.GetDownloadDirectory();
                 if (!Directory.Exists(downloadDirectory))
                 {
                     Directory.CreateDirectory(downloadDirectory);
@@ -271,6 +265,8 @@ namespace nvQuickSite
 
                 if (dlContinue)
                 {
+                    Log.Logger.Information("Downloading package from {url}", url);
+                    this.downloadProgressLogTimer.Start();
                     client.DownloadFileAsync(new Uri(url), downloadDirectory + fileName);
                     this.progressBarDownload.BackColor = Color.WhiteSmoke;
                     this.progressBarDownload.Visible = true;
@@ -280,6 +276,7 @@ namespace nvQuickSite
                     this.txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + "\\Downloads\\" + Path.GetFileName(url);
                     Properties.Settings.Default.LocalInstallPackageRecent = downloadDirectory;
                     Properties.Settings.Default.Save();
+                    Log.Logger.Information("Using local install package {filePath}", this.txtLocalInstallPackage.Text);
                     this.ValidateInstallPackage();
                 }
             }
@@ -295,13 +292,16 @@ namespace nvQuickSite
 
         private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            Models.Package package;
+            Package package;
             var fileName = string.Empty;
 
             package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
             fileName = package.url.Split('/').Last();
+            this.downloadProgressLogTimer.Stop();
+            Log.Logger.Information("{fileName} download completed.", fileName);
 
             this.txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + fileName;
+            Log.Logger.Information("{filePath} saved.", this.txtLocalInstallPackage.Text);
             Properties.Settings.Default.LocalInstallPackageRecent = Directory.GetCurrentDirectory() + @"\Downloads\";
             Properties.Settings.Default.Save();
             this.ValidateInstallPackage();
@@ -341,7 +341,7 @@ namespace nvQuickSite
 
         private void btnInstallPackageNext_Click(object sender, EventArgs e)
         {
-            if ((string.IsNullOrWhiteSpace(this.txtLocalInstallPackage.Text) || !Properties.Settings.Default.EnableLocalPackageInstall) && isOnline)
+            if ((string.IsNullOrWhiteSpace(this.txtLocalInstallPackage.Text) || !Properties.Settings.Default.EnableLocalPackageInstall) && PackageController.IsOnline)
             {
                 this.GetOnlineVersion();
                 return;
@@ -353,7 +353,7 @@ namespace nvQuickSite
                 SystemIcons.Question,
                 DialogController.DialogButtons.YesNo);
 
-            if (result == DialogResult.No && isOnline)
+            if (result == DialogResult.No && PackageController.IsOnline)
             {
                 this.GetOnlineVersion();
                 return;
@@ -548,8 +548,7 @@ namespace nvQuickSite
                     this.chkSiteSpecificAppPool.Checked,
                     this.chkDeleteSiteIfExists.Checked);
 
-                FileSystemController.UpdateHostsFile(
-                    this.SiteName);
+                FileSystemController.UpdateHostsFile(this.SiteName);
 
                 FileSystemController.CreateDirectories(
                     this.InstallFolder,
@@ -594,6 +593,7 @@ namespace nvQuickSite
                     this.InstallFolder);
 
                 this.btnVisitSite.Visible = true;
+                Log.Logger.Information("Site {siteName} ready to vist", this.SiteName);
             }
             catch (SiteExistsException ex)
             {
@@ -622,6 +622,7 @@ namespace nvQuickSite
         {
             try
             {
+                Log.Logger.Information("Extracting package");
                 var myZip = ZipFile.Read(openPath);
                 foreach (var entry in myZip)
                 {
@@ -635,8 +636,12 @@ namespace nvQuickSite
             }
             catch (Exception ex)
             {
-                throw new ReadAndExtractException("There was an error attempting to read and extract the package", ex) { Source = "Read And Extract Package" };
+                var message = "There was an error attempting to read and extract the package";
+                Log.Error(ex, message);
+                throw new ReadAndExtractException(message, ex) { Source = "Read And Extract Package" };
             }
+
+            Log.Logger.Information("Extracted package from {openPath} to {savePath}", openPath, savePath);
         }
 
         private void myZip_ExtractProgress(object sender, ExtractProgressEventArgs e)
@@ -660,7 +665,10 @@ namespace nvQuickSite
 
         private void btnVisitSite_Click(object sender, EventArgs e)
         {
-            Process.Start("http://" + this.SiteName);
+            var url = "http://" + this.SiteName;
+            Log.Logger.Information("Visiting {url}", url);
+            Process.Start(url);
+            Log.Logger.Information("Closing application");
             Main.ActiveForm.Close();
         }
 
@@ -691,7 +699,7 @@ namespace nvQuickSite
 
         private void tileQuickSettings_Click(object sender, EventArgs e)
         {
-            using (var userSettings = new UserSettings())
+            using (var userSettings = new UserSettings(this.loggingLevelSwitch))
             {
                 var result = userSettings.ShowDialog();
                 if (result == DialogResult.OK)
@@ -712,6 +720,11 @@ namespace nvQuickSite
             {
                 viewExistingSites.ShowDialog();
             }
+        }
+
+        private void DownloadProgressLogTimer_Tick(object sender, EventArgs e)
+        {
+            Log.Logger.Information("Download progress {progress}%", this.progressBarDownload.Value);
         }
     }
 }
