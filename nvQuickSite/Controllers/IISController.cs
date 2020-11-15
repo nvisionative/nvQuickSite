@@ -75,7 +75,7 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                var message = "Something went wrong creating the site in IIS";
+                var message = "Error creating site in IIS";
                 Log.Logger.Error(ex, message);
                 throw new IISControllerException(message, ex) { Source = "Create Site" };
             }
