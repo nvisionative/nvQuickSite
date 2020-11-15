@@ -143,7 +143,7 @@ namespace nvQuickSite.Controllers
                 }
                 catch (WebException ex)
                 {
-                    Log.Logger.Error(ex, "An unexpected error occurred trying to get remote packages.");
+                    Log.Logger.Error(ex, "Unexpected error occurred retrieving remote packages.");
                     return new List<Package>();
                 }
             }
