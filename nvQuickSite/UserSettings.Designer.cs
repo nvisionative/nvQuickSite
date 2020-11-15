@@ -128,9 +128,11 @@
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(330, 49);
+            this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.metroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.metroLabel1.Location = new System.Drawing.Point(330, 60);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(90, 19);
+            this.metroLabel1.Size = new System.Drawing.Size(81, 15);
             this.metroLabel1.TabIndex = 8;
             this.metroLabel1.Text = "Logging Level";
             // 
