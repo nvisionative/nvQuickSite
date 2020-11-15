@@ -636,7 +636,7 @@ namespace nvQuickSite
             }
             catch (Exception ex)
             {
-                var message = "There was an error attempting to read and extract the package";
+                var message = "Error attempting to read and extract the package";
                 Log.Error(ex, message);
                 throw new ReadAndExtractException(message, ex) { Source = "Read And Extract Package" };
             }
