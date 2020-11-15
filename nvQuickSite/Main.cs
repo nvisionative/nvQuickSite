@@ -47,7 +47,7 @@ namespace nvQuickSite
             if (Properties.Settings.Default.UpdateSettings)
             {
                 Log.Logger.Information("Updating user settings per new release.");
-                Log.Logger.Information("Old User Settings {@settings}", Properties.Settings.Default);
+                Log.Logger.Information("OLD user settings: {@settings}", Properties.Settings.Default);
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateSettings = false;
                 Properties.Settings.Default.Save();
