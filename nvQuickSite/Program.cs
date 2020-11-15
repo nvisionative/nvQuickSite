@@ -40,7 +40,7 @@ namespace nvQuickSite
             var log = new LoggerConfiguration()
                 .MinimumLevel.ControlledBy(loggingLevelSwitch)
                 .WriteTo.File(
-                    path: "logs\\log-.txt",
+                    path: "Logs\\log-.txt",
                     rollingInterval: RollingInterval.Day)
                 .WriteTo.Console()
                 .WriteTo.Debug()
