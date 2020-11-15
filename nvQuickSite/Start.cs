@@ -298,7 +298,7 @@ namespace nvQuickSite
             package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
             fileName = package.url.Split('/').Last();
             this.downloadProgressLogTimer.Stop();
-            Log.Logger.Information("{fileName} download completed.", fileName);
+            Log.Logger.Information("Completed download of {fileName}", fileName);
 
             this.txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + fileName;
             Log.Logger.Information("{filePath} saved.", this.txtLocalInstallPackage.Text);
