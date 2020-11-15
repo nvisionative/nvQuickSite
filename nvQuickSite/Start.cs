@@ -153,7 +153,7 @@ namespace nvQuickSite
                 return;
             }
 
-            Log.Logger.Information("User settings have changed");
+            Log.Logger.Information("User settings changed");
             Log.Logger.Debug("User settings have changed to {@userSettings}", Properties.Settings.Default);
         }
 
