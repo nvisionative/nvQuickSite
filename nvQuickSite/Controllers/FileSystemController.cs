@@ -249,7 +249,7 @@ namespace nvQuickSite.Controllers
         {
             try
             {
-                Log.Logger.Information("Modifying site config");
+                Log.Logger.Information("Modifying site web.config");
 
                 string myDBServerName = dbServerName;
                 string connectionStringAuthSection = string.Empty;
