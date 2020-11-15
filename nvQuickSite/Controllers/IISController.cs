@@ -70,7 +70,7 @@ namespace nvQuickSite.Controllers
                     }
 
                     iisManager.CommitChanges();
-                    Log.Logger.Information("Site {siteName} created.", siteName);
+                    Log.Logger.Information("Created site {siteName}", siteName);
                 }
             }
             catch (Exception ex)
