@@ -231,7 +231,7 @@ namespace nvQuickSite.Controllers
         /// <returns>The path to the downloads directory.</returns>
         internal static string GetDownloadDirectory()
         {
-            var downloadDirectory = Directory.GetCurrentDirectory() + @"\Downloads\";
+            var downloadsDirectory = Directory.GetCurrentDirectory() + @"\Downloads\";
             Log.Logger.Debug("Downloads directory is {downloadsDirectory}", downloadsDirectory);
             return downloadDirectory;
         }
