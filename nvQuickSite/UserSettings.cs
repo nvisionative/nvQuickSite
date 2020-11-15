@@ -81,7 +81,7 @@ namespace nvQuickSite
             var newLevel = (LogEventLevel)cbo.SelectedItem;
 
             // To be able to log the information about the level change we must:
-            // 1. Force the level to Information (in case the level was set lower and it would not log informations)
+            // 1. Force the level to Information (in case the level was set lower and it would not log information)
             // 2. Log the information about the level change
             // 3. Actually change the level.
             this.loggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
