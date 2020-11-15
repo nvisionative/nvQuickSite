@@ -301,7 +301,7 @@ namespace nvQuickSite
             Log.Logger.Information("Completed download of {fileName}", fileName);
 
             this.txtLocalInstallPackage.Text = Directory.GetCurrentDirectory() + @"\Downloads\" + fileName;
-            Log.Logger.Information("{filePath} saved.", this.txtLocalInstallPackage.Text);
+            Log.Logger.Information("Saved {filePath}", this.txtLocalInstallPackage.Text);
             Properties.Settings.Default.LocalInstallPackageRecent = Directory.GetCurrentDirectory() + @"\Downloads\";
             Properties.Settings.Default.Save();
             this.ValidateInstallPackage();
