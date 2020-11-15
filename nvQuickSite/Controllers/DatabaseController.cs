@@ -104,7 +104,7 @@ namespace nvQuickSite.Controllers
                 }
                 catch (Exception ex)
                 {
-                    var message = $"Something when wrong while attempting to drop the database {this.dbName}";
+                    var message = $"Error attempting to drop database {this.dbName}";
                     Log.Logger.Error(ex, message);
                     throw new DatabaseControllerException(message, ex) { Source = "Drop Database" };
                 }
