@@ -43,7 +43,7 @@ namespace nvQuickSite.Controllers
         /// <param name="deleteSiteIfExists">If true will delete and recreate the site.</param>
         internal static void CreateSite(string siteName, string installFolder, bool useSiteSpecificAppPool, bool deleteSiteIfExists)
         {
-            Log.Logger.Information("Starting to create site {siteName} in {installFolder}", siteName, installFolder);
+            Log.Logger.Information("Creating site {siteName} in {installFolder}", siteName, installFolder);
             if (SiteExists(siteName, deleteSiteIfExists))
             {
                 Log.Logger.Error("The site {siteName} already exists, aborting operation", siteName);
