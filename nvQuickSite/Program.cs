@@ -52,7 +52,7 @@ namespace nvQuickSite
             Application.SetCompatibleTextRenderingDefault(false);
 
             WindowsPrincipal principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            log.Debug("The current user is {@principal}", principal.Identity.Name);
+            log.Debug("Current user is {@principal}", principal.Identity.Name);
             bool administrativeMode = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
             if (!administrativeMode)
