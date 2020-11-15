@@ -239,7 +239,7 @@ namespace nvQuickSite.Controllers
                 }
             }
 
-            Log.Logger.Information("Permissions have been set for database {dbName}", this.dbName);
+            Log.Logger.Information("Permissions set for database {dbName}", this.dbName);
         }
     }
 }
