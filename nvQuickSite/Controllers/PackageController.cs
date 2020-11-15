@@ -109,7 +109,7 @@ namespace nvQuickSite.Controllers
             }
 
             Log.Logger.Information("Loaded local packages");
-            Log.Logger.Debug("Loaded local packages {@localPackages}", localPackages);
+            Log.Logger.Debug("Loaded local packages: {@localPackages}", localPackages);
             return localPackages;
         }
 
