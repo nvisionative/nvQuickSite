@@ -19,7 +19,6 @@ namespace nvQuickSite
 {
     using System;
     using System.Diagnostics;
-    using System.IO;
     using System.Security.Principal;
     using System.Windows.Forms;
 
@@ -42,9 +41,8 @@ namespace nvQuickSite
                 .MinimumLevel.ControlledBy(loggingLevelSwitch)
                 .WriteTo.File(
                     path: "logs\\log-.txt",
-                    rollingInterval: RollingInterval.Day,
-                    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
-                .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error)
+                    rollingInterval: RollingInterval.Day)
+                .WriteTo.Console()
                 .WriteTo.Debug()
                 .CreateLogger();
             log.Information("Application Started v{version}", Application.ProductVersion);
