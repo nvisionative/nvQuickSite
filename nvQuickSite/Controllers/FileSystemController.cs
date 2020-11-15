@@ -233,7 +233,7 @@ namespace nvQuickSite.Controllers
         {
             var downloadsDirectory = Directory.GetCurrentDirectory() + @"\Downloads\";
             Log.Logger.Debug("Downloads directory is {downloadsDirectory}", downloadsDirectory);
-            return downloadDirectory;
+            return downloadsDirectory;
         }
 
         /// <summary>
