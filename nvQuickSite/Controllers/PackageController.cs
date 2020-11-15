@@ -138,7 +138,7 @@ namespace nvQuickSite.Controllers
                     string result = client.DownloadString(url);
                     var packages = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Package>>(result);
                     Log.Logger.Information("Loaded remote packages");
-                    Log.Logger.Debug("Loaded remote packages {@packages}", packages);
+                    Log.Logger.Debug("Loaded remote packages: {@packages}", packages);
                     return packages;
                 }
                 catch (WebException ex)
