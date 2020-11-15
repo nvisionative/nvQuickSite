@@ -143,7 +143,7 @@ namespace nvQuickSite.Controllers
         /// <param name="dbPassword">The database password.</param>
         internal static void CreateDirectories(string installFolder, string siteName, bool useSiteSpecificAppPool, string dbInstanceName, string dbServerName, bool usesWindowsAuthentication, string dbUserName, string dbPassword)
         {
-            Log.Logger.Information("Creating hosting directories for {siteName}", siteName);
+            Log.Logger.Information("Creating file system directories for {siteName}", siteName);
             var websiteDir = installFolder + "\\Website";
             var logsDir = installFolder + "\\Logs";
             var databaseDir = installFolder + "\\Database";
