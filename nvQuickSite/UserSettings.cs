@@ -80,7 +80,7 @@ namespace nvQuickSite
             var cbo = (MetroComboBox)sender;
             var newLevel = (LogEventLevel)cbo.SelectedItem;
 
-            // To be able to log the information about the level change we must:
+            // To log information about the level change we must:
             // 1. Force the level to Information (in case the level was set lower and it would not log information)
             // 2. Log information about the level change
             // 3. Actually change the level.
