@@ -232,7 +232,7 @@ namespace nvQuickSite.Controllers
         internal static string GetDownloadDirectory()
         {
             var downloadDirectory = Directory.GetCurrentDirectory() + @"\Downloads\";
-            Log.Logger.Debug("The download directory is {downloadDirectory}", downloadDirectory);
+            Log.Logger.Debug("Downloads directory is {downloadsDirectory}", downloadsDirectory);
             return downloadDirectory;
         }
 
