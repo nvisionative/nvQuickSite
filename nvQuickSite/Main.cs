@@ -56,7 +56,7 @@ namespace nvQuickSite
 
             var osInfo = $"{OSVersionInfo.Name} {OSVersionInfo.Edition} {OSVersionInfo.ServicePack}";
             var versionString = OSVersionInfo.VersionString;
-            Log.Logger.Information("Operating System Information {osInfo} {versionString}", osInfo, versionString);
+            Log.Logger.Information("Operating System information: {osInfo} {versionString}", osInfo, versionString);
             if (Properties.Settings.Default.ShareStatistics)
             {
                 var userGuid = Guid.NewGuid().ToString("B").ToUpper(CultureInfo.InvariantCulture);
