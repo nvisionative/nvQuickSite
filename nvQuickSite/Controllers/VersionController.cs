@@ -45,7 +45,7 @@ namespace nvQuickSite.Controllers
                     var url = "https://raw.githubusercontent.com/nvisionative/nvQuickSite/master/nvQuickSite/data/latestVersion.json";
                     string result = client.DownloadString(url);
                     Models.Version res = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.Version>(result);
-                    Log.Logger.Debug("Found v{version} available on GitHub.", res.latestVersion);
+                    Log.Logger.Debug("v{version} available on GitHub.", res.latestVersion);
                     return res.latestVersion;
                 }
                 catch (WebException ex)
