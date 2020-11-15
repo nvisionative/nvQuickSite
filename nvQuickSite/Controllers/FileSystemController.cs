@@ -110,7 +110,7 @@ namespace nvQuickSite.Controllers
                         }
                     }
 
-                    Log.Logger.Information("Added {siteName} to {hostsFile}", siteName, hostsFile);
+                    Log.Logger.Information("{siteName} added to {hostsFile}", siteName, hostsFile);
                     return;
                 }
 
