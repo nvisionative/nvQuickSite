@@ -285,7 +285,7 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                const string Message = "There was an error attempting to modify the web.config file";
+                const string Message = "Error attempting to modify the web.config file";
                 Log.Logger.Error(ex, Message);
                 throw new FileSystemControllerException(Message, ex) { Source = "Modify Config" };
             }
