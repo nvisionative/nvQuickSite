@@ -113,7 +113,7 @@ namespace nvQuickSite
         private void ReadUserSettings()
         {
             Log.Logger.Information("Reading current user settings");
-            Log.Logger.Debug("Current user settings are {@userSettings}", Properties.Settings.Default);
+            Log.Logger.Debug("Current user settings: {@userSettings}", Properties.Settings.Default);
             if (Properties.Settings.Default.RememberFieldValues)
             {
                 var enableLocalInstallPackage = Properties.Settings.Default.EnableLocalPackageInstall;
