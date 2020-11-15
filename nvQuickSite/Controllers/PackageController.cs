@@ -53,7 +53,7 @@ namespace nvQuickSite.Controllers
                 catch (WebException ex)
                 {
                     Log.Logger.Information("Internet appears offline");
-                    Log.Logger.Error(ex, "An unexpected error occurred while trying to check for internet access to the GitHub repository");
+                    Log.Logger.Error(ex, "Unexpected error occurred while checking internet access to GitHub repository");
                     return false;
                 }
             }
