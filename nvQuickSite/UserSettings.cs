@@ -33,6 +33,7 @@ namespace nvQuickSite
             this.lblMessage.Text = "User Settings";
             this.chkShowReleaseCandidates.Checked = Properties.Settings.Default.ShowReleaseCandidates;
             this.chkShareStatistics.Checked = Properties.Settings.Default.ShareStatistics;
+            this.chkEnableLocalPackageInstall.Checked = Properties.Settings.Default.EnableLocalPackageInstall;
         }
 
         /// <summary>
@@ -44,5 +45,10 @@ namespace nvQuickSite
         /// Gets a value indicating whether the user wants to share statistics.
         /// </summary>
         public bool ShareStatistics => this.chkShareStatistics.Checked;
+
+        /// <summary>
+        /// Gets a value indicating whether the user wants to enable local package install.
+        /// </summary>
+        public bool EnableLocalPackageInstall => this.chkEnableLocalPackageInstall.Checked;
     }
 }

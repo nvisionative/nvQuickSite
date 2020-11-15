@@ -121,7 +121,6 @@ namespace nvQuickSite
                 this.lblLatestReleases.ForeColor = Color.DarkRed;
                 this.cboProductName.Enabled = false;
                 this.cboProductVersion.Enabled = false;
-                this.btnGetLatestRelease.Enabled = false;
             }
         }
 
@@ -129,6 +128,11 @@ namespace nvQuickSite
         {
             if (Properties.Settings.Default.RememberFieldValues)
             {
+                var enableLocalInstallPackage = Properties.Settings.Default.EnableLocalPackageInstall;
+                this.lblLocalInstallPackage.Visible = enableLocalInstallPackage;
+                this.txtLocalInstallPackage.Visible = enableLocalInstallPackage;
+                this.btnLocalInstallPackage.Visible = enableLocalInstallPackage;
+
                 this.txtSiteNamePrefix.Text = Properties.Settings.Default.SiteNamePrefixRecent;
                 this.txtSiteNameSuffix.Text = Properties.Settings.Default.SiteNameSuffixRecent;
                 this.chkSiteSpecificAppPool.Checked = Properties.Settings.Default.AppPoolRecent;
@@ -337,31 +341,26 @@ namespace nvQuickSite
 
         private void btnInstallPackageNext_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(this.txtLocalInstallPackage.Text))
+            if ((string.IsNullOrWhiteSpace(this.txtLocalInstallPackage.Text) || !Properties.Settings.Default.EnableLocalPackageInstall) && isOnline)
             {
                 this.GetOnlineVersion();
+                return;
             }
-            else
-            {
-                var result = DialogController.ShowMessage(
-                    "Confirm: Use Local Package?",
-                    "Click 'Yes' to use the Local Install Package. Click 'No' to attempt\ndownload of the selected Download Install Package.",
-                    SystemIcons.Question,
-                    DialogController.DialogButtons.YesNo);
 
-                if (result == DialogResult.No)
-                {
-                    if (isOnline)
-                    {
-                        this.GetOnlineVersion();
-                    }
-                }
-                else
-                {
-                    this.progressBarDownload.Visible = false;
-                    this.ValidateInstallPackage();
-                }
+            var result = DialogController.ShowMessage(
+                "Confirm: Use Local Package?",
+                "Click 'Yes' to use the Local Install Package. Click 'No' to attempt\ndownload of the selected Download Install Package.",
+                SystemIcons.Question,
+                DialogController.DialogButtons.YesNo);
+
+            if (result == DialogResult.No && isOnline)
+            {
+                this.GetOnlineVersion();
+                return;
             }
+
+            this.progressBarDownload.Visible = false;
+            this.ValidateInstallPackage();
         }
 
         private void ValidateInstallPackage()
@@ -699,7 +698,9 @@ namespace nvQuickSite
                 {
                     Properties.Settings.Default.ShowReleaseCandidates = userSettings.ShowReleaseCandidates;
                     Properties.Settings.Default.ShareStatistics = userSettings.ShareStatistics;
+                    Properties.Settings.Default.EnableLocalPackageInstall = userSettings.EnableLocalPackageInstall;
                     Properties.Settings.Default.Save();
+                    this.ReadUserSettings();
                     this.LoadPackages();
                 }
             }

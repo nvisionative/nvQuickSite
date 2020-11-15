@@ -190,5 +190,17 @@ namespace nvQuickSite.Properties {
                 this["DatabaseUserNameRecent"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableLocalPackageInstall {
+            get {
+                return ((bool)(this["EnableLocalPackageInstall"]));
+            }
+            set {
+                this["EnableLocalPackageInstall"] = value;
+            }
+        }
     }
 }
