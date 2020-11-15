@@ -51,7 +51,7 @@ namespace nvQuickSite
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateSettings = false;
                 Properties.Settings.Default.Save();
-                Log.Logger.Information("New User Settings {@settings}", Properties.Settings.Default);
+                Log.Logger.Information("NEW user settings: {@settings}", Properties.Settings.Default);
             }
 
             var osInfo = $"{OSVersionInfo.Name} {OSVersionInfo.Edition} {OSVersionInfo.ServicePack}";
