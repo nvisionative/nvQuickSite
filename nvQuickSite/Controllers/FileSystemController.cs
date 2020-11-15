@@ -413,7 +413,7 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "An error occured while attempting to set folder permissions");
+                Log.Logger.Error(ex, "Error occured while attempting to set folder permissions");
                 throw new FileSystemControllerException("There was a problem setting the folder permissions for folder path: " + folderPath, ex) { Source = "Set Folder Permission" };
             }
         }
