@@ -83,7 +83,7 @@ namespace nvQuickSite
             // To log information about the level change we must:
             // 1. Force the level to Information (in case the level was set lower and it would not log information)
             // 2. Log information about the level change
-            // 3. Actually change the level.
+            // 3. Change the level.
             this.loggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
             Log.Logger.Information("Loggin level changed to {newLevel}", newLevel);
             this.loggingLevelSwitch.MinimumLevel = newLevel;
