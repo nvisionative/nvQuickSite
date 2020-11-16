@@ -1,4 +1,4 @@
-﻿namespace nvQuickSite
+﻿namespace nvQuickSite.Controls.Sites
 {
     partial class ViewExistingSites
     {

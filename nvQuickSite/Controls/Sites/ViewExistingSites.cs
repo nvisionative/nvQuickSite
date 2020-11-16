@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace nvQuickSite
+namespace nvQuickSite.Controls.Sites
 {
     using System.Diagnostics;
     using System.Drawing;
@@ -98,7 +98,7 @@ namespace nvQuickSite
             {
                 var result = DialogController.ShowMessage(
                     "Delete Site",
-                    $"Are you sure you want to delete the\n{site.Name} site.",
+                    $"Are you sure you want to delete the following site?\n{site.Name}",
                     SystemIcons.Question,
                     DialogController.DialogButtons.YesNo);
 

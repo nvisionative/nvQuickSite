@@ -32,6 +32,8 @@ namespace nvQuickSite
     using MetroFramework.Controls;
     using nvQuickSite.Controllers;
     using nvQuickSite.Controllers.Exceptions;
+    using nvQuickSite.Controls.Settings;
+    using nvQuickSite.Controls.Sites;
     using nvQuickSite.Exceptions;
     using nvQuickSite.Models;
     using Ookii.Dialogs;
@@ -44,6 +46,7 @@ namespace nvQuickSite
     public partial class Start : MetroUserControl
     {
         private readonly LoggingLevelSwitch loggingLevelSwitch;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2213:Disposable fields should be disposed", Justification = "No performance concerns")]
         private readonly Timer downloadProgressLogTimer;
         private long totalSize;
         private long total;
@@ -62,7 +65,7 @@ namespace nvQuickSite
             this.ReadUserSettings();
             this.loggingLevelSwitch = loggingLevelSwitch;
             this.downloadProgressLogTimer = new Timer() { Interval = 2000 };
-            this.downloadProgressLogTimer.Tick += DownloadProgressLogTimer_Tick;
+            this.downloadProgressLogTimer.Tick += this.DownloadProgressLogTimer_Tick;
         }
 
         private IEnumerable<Package> Packages { get; set; }

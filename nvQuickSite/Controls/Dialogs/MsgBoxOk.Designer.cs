@@ -41,7 +41,7 @@
             this.lblTitle.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblTitle.Location = new System.Drawing.Point(77, 23);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(70, 20);
+            this.lblTitle.Size = new System.Drawing.Size(67, 19);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Message";
             // 
@@ -56,8 +56,8 @@
             // 
             // dialogIcon
             // 
-            this.dialogIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dialogIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dialogIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.dialogIcon.Location = new System.Drawing.Point(4, 11);
@@ -72,7 +72,7 @@
             this.lblMessage.AutoSize = true;
             this.lblMessage.Location = new System.Drawing.Point(77, 43);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(64, 20);
+            this.lblMessage.Size = new System.Drawing.Size(60, 19);
             this.lblMessage.TabIndex = 5;
             this.lblMessage.Text = "Message";
             // 
@@ -86,7 +86,10 @@
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.dialogIcon);
             this.Controls.Add(this.btnOk);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MsgBoxOk";
+            this.Resizable = false;
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

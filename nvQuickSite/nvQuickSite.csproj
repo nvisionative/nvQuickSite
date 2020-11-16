@@ -137,22 +137,22 @@
       <DependentUpon>MsgBoxYesNo.cs</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\ReadAndExtractException.cs" />
-    <Compile Include="DeleteSiteProgress.cs">
+    <Compile Include="Controls\Sites\DeleteSiteProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeleteSiteProgress.Designer.cs">
+    <Compile Include="Controls\Sites\DeleteSiteProgress.Designer.cs">
       <DependentUpon>DeleteSiteProgress.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewExistingSites.cs">
+    <Compile Include="Controls\Sites\ViewExistingSites.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewExistingSites.Designer.cs">
+    <Compile Include="Controls\Sites\ViewExistingSites.Designer.cs">
       <DependentUpon>ViewExistingSites.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserSettings.cs">
+    <Compile Include="Controls\Settings\UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserSettings.Designer.cs">
+    <Compile Include="Controls\Settings\UserSettings.Designer.cs">
       <DependentUpon>UserSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\MsgBoxYesNoIgnore.cs">
@@ -182,13 +182,13 @@
     <EmbeddedResource Include="Controls\Dialogs\MsgBoxYesNo.resx">
       <DependentUpon>MsgBoxYesNo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeleteSiteProgress.resx">
+    <EmbeddedResource Include="Controls\Sites\DeleteSiteProgress.resx">
       <DependentUpon>DeleteSiteProgress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewExistingSites.resx">
+    <EmbeddedResource Include="Controls\Sites\ViewExistingSites.resx">
       <DependentUpon>ViewExistingSites.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserSettings.resx">
+    <EmbeddedResource Include="Controls\Settings\UserSettings.resx">
       <DependentUpon>UserSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Dialogs\MsgBoxYesNoIgnore.resx">

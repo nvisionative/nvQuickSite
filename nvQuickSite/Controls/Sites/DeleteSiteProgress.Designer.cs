@@ -1,4 +1,4 @@
-﻿namespace nvQuickSite
+﻿namespace nvQuickSite.Controls.Sites
 {
     partial class DeleteSiteProgress
     {
@@ -31,20 +31,20 @@
             this.lblMessage = new MetroFramework.Controls.MetroLabel();
             this.progressTotal = new MetroFramework.Controls.MetroProgressBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.progressDeleteAppPool = new MetroFramework.Controls.MetroProgressBar();
+            this.label7 = new System.Windows.Forms.Label();
+            this.progressDeletingSite = new MetroFramework.Controls.MetroProgressBar();
+            this.label6 = new System.Windows.Forms.Label();
+            this.progressRemoveHostEntry = new MetroFramework.Controls.MetroProgressBar();
+            this.label5 = new System.Windows.Forms.Label();
+            this.progressDeleteFiles = new MetroFramework.Controls.MetroProgressBar();
+            this.label4 = new System.Windows.Forms.Label();
+            this.progressDeleteDatabae = new MetroFramework.Controls.MetroProgressBar();
+            this.label3 = new System.Windows.Forms.Label();
+            this.progressStopSite = new MetroFramework.Controls.MetroProgressBar();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.progressStopAppPool = new MetroFramework.Controls.MetroProgressBar();
-            this.label2 = new System.Windows.Forms.Label();
-            this.progressStopSite = new MetroFramework.Controls.MetroProgressBar();
-            this.label3 = new System.Windows.Forms.Label();
-            this.progressDeleteDatabae = new MetroFramework.Controls.MetroProgressBar();
-            this.label4 = new System.Windows.Forms.Label();
-            this.progressDeleteFiles = new MetroFramework.Controls.MetroProgressBar();
-            this.label5 = new System.Windows.Forms.Label();
-            this.progressRemoveHostEntry = new MetroFramework.Controls.MetroProgressBar();
-            this.label6 = new System.Windows.Forms.Label();
-            this.progressDeletingSite = new MetroFramework.Controls.MetroProgressBar();
-            this.label7 = new System.Windows.Forms.Label();
-            this.progressDeleteAppPool = new MetroFramework.Controls.MetroProgressBar();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,10 +56,10 @@
             this.lblMessage.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblMessage.Location = new System.Drawing.Point(20, 30);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(121, 25);
+            this.lblMessage.Size = new System.Drawing.Size(104, 25);
             this.lblMessage.Style = MetroFramework.MetroColorStyle.Blue;
             this.lblMessage.TabIndex = 0;
-            this.lblMessage.Text = "Deleting Site";
+            this.lblMessage.Text = "Delete Site";
             this.lblMessage.UseStyleColors = true;
             // 
             // progressTotal
@@ -106,6 +106,126 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(530, 224);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
+            // progressDeleteAppPool
+            // 
+            this.progressDeleteAppPool.Dock = System.Windows.Forms.DockStyle.Top;
+            this.progressDeleteAppPool.Location = new System.Drawing.Point(116, 177);
+            this.progressDeleteAppPool.Name = "progressDeleteAppPool";
+            this.progressDeleteAppPool.Size = new System.Drawing.Size(418, 23);
+            this.progressDeleteAppPool.TabIndex = 13;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label7.Location = new System.Drawing.Point(3, 182);
+            this.label7.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(107, 13);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Deleting AppPool";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // progressDeletingSite
+            // 
+            this.progressDeletingSite.Dock = System.Windows.Forms.DockStyle.Top;
+            this.progressDeletingSite.Location = new System.Drawing.Point(116, 148);
+            this.progressDeletingSite.Name = "progressDeletingSite";
+            this.progressDeletingSite.Size = new System.Drawing.Size(418, 23);
+            this.progressDeletingSite.TabIndex = 11;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Location = new System.Drawing.Point(3, 153);
+            this.label6.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(107, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Deleting Site";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // progressRemoveHostEntry
+            // 
+            this.progressRemoveHostEntry.Dock = System.Windows.Forms.DockStyle.Top;
+            this.progressRemoveHostEntry.Location = new System.Drawing.Point(116, 119);
+            this.progressRemoveHostEntry.Name = "progressRemoveHostEntry";
+            this.progressRemoveHostEntry.Size = new System.Drawing.Size(418, 23);
+            this.progressRemoveHostEntry.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label5.Location = new System.Drawing.Point(3, 124);
+            this.label5.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(107, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Removing Host Entry";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // progressDeleteFiles
+            // 
+            this.progressDeleteFiles.Dock = System.Windows.Forms.DockStyle.Top;
+            this.progressDeleteFiles.Location = new System.Drawing.Point(116, 90);
+            this.progressDeleteFiles.Name = "progressDeleteFiles";
+            this.progressDeleteFiles.Size = new System.Drawing.Size(418, 23);
+            this.progressDeleteFiles.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label4.Location = new System.Drawing.Point(3, 95);
+            this.label4.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(107, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Deleting Files";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // progressDeleteDatabae
+            // 
+            this.progressDeleteDatabae.Dock = System.Windows.Forms.DockStyle.Top;
+            this.progressDeleteDatabae.Location = new System.Drawing.Point(116, 61);
+            this.progressDeleteDatabae.Name = "progressDeleteDatabae";
+            this.progressDeleteDatabae.Size = new System.Drawing.Size(418, 23);
+            this.progressDeleteDatabae.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Location = new System.Drawing.Point(3, 66);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(107, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Deleting Database";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // progressStopSite
+            // 
+            this.progressStopSite.Dock = System.Windows.Forms.DockStyle.Top;
+            this.progressStopSite.Location = new System.Drawing.Point(116, 3);
+            this.progressStopSite.Name = "progressStopSite";
+            this.progressStopSite.Size = new System.Drawing.Size(418, 23);
+            this.progressStopSite.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Location = new System.Drawing.Point(3, 8);
+            this.label2.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(107, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Stopping Site";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -125,126 +245,6 @@
             this.progressStopAppPool.Name = "progressStopAppPool";
             this.progressStopAppPool.Size = new System.Drawing.Size(418, 23);
             this.progressStopAppPool.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label2.Location = new System.Drawing.Point(3, 8);
-            this.label2.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(107, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Stopping Site";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // progressStopSite
-            // 
-            this.progressStopSite.Dock = System.Windows.Forms.DockStyle.Top;
-            this.progressStopSite.Location = new System.Drawing.Point(116, 3);
-            this.progressStopSite.Name = "progressStopSite";
-            this.progressStopSite.Size = new System.Drawing.Size(418, 23);
-            this.progressStopSite.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label3.Location = new System.Drawing.Point(3, 66);
-            this.label3.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(107, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Deleting Database";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // progressDeleteDatabae
-            // 
-            this.progressDeleteDatabae.Dock = System.Windows.Forms.DockStyle.Top;
-            this.progressDeleteDatabae.Location = new System.Drawing.Point(116, 61);
-            this.progressDeleteDatabae.Name = "progressDeleteDatabae";
-            this.progressDeleteDatabae.Size = new System.Drawing.Size(418, 23);
-            this.progressDeleteDatabae.TabIndex = 5;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label4.Location = new System.Drawing.Point(3, 95);
-            this.label4.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(107, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Deleting Files";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // progressDeleteFiles
-            // 
-            this.progressDeleteFiles.Dock = System.Windows.Forms.DockStyle.Top;
-            this.progressDeleteFiles.Location = new System.Drawing.Point(116, 90);
-            this.progressDeleteFiles.Name = "progressDeleteFiles";
-            this.progressDeleteFiles.Size = new System.Drawing.Size(418, 23);
-            this.progressDeleteFiles.TabIndex = 7;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label5.Location = new System.Drawing.Point(3, 124);
-            this.label5.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Removing Host Entry";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // progressRemoveHostEntry
-            // 
-            this.progressRemoveHostEntry.Dock = System.Windows.Forms.DockStyle.Top;
-            this.progressRemoveHostEntry.Location = new System.Drawing.Point(116, 119);
-            this.progressRemoveHostEntry.Name = "progressRemoveHostEntry";
-            this.progressRemoveHostEntry.Size = new System.Drawing.Size(418, 23);
-            this.progressRemoveHostEntry.TabIndex = 9;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label6.Location = new System.Drawing.Point(3, 153);
-            this.label6.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(107, 13);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Deleting Site";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // progressDeletingSite
-            // 
-            this.progressDeletingSite.Dock = System.Windows.Forms.DockStyle.Top;
-            this.progressDeletingSite.Location = new System.Drawing.Point(116, 148);
-            this.progressDeletingSite.Name = "progressDeletingSite";
-            this.progressDeletingSite.Size = new System.Drawing.Size(418, 23);
-            this.progressDeletingSite.TabIndex = 11;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label7.Location = new System.Drawing.Point(3, 182);
-            this.label7.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(107, 13);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "Deleting AppPool";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // progressDeleteAppPool
-            // 
-            this.progressDeleteAppPool.Dock = System.Windows.Forms.DockStyle.Top;
-            this.progressDeleteAppPool.Location = new System.Drawing.Point(116, 177);
-            this.progressDeleteAppPool.Name = "progressDeleteAppPool";
-            this.progressDeleteAppPool.Size = new System.Drawing.Size(418, 23);
-            this.progressDeleteAppPool.TabIndex = 13;
             // 
             // DeleteSiteProgress
             // 

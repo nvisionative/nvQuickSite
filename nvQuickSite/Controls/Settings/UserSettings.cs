@@ -15,15 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace nvQuickSite
+namespace nvQuickSite.Controls.Settings
 {
+    using System;
+    using System.Linq;
+
     using MetroFramework.Controls;
     using MetroFramework.Forms;
     using Serilog;
     using Serilog.Core;
     using Serilog.Events;
-    using System;
-    using System.Linq;
 
     /// <summary>
     /// Implementes the user specific settings form.
@@ -64,15 +65,15 @@ namespace nvQuickSite
 
         private void PopulateLoggingLevelSwitchCombo()
         {
-            this.cboLogginLevel.Items.Clear();
+            this.cboLoggingLevel.Items.Clear();
             var levels = Enum.GetValues(typeof(LogEventLevel)).Cast<LogEventLevel>();
             foreach (var level in levels)
             {
-                this.cboLogginLevel.Items.Add(level);
+                this.cboLoggingLevel.Items.Add(level);
             }
 
-            this.cboLogginLevel.SelectedItem = this.loggingLevelSwitch.MinimumLevel;
-            this.cboLogginLevel.SelectedValueChanged += this.CboLogginLevel_SelectedValueChanged;
+            this.cboLoggingLevel.SelectedItem = this.loggingLevelSwitch.MinimumLevel;
+            this.cboLoggingLevel.SelectedValueChanged += this.CboLogginLevel_SelectedValueChanged;
         }
 
         private void CboLogginLevel_SelectedValueChanged(object sender, EventArgs e)

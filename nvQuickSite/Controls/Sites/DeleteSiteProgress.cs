@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace nvQuickSite
+namespace nvQuickSite.Controls.Sites
 {
     using System;
     using System.Diagnostics.Contracts;
@@ -23,7 +23,6 @@ namespace nvQuickSite
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
-    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 

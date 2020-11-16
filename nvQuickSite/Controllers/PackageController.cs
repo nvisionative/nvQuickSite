@@ -22,7 +22,6 @@ namespace nvQuickSite.Controllers
     using System.IO;
     using System.Linq;
     using System.Net;
-    using System.Windows.Forms;
 
     using nvQuickSite.Models;
     using Octokit;

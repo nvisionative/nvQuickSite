@@ -1,4 +1,4 @@
-﻿namespace nvQuickSite
+﻿namespace nvQuickSite.Controls.Settings
 {
     partial class UserSettings
     {
@@ -35,7 +35,7 @@
             this.dialogIcon = new System.Windows.Forms.PictureBox();
             this.chkShareStatistics = new MetroFramework.Controls.MetroCheckBox();
             this.chkEnableLocalPackageInstall = new MetroFramework.Controls.MetroCheckBox();
-            this.cboLogginLevel = new MetroFramework.Controls.MetroComboBox();
+            this.cboLoggingLevel = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
@@ -116,14 +116,14 @@
             this.chkEnableLocalPackageInstall.Text = "Enable Local Package Install";
             this.chkEnableLocalPackageInstall.UseVisualStyleBackColor = true;
             // 
-            // cboLogginLevel
+            // cboLoggingLevel
             // 
-            this.cboLogginLevel.FormattingEnabled = true;
-            this.cboLogginLevel.ItemHeight = 23;
-            this.cboLogginLevel.Location = new System.Drawing.Point(330, 81);
-            this.cboLogginLevel.Name = "cboLogginLevel";
-            this.cboLogginLevel.Size = new System.Drawing.Size(174, 29);
-            this.cboLogginLevel.TabIndex = 7;
+            this.cboLoggingLevel.FormattingEnabled = true;
+            this.cboLoggingLevel.ItemHeight = 23;
+            this.cboLoggingLevel.Location = new System.Drawing.Point(330, 81);
+            this.cboLoggingLevel.Name = "cboLoggingLevel";
+            this.cboLoggingLevel.Size = new System.Drawing.Size(174, 29);
+            this.cboLoggingLevel.TabIndex = 7;
             // 
             // metroLabel1
             // 
@@ -143,7 +143,7 @@
             this.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(527, 170);
             this.Controls.Add(this.metroLabel1);
-            this.Controls.Add(this.cboLogginLevel);
+            this.Controls.Add(this.cboLoggingLevel);
             this.Controls.Add(this.chkEnableLocalPackageInstall);
             this.Controls.Add(this.chkShareStatistics);
             this.Controls.Add(this.dialogIcon);
@@ -151,7 +151,10 @@
             this.Controls.Add(this.metroButton2);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblMessage);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "UserSettings";
+            this.Resizable = false;
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -167,7 +170,7 @@
         private System.Windows.Forms.PictureBox dialogIcon;
         private MetroFramework.Controls.MetroCheckBox chkShareStatistics;
         private MetroFramework.Controls.MetroCheckBox chkEnableLocalPackageInstall;
-        private MetroFramework.Controls.MetroComboBox cboLogginLevel;
+        private MetroFramework.Controls.MetroComboBox cboLoggingLevel;
         private MetroFramework.Controls.MetroLabel metroLabel1;
     }
 }
