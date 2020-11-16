@@ -18,7 +18,6 @@
 namespace nvQuickSite.Controllers.Exceptions
 {
     using System;
-    using System.Net;
     using System.Runtime.Serialization;
 
     /// <summary>

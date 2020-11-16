@@ -18,7 +18,7 @@
 namespace nvQuickSite.Controllers
 {
     using System.Net;
-    using System.Threading;
+
     using nvQuickSite.Controllers.Exceptions;
     using Serilog;
 

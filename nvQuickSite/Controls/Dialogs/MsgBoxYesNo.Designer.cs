@@ -42,7 +42,7 @@
             this.lblTitle.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblTitle.Location = new System.Drawing.Point(77, 23);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(70, 20);
+            this.lblTitle.Size = new System.Drawing.Size(67, 19);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Message";
             // 
@@ -82,7 +82,7 @@
             this.lblMessage.AutoSize = true;
             this.lblMessage.Location = new System.Drawing.Point(77, 43);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(64, 20);
+            this.lblMessage.Size = new System.Drawing.Size(60, 19);
             this.lblMessage.TabIndex = 5;
             this.lblMessage.Text = "Message";
             // 
@@ -97,7 +97,10 @@
             this.Controls.Add(this.dialogIcon);
             this.Controls.Add(this.btnNo);
             this.Controls.Add(this.btnYes);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MsgBoxYesNo";
+            this.Resizable = false;
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
