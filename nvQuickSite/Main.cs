@@ -47,11 +47,11 @@ namespace nvQuickSite
             if (Properties.Settings.Default.UpdateSettings)
             {
                 Log.Logger.Information("Updating user settings per new release.");
-                Log.Logger.Information("OLD user settings: {@settings}", Properties.Settings.Default);
+                Log.Logger.Debug("OLD user settings: {@settings}", Properties.Settings.Default);
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateSettings = false;
                 Properties.Settings.Default.Save();
-                Log.Logger.Information("NEW user settings: {@settings}", Properties.Settings.Default);
+                Log.Logger.Debug("NEW user settings: {@settings}", Properties.Settings.Default);
             }
 
             var osInfo = $"{OSVersionInfo.Name} {OSVersionInfo.Edition} {OSVersionInfo.ServicePack}";
