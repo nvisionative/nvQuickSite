@@ -21,6 +21,7 @@ namespace nvQuickSite.Controllers
     using System.IO;
     using System.Linq;
     using System.Security.AccessControl;
+    using System.Threading;
     using System.Xml.Linq;
 
     using nvQuickSite.Controllers.Exceptions;
@@ -50,6 +51,7 @@ namespace nvQuickSite.Controllers
         /// <param name="progress">A progress reported (optional).</param>
         internal static void RemoveHostEntry(string siteName, IProgress<int> progress = null)
         {
+            Log.Logger.Information("Removing host file entry for {siteName}", siteName);
             string tempFile = hostsFile + ".new";
             var lineCount = File.ReadAllLines(hostsFile).Length;
             int currentLine = 0;
@@ -77,6 +79,7 @@ namespace nvQuickSite.Controllers
 
             File.Delete(hostsFile);
             File.Move(tempFile, hostsFile);
+            Log.Logger.Debug("{hostsfile} replaced", hostsFile);
 
             progress?.Report(100);
         }
@@ -323,6 +326,8 @@ namespace nvQuickSite.Controllers
         /// <param name="progress">Reports progress by firing up for each file or folder with it's name.</param>
         internal static void DeleteDirectory(string targetDir, IProgress<string> progress = null)
         {
+            Log.Logger.Information("Deleting directory {targetDir}", targetDir);
+
             try
             {
                 string[] files = Directory.GetFiles(targetDir);
