@@ -15,16 +15,29 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace nvQuickSite.Models
+namespace nvQuickSite.Controls.Dialogs
 {
+    using System.Drawing;
+
+    using MetroFramework.Forms;
+
     /// <summary>
-    /// Represents a version model.
+    /// A custom messagebox with yes, no and ignore.
     /// </summary>
-    public class Version
+    public partial class MsgBoxYesNo : MetroForm
     {
         /// <summary>
-        /// Gets or sets the latest version.
+        /// Initializes a new instance of the <see cref="MsgBoxYesNo"/> class.
         /// </summary>
-        public string latestVersion { get; set; }
+        /// <param name="dialogTitle">The title to show in the dialog.</param>
+        /// <param name="dialogMessage">The message to show in the dialog.</param>
+        /// <param name="dialogIconImage">The image to use as the dialog icon.</param>
+        public MsgBoxYesNo(string dialogTitle, string dialogMessage, Image dialogIconImage)
+        {
+            this.InitializeComponent();
+            this.lblTitle.Text = dialogTitle;
+            this.lblMessage.Text = dialogMessage;
+            this.dialogIcon.Image = dialogIconImage;
+        }
     }
 }
