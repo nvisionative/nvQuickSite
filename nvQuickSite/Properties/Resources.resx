@@ -124,10 +124,13 @@
   <data name="dnn_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dnn_logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="user-settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\user-settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="DNN_company_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DNN_company_logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="user-settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\user-settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="logs-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logs-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

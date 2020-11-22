@@ -59,6 +59,7 @@
             // metroButton2
             // 
             this.metroButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.metroButton2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.metroButton2.Dock = System.Windows.Forms.DockStyle.Right;
             this.metroButton2.Location = new System.Drawing.Point(752, 0);
