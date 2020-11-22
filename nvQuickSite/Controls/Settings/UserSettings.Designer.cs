@@ -37,6 +37,7 @@
             this.chkEnableLocalPackageInstall = new MetroFramework.Controls.MetroCheckBox();
             this.cboLoggingLevel = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.metroLink1 = new MetroFramework.Controls.MetroLink();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -120,7 +121,7 @@
             // 
             this.cboLoggingLevel.FormattingEnabled = true;
             this.cboLoggingLevel.ItemHeight = 23;
-            this.cboLoggingLevel.Location = new System.Drawing.Point(330, 81);
+            this.cboLoggingLevel.Location = new System.Drawing.Point(330, 71);
             this.cboLoggingLevel.Name = "cboLoggingLevel";
             this.cboLoggingLevel.Size = new System.Drawing.Size(174, 29);
             this.cboLoggingLevel.TabIndex = 7;
@@ -130,11 +131,23 @@
             this.metroLabel1.AutoSize = true;
             this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Small;
             this.metroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel1.Location = new System.Drawing.Point(330, 60);
+            this.metroLabel1.Location = new System.Drawing.Point(330, 53);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(81, 15);
             this.metroLabel1.TabIndex = 8;
             this.metroLabel1.Text = "Logging Level";
+            // 
+            // metroLink1
+            // 
+            this.metroLink1.Location = new System.Drawing.Point(330, 100);
+            this.metroLink1.Name = "metroLink1";
+            this.metroLink1.Size = new System.Drawing.Size(174, 23);
+            this.metroLink1.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroLink1.TabIndex = 9;
+            this.metroLink1.Text = "View Logs";
+            this.metroLink1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.metroLink1.UseStyleColors = true;
+            this.metroLink1.Click += new System.EventHandler(this.metroLink1_Click);
             // 
             // UserSettings
             // 
@@ -142,6 +155,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Drawing.MetroBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(527, 170);
+            this.Controls.Add(this.metroLink1);
             this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.cboLoggingLevel);
             this.Controls.Add(this.chkEnableLocalPackageInstall);
@@ -172,5 +186,6 @@
         private MetroFramework.Controls.MetroCheckBox chkEnableLocalPackageInstall;
         private MetroFramework.Controls.MetroComboBox cboLoggingLevel;
         private MetroFramework.Controls.MetroLabel metroLabel1;
+        private MetroFramework.Controls.MetroLink metroLink1;
     }
 }

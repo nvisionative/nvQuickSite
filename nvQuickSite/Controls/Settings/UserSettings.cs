@@ -18,6 +18,8 @@
 namespace nvQuickSite.Controls.Settings
 {
     using System;
+    using System.Diagnostics;
+    using System.IO;
     using System.Linq;
 
     using MetroFramework.Controls;
@@ -88,6 +90,12 @@ namespace nvQuickSite.Controls.Settings
             this.loggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
             Log.Logger.Information("Logging level changed to {newLevel}", newLevel);
             this.loggingLevelSwitch.MinimumLevel = newLevel;
+        }
+
+        private void metroLink1_Click(object sender, EventArgs e)
+        {
+            var logsPath = Path.Combine(Environment.CurrentDirectory, "Logs");
+            Process.Start("explorer.exe", logsPath);
         }
     }
 }
