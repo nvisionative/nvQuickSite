@@ -48,6 +48,7 @@
             // 
             // btnNo
             // 
+            this.btnNo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
             this.btnNo.Location = new System.Drawing.Point(429, 129);
             this.btnNo.Name = "btnNo";
@@ -70,6 +71,7 @@
             // 
             // btnYes
             // 
+            this.btnYes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this.btnYes.Location = new System.Drawing.Point(330, 129);
             this.btnYes.Name = "btnYes";

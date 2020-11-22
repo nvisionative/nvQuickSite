@@ -47,6 +47,7 @@
             // 
             // btnOk
             // 
+            this.btnOk.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.No;
             this.btnOk.Location = new System.Drawing.Point(429, 129);
             this.btnOk.Name = "btnOk";

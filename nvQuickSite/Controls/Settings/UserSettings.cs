@@ -97,5 +97,11 @@ namespace nvQuickSite.Controls.Settings
             var logsPath = Path.Combine(Environment.CurrentDirectory, "Logs");
             Process.Start("explorer.exe", logsPath);
         }
+
+        private void logsIcon_Click(object sender, EventArgs e)
+        {
+            var logsPath = Path.Combine(Environment.CurrentDirectory, "Logs");
+            Process.Start("explorer.exe", logsPath);
+        }
     }
 }

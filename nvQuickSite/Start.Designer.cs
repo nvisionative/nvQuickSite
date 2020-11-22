@@ -134,6 +134,7 @@
             // 
             // btnSiteInfoBack
             // 
+            this.btnSiteInfoBack.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSiteInfoBack.Location = new System.Drawing.Point(0, 215);
             this.btnSiteInfoBack.Name = "btnSiteInfoBack";
             this.btnSiteInfoBack.Size = new System.Drawing.Size(90, 36);
@@ -143,6 +144,7 @@
             // 
             // btnSiteInfoNext
             // 
+            this.btnSiteInfoNext.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSiteInfoNext.Highlight = true;
             this.btnSiteInfoNext.Location = new System.Drawing.Point(507, 216);
             this.btnSiteInfoNext.Name = "btnSiteInfoNext";
@@ -153,6 +155,7 @@
             // 
             // btnLocation
             // 
+            this.btnLocation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLocation.Highlight = true;
             this.btnLocation.Location = new System.Drawing.Point(278, 169);
             this.btnLocation.Name = "btnLocation";
@@ -259,6 +262,7 @@
             // 
             // cboProductVersion
             // 
+            this.cboProductVersion.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboProductVersion.FormattingEnabled = true;
             this.cboProductVersion.ItemHeight = 23;
             this.cboProductVersion.Location = new System.Drawing.Point(476, 33);
@@ -279,6 +283,7 @@
             // 
             // btnInstallPackageNext
             // 
+            this.btnInstallPackageNext.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnInstallPackageNext.Highlight = true;
             this.btnInstallPackageNext.Location = new System.Drawing.Point(507, 216);
             this.btnInstallPackageNext.Name = "btnInstallPackageNext";
@@ -330,6 +335,7 @@
             // 
             // cboProductName
             // 
+            this.cboProductName.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboProductName.FormattingEnabled = true;
             this.cboProductName.ItemHeight = 23;
             this.cboProductName.Location = new System.Drawing.Point(1, 33);
@@ -386,6 +392,7 @@
             // 
             // btnDatabaseInfoBack
             // 
+            this.btnDatabaseInfoBack.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDatabaseInfoBack.Location = new System.Drawing.Point(0, 216);
             this.btnDatabaseInfoBack.Name = "btnDatabaseInfoBack";
             this.btnDatabaseInfoBack.Size = new System.Drawing.Size(90, 36);
@@ -395,6 +402,7 @@
             // 
             // btnDatabaseInfoNext
             // 
+            this.btnDatabaseInfoNext.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDatabaseInfoNext.Highlight = true;
             this.btnDatabaseInfoNext.Location = new System.Drawing.Point(507, 216);
             this.btnDatabaseInfoNext.Name = "btnDatabaseInfoNext";
@@ -518,6 +526,7 @@
             // 
             // btnVisitSite
             // 
+            this.btnVisitSite.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnVisitSite.Highlight = true;
             this.btnVisitSite.Location = new System.Drawing.Point(3, 192);
             this.btnVisitSite.Name = "btnVisitSite";
