@@ -21,6 +21,30 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_36C61BC7F9718EB929F8C3522BA30C8F"
+        "OwnerKey" = "8:_5B84C96A1AA689D00DFCD95CF7C50527"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_36C61BC7F9718EB929F8C3522BA30C8F"
+        "OwnerKey" = "8:_A363513694654C5F9C74A482EE4ECAD2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_36C61BC7F9718EB929F8C3522BA30C8F"
+        "OwnerKey" = "8:_C5DA8D67D81F9A1A0DDEA85880BB5E2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_36C61BC7F9718EB929F8C3522BA30C8F"
+        "OwnerKey" = "8:_9680C678F1E16167C0622ADC9508581D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_38AB0876818F4EEA2D81B927195E168C"
         "OwnerKey" = "8:_A363513694654C5F9C74A482EE4ECAD2"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,6 +58,12 @@
         "Entry"
         {
         "MsmKey" = "8:_5807767270AAB36B131A632EB1443558"
+        "OwnerKey" = "8:_A363513694654C5F9C74A482EE4ECAD2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5B84C96A1AA689D00DFCD95CF7C50527"
         "OwnerKey" = "8:_A363513694654C5F9C74A482EE4ECAD2"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -75,6 +105,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9680C678F1E16167C0622ADC9508581D"
+        "OwnerKey" = "8:_A363513694654C5F9C74A482EE4ECAD2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_978DAF2C4150E8404A24BDA895BDFB5B"
         "OwnerKey" = "8:_A363513694654C5F9C74A482EE4ECAD2"
         "MsmSig" = "8:_UNDEFINED"
@@ -89,6 +125,12 @@
         {
         "MsmKey" = "8:_A4E8C97D966E40D2A8775170472A215F"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C5DA8D67D81F9A1A0DDEA85880BB5E2C"
+        "OwnerKey" = "8:_A363513694654C5F9C74A482EE4ECAD2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -125,6 +167,30 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A363513694654C5F9C74A482EE4ECAD2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C5DA8D67D81F9A1A0DDEA85880BB5E2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9680C678F1E16167C0622ADC9508581D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5B84C96A1AA689D00DFCD95CF7C50527"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_36C61BC7F9718EB929F8C3522BA30C8F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -308,6 +374,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_36C61BC7F9718EB929F8C3522BA30C8F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_36C61BC7F9718EB929F8C3522BA30C8F"
+                    {
+                    "Name" = "8:Serilog.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Serilog.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3667EB81561E40A1804D5925DF1B5A48"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_38AB0876818F4EEA2D81B927195E168C"
             {
             "AssemblyRegister" = "3:1"
@@ -353,6 +450,37 @@
                     }
                 }
             "SourcePath" = "8:Analytics.NET.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3667EB81561E40A1804D5925DF1B5A48"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5B84C96A1AA689D00DFCD95CF7C50527"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Serilog.Sinks.Console, Version=3.1.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_5B84C96A1AA689D00DFCD95CF7C50527"
+                    {
+                    "Name" = "8:Serilog.Sinks.Console.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Serilog.Sinks.Console.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3667EB81561E40A1804D5925DF1B5A48"
@@ -525,6 +653,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9680C678F1E16167C0622ADC9508581D"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Serilog.Sinks.Debug, Version=1.0.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_9680C678F1E16167C0622ADC9508581D"
+                    {
+                    "Name" = "8:Serilog.Sinks.Debug.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Serilog.Sinks.Debug.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3667EB81561E40A1804D5925DF1B5A48"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_978DAF2C4150E8404A24BDA895BDFB5B"
             {
             "AssemblyRegister" = "3:1"
@@ -574,6 +733,37 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C5DA8D67D81F9A1A0DDEA85880BB5E2C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C5DA8D67D81F9A1A0DDEA85880BB5E2C"
+                    {
+                    "Name" = "8:Serilog.Sinks.File.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Serilog.Sinks.File.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_3667EB81561E40A1804D5925DF1B5A48"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C9B4AB2E602C22051C17EB1A811E15BA"
@@ -736,15 +926,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:nvQuickSite"
-        "ProductCode" = "8:{DDEB30A8-0FF3-4944-ABFD-DC5197BA8B6B}"
-        "PackageCode" = "8:{48DD705C-BA47-4E25-B5B8-75B80653108A}"
+        "ProductCode" = "8:{DBB574E0-E223-4102-974D-63A1DE171B4D}"
+        "PackageCode" = "8:{5353F7EF-C522-4BD3-ABAF-E346BAD1AB3F}"
         "UpgradeCode" = "8:{C2643FC9-C49A-498F-B094-203933EBB97E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.4.2"
+        "ProductVersion" = "8:2.0.0"
         "Manufacturer" = "8:nvisionative"
         "ARPHELPTELEPHONE" = "8:704-248-7968"
         "ARPHELPLINK" = "8:https://github.com/nvisionative/DNNQuickSite/issues"
