@@ -55,21 +55,22 @@ namespace nvQuickSite.Controllers
 
                 using (ServerManager iisManager = new ServerManager())
                 {
-                    Site mySite = iisManager.Sites.Add(siteName, "http", bindingInfo, installFolder + "\\Website");
-                    mySite.TraceFailedRequestsLogging.Enabled = true;
-                    mySite.TraceFailedRequestsLogging.Directory = installFolder + "\\Logs";
-                    mySite.LogFile.Directory = installFolder + "\\Logs" + "\\W3svc" + mySite.Id.ToString(CultureInfo.InvariantCulture);
+                    Site site = iisManager.Sites.Add(siteName, "http", bindingInfo, installFolder + "\\Website");
+                    site.TraceFailedRequestsLogging.Enabled = true;
+                    site.TraceFailedRequestsLogging.Directory = installFolder + "\\Logs";
+                    site.LogFile.Directory = installFolder + "\\Logs" + "\\W3svc" + site.Id.ToString(CultureInfo.InvariantCulture);
 
                     if (useSiteSpecificAppPool)
                     {
                         var appPoolName = siteName + "_nvQuickSite";
                         ApplicationPool newPool = iisManager.ApplicationPools.Add(appPoolName);
                         newPool.ManagedRuntimeVersion = "v4.0";
-                        mySite.ApplicationDefaults.ApplicationPoolName = appPoolName;
+                        site.ApplicationDefaults.ApplicationPoolName = appPoolName;
                     }
 
                     iisManager.CommitChanges();
                     Log.Logger.Information("Created site {siteName}", siteName);
+                    Log.Logger.Debug("Created site {@site}", site);
                 }
             }
             catch (Exception ex)
@@ -85,6 +86,7 @@ namespace nvQuickSite.Controllers
         /// </summary>
         /// <param name="siteId">The id of the site to delete.</param>
         /// <param name="progress">The progress reporter.</param>
+        /// <exception cref="ArgumentException"> is thrown if the site cannot be deleted.</exception>
         internal static void DeleteSite(long siteId, IProgress<int> progress = null)
         {
             using (var iisManager = new ServerManager())
@@ -95,6 +97,7 @@ namespace nvQuickSite.Controllers
 
                     if (site == null)
                     {
+                        Log.Logger.Error("Site with id {siteId} does not exist", siteId);
                         progress?.Report(100);
                         return;
                     }
@@ -102,16 +105,14 @@ namespace nvQuickSite.Controllers
                     iisManager.Sites.Remove(site);
                     iisManager.CommitChanges();
                     progress?.Report(100);
+                    Log.Logger.Information("Site {siteName} deleted", site.Name);
                 }
                 catch (COMException ex)
                 {
                     progress?.Report(100);
-                    DialogController.ShowMessage(
-                        "Site Deletion Error",
-                        ex.Message,
-                        SystemIcons.Error,
-                        DialogController.DialogButtons.OK);
-                    return;
+                    var message = $"The site with id {siteId} could not be deleted";
+                    Log.Logger.Error(message, ex);
+                    throw new ArgumentException(message, ex) { Source = "Site Deletion Error" };
                 }
             }
         }
@@ -121,8 +122,10 @@ namespace nvQuickSite.Controllers
         /// </summary>
         /// <param name="appPoolName">The name of the application pool.</param>
         /// <param name="progress">The progress reporter.</param>
+        /// <exception cref="ArgumentException"> is thrown when the application pool cannot be deleted.</exception>
         internal static void DeleteAppPool(string appPoolName, IProgress<int> progress)
         {
+            Log.Logger.Information("Deleting application pool {appPoolName}", appPoolName);
             try
             {
                 using (var iisManager = new ServerManager())
@@ -130,24 +133,23 @@ namespace nvQuickSite.Controllers
                     var appPool = iisManager.ApplicationPools.FirstOrDefault(a => a.Name == appPoolName);
                     if (appPool == null)
                     {
+                        Log.Logger.Information("Application pool {appPoolName} does not exist", appPoolName);
                         progress?.Report(100);
                         return;
                     }
 
                     iisManager.ApplicationPools.Remove(appPool);
                     iisManager.CommitChanges();
+                    Log.Logger.Information("Application pool {appPoolName} deleted", appPoolName);
                     progress?.Report(100);
                 }
             }
             catch (COMException ex)
             {
                 progress?.Report(100);
-                DialogController.ShowMessage(
-                    "Delete AppPool Error",
-                    ex.Message,
-                    SystemIcons.Error,
-                    DialogController.DialogButtons.OK);
-                return;
+                var message = $"There was an error deleting the application pool {appPoolName}";
+                Log.Logger.Error(message, ex);
+                throw new ArgumentException(message, ex) { Source = "Delete AppPool Error" };
             }
         }
 
@@ -158,10 +160,12 @@ namespace nvQuickSite.Controllers
         /// <returns>An enumeration of sites.</returns>
         internal static IEnumerable<Site> GetSites(bool createdByThisToolOnly = false)
         {
+            Log.Logger.Information("Getting the list of sites");
             List<Site> sites;
             using (ServerManager iisManager = new ServerManager())
             {
                 sites = iisManager.Sites.ToList();
+                Log.Logger.Debug("Found the following sites {@sites}", sites);
                 if (!createdByThisToolOnly)
                 {
                     return sites;
@@ -174,24 +178,125 @@ namespace nvQuickSite.Controllers
                             StringComparison.Ordinal))
                     .ToList();
 
+                Log.Logger.Debug("Found the following sites created by this tool {@sites}", sites);
                 return sites;
             }
         }
 
+        /// <summary>
+        /// Stops an IIS website.
+        /// </summary>
+        /// <param name="siteId">The id of the site to stop.</param>
+        /// <param name="progress">An optional progress reporter.</param>
+        /// <exception cref="ArgumentException"> is thrown when the site cannot be stopped.</exception>
+        internal static void StopSite(long siteId, IProgress<int> progress)
+        {
+            Log.Logger.Debug("Deleting site with id {siteId}", siteId);
+            using (var iisManager = new ServerManager())
+            {
+                progress?.Report(25);
+                var site = iisManager.Sites.FirstOrDefault(s => s.Id == siteId);
+                if (site == null)
+                {
+                    Log.Logger.Information("Site with id {siteId} does not exist", siteId);
+                }
+
+                site.ServerAutoStart = false;
+                progress.Report(50);
+                if (site.State != ObjectState.Stopped)
+                {
+                    try
+                    {
+                        var state = site.Stop();
+                        Log.Logger.Information("Site {siteName} is {state}", site.Name, state);
+                    }
+                    catch (COMException ex)
+                    {
+                        var message = "There was a problem stopping the site.\nAborting the site deletion.";
+                        Log.Logger.Error(message, ex);
+                        throw new ArgumentException(message, ex) { Source = "Stop Site Error" };
+                    }
+                }
+
+                Log.Logger.Information("Site {siteName} was already stopped", site.Name);
+                progress?.Report(100);
+            }
+        }
+
+        /// <summary>
+        /// Attempts to stop an application pool.
+        /// </summary>
+        /// <param name="siteId">The id of the site for which to stop the application pool.</param>
+        /// <param name="progress">An optional progress reporter.</param>
+        internal static void StopAppPool(long siteId, IProgress<int> progress)
+        {
+            progress?.Report(25);
+            using (var iisManager = new ServerManager())
+            {
+                var site = iisManager.Sites.FirstOrDefault(s => s.Id == siteId);
+                if (site == null)
+                {
+                    Log.Logger.Error("The site with id {siteId} could not be found", siteId);
+                    throw new ArgumentException("The site could not be found, aborting.") { Source = "Site Not Found" };
+                }
+
+                var appPool = iisManager.ApplicationPools.FirstOrDefault(a =>
+                    a.Name == site.ApplicationDefaults.ApplicationPoolName);
+
+                if (appPool == null)
+                {
+                    var message = "There was a problem finding the application pool.\nAborting the site deletion.";
+                    Log.Logger.Error(message);
+                    throw new ArgumentException(message) { Source = "AppPool Not Found" };
+                }
+
+                var totalSitesUsingAppPool = iisManager.Sites.Count(s => s.ApplicationDefaults.ApplicationPoolName == appPool.Name);
+                if (totalSitesUsingAppPool > 1)
+                {
+                    var message = "More than one site uses this application pool.\nAborting the site deletion.";
+                    Log.Logger.Error(message);
+                    throw new ArgumentException(message) { Source = "AppPool Not Specific" };
+                }
+
+                progress?.Report(50);
+
+                try
+                {
+                    appPool.AutoStart = false;
+                    if (appPool.State != ObjectState.Stopped)
+                    {
+                        var state = appPool.Stop();
+                        Log.Logger.Information("Application Pool {appPoolName} is {state}", appPool.Name, state);
+                    }
+                }
+                catch (COMException ex)
+                {
+                    var message = "There was a problem stopping the application pool.\nAborting the site deletion.";
+                    Log.Logger.Error(message, ex);
+                    throw new ArgumentException(message, ex) { Source = "AppPool Error" };
+                }
+            }
+
+            progress?.Report(100);
+        }
+
         private static bool SiteExists(string siteName, bool deleteSiteIfExists)
         {
+            Log.Logger.Verbose("Checking if site {siteName} exists", siteName);
             bool exists = false;
             using (ServerManager iisManager = new ServerManager())
             {
-                SiteCollection siteCollection = iisManager.Sites;
+                var sites = iisManager.Sites;
 
-                foreach (Site site in siteCollection)
+                foreach (Site site in sites)
                 {
                     if (site.Name == siteName.ToString())
                     {
                         exists = true;
+                        Log.Logger.Verbose("Site {siteName} exists", siteName);
                         if (deleteSiteIfExists)
                         {
+                            Log.Logger.Verbose("The user requested for the existing site {siteName} to be deleted", siteName);
                             if (site.ApplicationDefaults.ApplicationPoolName == siteName + "_nvQuickSite")
                             {
                                 ApplicationPoolCollection appPools = iisManager.ApplicationPools;
@@ -207,6 +312,7 @@ namespace nvQuickSite.Controllers
 
                             iisManager.Sites.Remove(site);
                             iisManager.CommitChanges();
+                            Log.Logger.Information("Site {siteName} was deleted", siteName);
                             exists = false;
                             break;
                         }

@@ -23,6 +23,7 @@ namespace nvQuickSite.Controls.Sites
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
@@ -77,7 +78,14 @@ namespace nvQuickSite.Controls.Sites
                     this.progressStopSite.Value = percent;
                     this.UpdateTotalProgress();
                 });
-                await Task.Run(() => this.StopSite(iisManager, stopSiteProgress)).ConfigureAwait(true);
+                try
+                {
+                    await Task.Run(() => IISController.StopSite(this.site.Id, stopSiteProgress)).ConfigureAwait(true);
+                }
+                catch (ArgumentException ex)
+                {
+                    this.Abort(ex.Source, ex.Message);
+                }
 
                 // Stop AppPool
                 var stopAppPoolProgress = new Progress<int>(percent =>
@@ -85,7 +93,14 @@ namespace nvQuickSite.Controls.Sites
                     this.progressStopAppPool.Value = percent;
                     this.UpdateTotalProgress();
                 });
-                await Task.Run(() => this.StopAppPool(iisManager, stopAppPoolProgress)).ConfigureAwait(true);
+                try
+                {
+                    await Task.Run(() => IISController.StopAppPool(this.site.Id, stopAppPoolProgress)).ConfigureAwait(true);
+                }
+                catch (ArgumentException ex)
+                {
+                    this.Abort(ex.Source, ex.Message);
+                }
 
                 // Delete Database
                 var deleteDatabaseProgress = new Progress<int>(percent =>
@@ -93,7 +108,25 @@ namespace nvQuickSite.Controls.Sites
                     this.progressDeleteDatabae.Value = percent;
                     this.UpdateTotalProgress();
                 });
-                await Task.Run(() => this.DeleteDatabase(deleteDatabaseProgress)).ConfigureAwait(true);
+                try
+                {
+                    var installFolder = Directory.GetParent(this.sitePath);
+                    var databaseController = new DatabaseController(
+                        this.site.Name.Split('.')[0],
+                        Properties.Settings.Default.DatabaseServerNameRecent,
+                        true,
+                        string.Empty,
+                        string.Empty,
+                        installFolder.FullName,
+                        true,
+                        this.site.Name);
+                    await Task.Run(() => databaseController.DeleteDatabase(deleteDatabaseProgress)).ConfigureAwait(true);
+                }
+                catch (ArgumentException ex)
+                {
+                    this.Abort(ex.Source, ex.Message);
+                    throw;
+                }
 
                 // Delete files
                 var deleteFilesProgress = new Progress<string>(name =>
@@ -104,7 +137,17 @@ namespace nvQuickSite.Controls.Sites
                         this.UpdateTotalProgress();
                     }
                 });
-                await Task.Run(() => FileSystemController.DeleteDirectory(this.sitePath, deleteFilesProgress)).ConfigureAwait(true);
+                try
+                {
+                    await Task.Run(() => FileSystemController.DeleteDirectory(this.sitePath, deleteFilesProgress)).ConfigureAwait(true);
+                }
+                catch (IOException)
+                {
+                    // Files mights still be streaming (logs for instance) after the site is stopped and deleted. Let's wait a bit and retry once after waiting 10 seconds.
+                    Thread.Sleep(10000);
+                    await Task.Run(() => FileSystemController.DeleteDirectory(this.sitePath, deleteFilesProgress)).ConfigureAwait(true);
+                }
+
                 this.progressDeleteFiles.Value = this.progressDeleteFiles.Maximum;
                 this.UpdateTotalProgress();
 
@@ -122,7 +165,14 @@ namespace nvQuickSite.Controls.Sites
                     this.progressDeletingSite.Value = percent;
                     this.UpdateTotalProgress();
                 });
-                await Task.Run(() => IISController.DeleteSite(this.site.Id, deleteSiteProgress)).ConfigureAwait(true);
+                try
+                {
+                    await Task.Run(() => IISController.DeleteSite(this.site.Id, deleteSiteProgress)).ConfigureAwait(true);
+                }
+                catch (ArgumentException ex)
+                {
+                    this.Abort(ex.Source, ex.Message);
+                }
 
                 // Try to delete AppPool if possible
                 var deleteAppPoolProgress = new Progress<int>(percent =>
@@ -130,7 +180,18 @@ namespace nvQuickSite.Controls.Sites
                     this.progressDeleteAppPool.Value = percent;
                     this.UpdateTotalProgress();
                 });
-                await Task.Run(() => IISController.DeleteAppPool(this.site.ApplicationDefaults.ApplicationPoolName, deleteAppPoolProgress)).ConfigureAwait(true);
+                try
+                {
+                    await Task.Run(() => IISController.DeleteAppPool(this.site.ApplicationDefaults.ApplicationPoolName, deleteAppPoolProgress)).ConfigureAwait(true);
+                }
+                catch (ArgumentException ex)
+                {
+                    DialogController.ShowMessage(
+                    ex.Source,
+                    ex.Message,
+                    SystemIcons.Error,
+                    DialogController.DialogButtons.OK);
+                }
             }
 
             this.progressTotal.Value = this.progressTotal.Maximum;
@@ -167,109 +228,6 @@ namespace nvQuickSite.Controls.Sites
             {
                 this.progressTotal.Value = totalValue;
             }
-        }
-
-        private void StopAppPool(ServerManager iisManager, IProgress<int> progress)
-        {
-            progress?.Report(25);
-            var appPool = iisManager.ApplicationPools.FirstOrDefault(a =>
-                a.Name == this.site.ApplicationDefaults.ApplicationPoolName);
-
-            if (appPool == null)
-            {
-                this.Abort(
-                    "AppPool Not Found",
-                    "There was a problem finding the application pool.\nAborting the site deletion.");
-            }
-
-            var totalSitesUsingAppPool = iisManager.Sites.Count(s => s.ApplicationDefaults.ApplicationPoolName == appPool.Name);
-            if (totalSitesUsingAppPool > 1)
-            {
-                this.Abort(
-                    "AppPool Not Specific",
-                    "More than one site uses this application pool.\nAborting the site deletion.");
-            }
-
-            progress?.Report(50);
-
-            try
-            {
-                appPool.AutoStart = false;
-                if (appPool.State != ObjectState.Stopped)
-                {
-                    var state = appPool.Stop();
-                    if (state != ObjectState.Stopped)
-                    {
-                        this.Abort(
-                            "AppPool not Stopped",
-                            "There was a problem stopping the application pool.\nAborting the site deletion.");
-                    }
-                }
-            }
-            catch (COMException)
-            {
-                this.Abort(
-                    "AppPool Error",
-                    "There was a problem stopping the application pool.\nAborting the site deletion.");
-            }
-
-            progress?.Report(100);
-        }
-
-        private void StopSite(ServerManager iisManager, IProgress<int> progress)
-        {
-            progress?.Report(25);
-            var site = iisManager.Sites.FirstOrDefault(s => s.Id == this.site.Id);
-            site.ServerAutoStart = false;
-
-            progress.Report(50);
-            if (site.State != ObjectState.Stopped)
-            {
-                try
-                {
-                    var state = site.Stop();
-                    if (state != ObjectState.Stopped)
-                    {
-                        this.Abort(
-                            "Stop Site Error",
-                            "There was a problem stopping the site.\nAborting the site deletion.");
-                    }
-                }
-                catch (COMException)
-                {
-                    this.Abort(
-                        "Stop Site Error",
-                        "There was a problem stopping the site.\nAborting the site deletion.");
-                }
-            }
-
-            progress?.Report(100);
-        }
-
-        private void DeleteDatabase(IProgress<int> progress)
-        {
-            progress?.Report(25);
-            var installFolder = Directory.GetParent(this.sitePath);
-            var databaseController = new DatabaseController(
-                this.site.Name.Split('.')[0],
-                Properties.Settings.Default.DatabaseServerNameRecent,
-                true,
-                string.Empty,
-                string.Empty,
-                installFolder.FullName,
-                true,
-                this.site.Name);
-            try
-            {
-                progress?.Report(75);
-                databaseController.DropDatabase();
-            }
-            catch (DatabaseControllerException ex)
-            {
-                this.Abort(ex.Source, ex.Message);
-            }
-
-            progress?.Report(100);
         }
 
         private void Abort(string errorTitle, string errorDescription)

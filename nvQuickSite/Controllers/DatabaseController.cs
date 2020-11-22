@@ -241,5 +241,28 @@ namespace nvQuickSite.Controllers
 
             Log.Logger.Information("Permissions set for database {dbName}", this.dbName);
         }
+
+        /// <summary>
+        /// Deletes a database and optionally provides a progress report.
+        /// </summary>
+        /// <param name="progress">An optional progress reporter.</param>
+        internal void DeleteDatabase(IProgress<int> progress)
+        {
+            Log.Information($"Deleting database {this.dbName}");
+            progress?.Report(25);
+            try
+            {
+                progress?.Report(75);
+                this.DropDatabase();
+            }
+            catch (DatabaseControllerException ex)
+            {
+                var message = $"Could not delete database {this.dbName}";
+                Log.Logger.Error(message, ex);
+                throw new ArgumentException(message) { Source = "Delete Database Error" };
+            }
+
+            progress?.Report(100);
+        }
     }
 }
