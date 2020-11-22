@@ -596,7 +596,7 @@ namespace nvQuickSite
                     this.InstallFolder);
 
                 this.btnVisitSite.Visible = true;
-                Log.Logger.Information("Site {siteName} ready to vist", this.SiteName);
+                Log.Logger.Information("Site {siteName} ready to visit", this.SiteName);
             }
             catch (SiteExistsException ex)
             {
