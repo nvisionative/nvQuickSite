@@ -61,6 +61,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>
     </CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\nvQuickSite.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>0A724629BFD7DFCC40A44BF2FB61D13E16ED4A93</ManifestCertificateThumbprint>
