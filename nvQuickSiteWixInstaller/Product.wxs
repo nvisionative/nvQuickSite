@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  <Product Id="*" UpgradeCode="C2643FC9-C49A-498F-B094-203933EBB97E" Version="$(var.VersionNumber)" Language="1033" Name="nvQuickSite" Manufacturer="nvisionative">
+    <Package InstallerVersion="300" Compressed="yes" />
+    <Media Id="1" Cabinet="nvQuickSite.cab" EmbedCab="yes" />
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+    <Icon Id="nvisionativeIcon" SourceFile="$(var.nvQuickSite.ProjectDir)\Resources\nvisionative.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="nvisionativeIcon" />
+    
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    
+    <PropertyRef Id="NETFRAMEWORK45"/>
+    <Condition Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="nvisionative"/>
+      </Directory>
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="ManufacturerDirectory" Name="nvisionative">
+          <Directory Id="ApplicationRootDirectory" Name="nvQuickSite" />
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="nvQuickSite" Description="Really Quick DNN Installer" Target="[#nvQuickSite.exe]" WorkingDirectory="ApplicationRootDirectory"/>
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\nvisionative\nvQuickSite" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationRootDirectory">
+      <Component Id="Analytics.NET">
+        <File Source="$(var.nvQuickSite.TargetDir)\Analytics.NET.dll" />
+      </Component>
+      <Component Id="DotNetZip">
+        <File Source="$(var.nvQuickSite.TargetDir)\DotNetZip.dll" />
+      </Component>
+      <Component Id="MetroFramework.Design">
+        <File Source="$(var.nvQuickSite.TargetDir)\MetroFramework.Design.dll" />
+      </Component>
+      <Component Id="MetroFramework">
+        <File Source="$(var.nvQuickSite.TargetDir)\MetroFramework.dll" />
+      </Component>
+      <Component Id="MetroFramework.Fonts">
+        <File Source="$(var.nvQuickSite.TargetDir)\MetroFramework.Fonts.dll" />
+      </Component>
+      <Component Id="Newtonsoft.Json">
+        <File Source="$(var.nvQuickSite.TargetDir)\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="Octokit">
+        <File Source="$(var.nvQuickSite.TargetDir)\Octokit.dll" />
+      </Component>
+      <Component Id="Ookii.Dialogs">
+        <File Source="$(var.nvQuickSite.TargetDir)\Ookii.Dialogs.dll" />
+      </Component>
+      <Component Id="OSVersionInfo">
+        <File Source="$(var.nvQuickSite.TargetDir)\OSVersionInfo.dll" />
+      </Component>
+      <Component Id="Microsoft.Web.Administration">
+        <File Source="$(var.nvQuickSite.TargetDir)\Microsoft.Web.Administration.dll" />
+      </Component>
+      <Component Id="nvQuickSite">
+        <File Source="$(var.nvQuickSite.TargetPath)" />
+      </Component>
+      <Component Id="nvQuickSite.exe.config">
+        <File Source="$(var.nvQuickSite.TargetDir)\nvQuickSite.exe.config" />
+      </Component>
+      <Component Id="Serilog">
+        <File Source="$(var.nvQuickSite.TargetDir)\Serilog.dll" />
+      </Component>
+      <Component Id="Serilog.Sinks.Console">
+        <File Source="$(var.nvQuickSite.TargetDir)\Serilog.Sinks.Console.dll" />
+      </Component>
+      <Component Id="Serilog.Sinks.Debug">
+        <File Source="$(var.nvQuickSite.TargetDir)\Serilog.Sinks.Debug.dll" />
+      </Component>
+      <Component Id="Serilog.Sinks.File">
+        <File Source="$(var.nvQuickSite.TargetDir)\Serilog.Sinks.File.dll" />
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="MainApplication" Title="Main Application" Level="1">
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="Analytics.NET" />
+      <ComponentRef Id="DotNetZip" />
+      <ComponentRef Id="MetroFramework.Design" />
+      <ComponentRef Id="MetroFramework" />
+      <ComponentRef Id="MetroFramework.Fonts" />
+      <ComponentRef Id="Newtonsoft.Json" />
+      <ComponentRef Id="Octokit" />
+      <ComponentRef Id="Ookii.Dialogs" />
+      <ComponentRef Id="OSVersionInfo" />
+      <ComponentRef Id="Microsoft.Web.Administration" />
+      <ComponentRef Id="nvQuickSite" />
+      <ComponentRef Id="nvQuickSite.exe.config" />
+      <ComponentRef Id="Serilog" />
+      <ComponentRef Id="Serilog.Sinks.Console" />
+      <ComponentRef Id="Serilog.Sinks.Debug" />
+      <ComponentRef Id="Serilog.Sinks.File" />
+    </Feature>
+
+    <UI>
+      <UIRef Id="WixUI_Minimal" />
+      <Publish 
+        Dialog="ExitDialog" 
+        Control="Finish" 
+        Event="DoAction" 
+        Value="LaunchApplication">
+          WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
+      </Publish>
+    </UI>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch nvQuickSite" />
+
+    <Property Id="WixShellExecTarget" Value="[#nvQuickSite.exe]" />
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+  </Product>
+</Wix>
