@@ -66,7 +66,7 @@
             this.metroButton2.Name = "metroButton2";
             this.metroButton2.Size = new System.Drawing.Size(70, 32);
             this.metroButton2.TabIndex = 2;
-            this.metroButton2.Text = "Close";
+            this.btnClose.Text = "Close";
             // 
             // dataGridViewSites
             // 
