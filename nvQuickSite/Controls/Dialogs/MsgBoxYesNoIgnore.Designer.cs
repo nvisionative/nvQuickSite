@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.lblTitle = new MetroFramework.Controls.MetroLabel();
-            this.lblMessage = new MetroFramework.Controls.MetroLabel();
+            this.lblMessage = new System.Windows.Forms.Label();
             this.btnYes = new MetroFramework.Controls.MetroButton();
             this.btnNo = new MetroFramework.Controls.MetroButton();
             this.chkDoNotWarnAgain = new MetroFramework.Controls.MetroCheckBox();
@@ -49,11 +49,10 @@
             // 
             // lblMessage
             // 
-            this.lblMessage.AutoSize = true;
             this.lblMessage.Location = new System.Drawing.Point(77, 43);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(60, 19);
-            this.lblMessage.TabIndex = 5;
+            this.lblMessage.Size = new System.Drawing.Size(417, 71);
+            this.lblMessage.TabIndex = 0;
             this.lblMessage.Text = "Message";
             // 
             // btnYes
@@ -125,7 +124,7 @@
         #endregion
 
         private MetroFramework.Controls.MetroLabel lblTitle;
-        private MetroFramework.Controls.MetroLabel lblMessage;
+        private System.Windows.Forms.Label lblMessage;
         private MetroFramework.Controls.MetroButton btnYes;
         private MetroFramework.Controls.MetroButton btnNo;
         private MetroFramework.Controls.MetroCheckBox chkDoNotWarnAgain;
