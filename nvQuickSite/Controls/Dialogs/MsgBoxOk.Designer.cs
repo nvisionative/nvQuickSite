@@ -31,7 +31,7 @@
             this.lblTitle = new MetroFramework.Controls.MetroLabel();
             this.btnOk = new MetroFramework.Controls.MetroButton();
             this.dialogIcon = new System.Windows.Forms.PictureBox();
-            this.lblMessage = new MetroFramework.Controls.MetroLabel();
+            this.lblMessage = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,11 +70,10 @@
             // 
             // lblMessage
             // 
-            this.lblMessage.AutoSize = true;
             this.lblMessage.Location = new System.Drawing.Point(77, 43);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(60, 19);
-            this.lblMessage.TabIndex = 5;
+            this.lblMessage.Size = new System.Drawing.Size(417, 71);
+            this.lblMessage.TabIndex = 0;
             this.lblMessage.Text = "Message";
             // 
             // MsgBoxOk
@@ -102,6 +101,6 @@
         private MetroFramework.Controls.MetroLabel lblTitle;
         private MetroFramework.Controls.MetroButton btnOk;
         private System.Windows.Forms.PictureBox dialogIcon;
-        private MetroFramework.Controls.MetroLabel lblMessage;
+        private System.Windows.Forms.Label lblMessage;
     }
 }
