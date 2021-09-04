@@ -32,7 +32,7 @@
             this.btnNo = new MetroFramework.Controls.MetroButton();
             this.dialogIcon = new System.Windows.Forms.PictureBox();
             this.btnYes = new MetroFramework.Controls.MetroButton();
-            this.lblMessage = new MetroFramework.Controls.MetroLabel();
+            this.lblMessage = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dialogIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,11 +81,10 @@
             // 
             // lblMessage
             // 
-            this.lblMessage.AutoSize = true;
             this.lblMessage.Location = new System.Drawing.Point(77, 43);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(60, 19);
-            this.lblMessage.TabIndex = 5;
+            this.lblMessage.Size = new System.Drawing.Size(417, 71);
+            this.lblMessage.TabIndex = 0;
             this.lblMessage.Text = "Message";
             // 
             // MsgBoxYesNo
@@ -115,6 +114,6 @@
         private MetroFramework.Controls.MetroButton btnNo;
         private System.Windows.Forms.PictureBox dialogIcon;
         private MetroFramework.Controls.MetroButton btnYes;
-        private MetroFramework.Controls.MetroLabel lblMessage;
+        private System.Windows.Forms.Label lblMessage;
     }
 }

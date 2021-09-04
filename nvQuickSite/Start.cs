@@ -176,7 +176,7 @@ namespace nvQuickSite
             this.cboProductVersion.Items.Clear();
             foreach (var package in this.Packages.Where(p => p.did == packageId).OrderByDescending(p => p.version))
             {
-                this.cboProductVersion.Items.Add(new ComboItem(package.version, package.version));
+                this.cboProductVersion.Items.Add(new ComboItem(package.version.ToString(), package.version.ToString()));
             }
 
             if (this.cboProductVersion.Items.Count > 0)
@@ -208,7 +208,7 @@ namespace nvQuickSite
             Package package;
             var fileName = string.Empty;
 
-            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
+            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == new System.Version(((ComboItem)this.cboProductVersion.SelectedItem).Value));
             fileName = package.url.Split('/').Last();
 
             var downloadDirectory = FileSystemController.GetDownloadDirectory();
@@ -237,7 +237,7 @@ namespace nvQuickSite
             }
 
             Package package;
-            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
+            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == new System.Version(((ComboItem)this.cboProductVersion.SelectedItem).Value));
             var url = package.url;
             var fileName = package.url.Split('/').Last();
 
@@ -298,7 +298,7 @@ namespace nvQuickSite
             Package package;
             var fileName = string.Empty;
 
-            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == ((ComboItem)this.cboProductVersion.SelectedItem).Value);
+            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == new System.Version(((ComboItem)this.cboProductVersion.SelectedItem).Value));
             fileName = package.url.Split('/').Last();
             this.downloadProgressLogTimer.Stop();
             Log.Logger.Information("Completed download of {fileName}", fileName);

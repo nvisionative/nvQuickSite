@@ -184,7 +184,7 @@ namespace nvQuickSite.Controllers
 
                         var ghPackage = new Package();
 
-                        ghPackage.version = TrimTagName(release);
+                        ghPackage.version = new System.Version(release.TagName.TrimStart('v').Split('-')[0]);
 
                         if (index == 0 &&
                             release.Name.IndexOf("rc", StringComparison.OrdinalIgnoreCase) >= 0 &&
@@ -200,8 +200,8 @@ namespace nvQuickSite.Controllers
                         else if (!release.Name.ToUpperInvariant().Contains("RC") &&
                             installPackage != null)
                         {
-                            ghPackage.did = "dnn-platform-" + ghPackage.version.Substring(0, 1);
-                            ghPackage.name = "DNN Platform " + ghPackage.version.Substring(0, 1);
+                            ghPackage.did = "dnn-platform-" + ghPackage.version.Major.ToString();
+                            ghPackage.name = "DNN Platform " + ghPackage.version.Major.ToString();
                             ghPackage.url = installPackage.BrowserDownloadUrl;
                             ghPackage.upgradeurl = upgradePackage.BrowserDownloadUrl;
                             packages.Add(ghPackage);
@@ -219,18 +219,6 @@ namespace nvQuickSite.Controllers
             {
                 Log.Logger.Error(ex, "Unexpected error occurred retrieving DNN packages from GitHub");
                 return packages;
-            }
-        }
-
-        private static string TrimTagName(Release release)
-        {
-            if (release.TagName != null && release.TagName[0] == 'v')
-            {
-                return release.TagName.Remove(0, 1);
-            }
-            else
-            {
-                return release.TagName;
             }
         }
     }

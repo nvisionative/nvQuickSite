@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace nvQuickSite.Models
 {
     /// <summary>
@@ -35,7 +38,8 @@ namespace nvQuickSite.Models
         /// <summary>
         /// Gets or sets the package version.
         /// </summary>
-        public string version { get; set; }
+        [JsonConverter(typeof(VersionConverter))]
+        public System.Version version { get; set; }
 
         /// <summary>
         /// Gets or sets the url to download the install package.

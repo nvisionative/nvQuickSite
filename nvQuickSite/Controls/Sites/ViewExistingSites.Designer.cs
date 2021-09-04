@@ -33,7 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblMessage = new MetroFramework.Controls.MetroLabel();
-            this.metroButton2 = new MetroFramework.Controls.MetroButton();
+            this.btnClose = new MetroFramework.Controls.MetroButton();
             this.dataGridViewSites = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -56,17 +56,17 @@
             this.lblMessage.Text = "Existing Sites";
             this.lblMessage.UseStyleColors = true;
             // 
-            // metroButton2
+            // btnClose
             // 
-            this.metroButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.metroButton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.metroButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.metroButton2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.metroButton2.Location = new System.Drawing.Point(752, 0);
-            this.metroButton2.Name = "metroButton2";
-            this.metroButton2.Size = new System.Drawing.Size(70, 32);
-            this.metroButton2.TabIndex = 2;
-            this.metroButton2.Text = "Cancel";
+            this.btnClose.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnClose.Location = new System.Drawing.Point(752, 0);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(70, 32);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "Close";
             // 
             // dataGridViewSites
             // 
@@ -127,7 +127,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.metroButton2);
+            this.panel1.Controls.Add(this.btnClose);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(20, 546);
             this.panel1.Name = "panel1";
@@ -167,7 +167,7 @@
         #endregion
 
         private MetroFramework.Controls.MetroLabel lblMessage;
-        private MetroFramework.Controls.MetroButton metroButton2;
+        private MetroFramework.Controls.MetroButton btnClose;
         private System.Windows.Forms.DataGridView dataGridViewSites;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
