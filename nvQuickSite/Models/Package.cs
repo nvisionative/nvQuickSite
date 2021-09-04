@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with nvQuickSite.  If not, see <http://www.gnu.org/licenses/>.
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
 namespace nvQuickSite.Models
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+
     /// <summary>
     /// Represents one package.
     /// </summary>
