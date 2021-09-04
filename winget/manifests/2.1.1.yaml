@@ -1,0 +1,15 @@
+Id: nvisionative.nvQuickSite
+Version: 2.1.1
+Name: nvQuickSite
+Publisher: nvisionative
+License: GPL3
+LicenseUrl: https://github.com/nvisionative/nvQuickSite/blob/v2.1.1/nvQuickSite/LICENSE.md
+AppMoniker: nvQuickSite
+Tags: dnn, dotnetnuke, installer, website, cms
+Description: nvQuickSite is a desktop installation app for DNN, the world's most popular ASP.NET-based CMS. This app allows you to easily install DNN onto any environment that meets the minimum system requirements for DNN to be installed.
+Homepage: https://www.nvquicksite.com/
+Installers:
+  - Arch: Neutral
+    Url: https://github.com/nvisionative/nvQuickSite/releases/download/v2.1.1/nvQuickSite_v2.1.1.0_Installer.msi
+    Sha256: CF18E99650EE3435EBB2299C4405017994BA65FB09FF969504F30C93CF79A19F
+    InstallerType: msi
