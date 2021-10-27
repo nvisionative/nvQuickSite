@@ -173,14 +173,14 @@ namespace nvQuickSite.Controllers
             if (!Directory.Exists(logsDir))
             {
                 Directory.CreateDirectory(logsDir);
-                SetFolderPermission(dbServiceAccount, logsDir);
+                SetFolderPermission(appPoolName, logsDir);
                 SetFolderPermission(authenticatedUsers, logsDir);
             }
             else
             {
                 DeleteDirectory(logsDir, null, true);
                 Directory.CreateDirectory(logsDir);
-                SetFolderPermission(dbServiceAccount, logsDir);
+                SetFolderPermission(appPoolName, logsDir);
                 SetFolderPermission(authenticatedUsers, logsDir);
             }
 
@@ -420,8 +420,8 @@ namespace nvQuickSite.Controllers
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "Error occured while attempting to set folder permissions");
-                throw new FileSystemControllerException("There was a problem setting the folder permissions for folder path: " + folderPath, ex) { Source = "Set Folder Permission" };
+                Log.Logger.Error(ex, "Error occured while attempting to set permissions for {accountName} on folder {folderPath}", accountName, folderPath);
+                throw new FileSystemControllerException("There was a problem setting the folder permissions for folder path " + folderPath + " using account name " + accountName, ex) { Source = "Set Folder Permission" };
             }
         }
     }
