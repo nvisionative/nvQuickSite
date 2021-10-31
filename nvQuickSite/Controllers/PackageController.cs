@@ -84,7 +84,17 @@ namespace nvQuickSite.Controllers
                 var ghPackages = GetGitHubPackages();
                 if (ghPackages.Any())
                 {
-                    packages = packages.Union(ghPackages).ToList();
+                    // Deduplicate exising packages to be safe and fix users that already have duplicates in packages.json
+                    packages = packages.GroupBy(p => p.version).Select(p => p.First()).ToList();
+
+                    foreach (var ghPackage in ghPackages)
+                    {
+                        // Only add the github packages if they are not yet in the local packages.json file.
+                        if (!packages.Any(p => p.version == ghPackage.version))
+                        {
+                            packages.Add(ghPackage);
+                        }
+                    }
                 }
             }
 
