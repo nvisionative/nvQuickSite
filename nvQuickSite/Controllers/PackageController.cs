@@ -87,6 +87,11 @@ namespace nvQuickSite.Controllers
                     // Deduplicate exising packages to be safe and fix users that already have duplicates in packages.json
                     packages = packages.GroupBy(p => p.version).Select(p => p.First()).ToList();
 
+                    // Remove the RCs from the local packages as they may be out of RC by now.
+                    // Github will include them or not right after this clearing.
+                    // Also we may publish multiple RCs and should never have more than one published at any time so we need only the latest shown.
+                    packages.RemoveAll(p => p.did == "dnn-platform-rc");
+
                     foreach (var ghPackage in ghPackages)
                     {
                         // Only add the github packages if they are not yet in the local packages.json file.
@@ -143,7 +148,7 @@ namespace nvQuickSite.Controllers
             {
                 try
                 {
-                    var url = "https://github.com/nvisionative/nvQuickSite/raw/master/nvQuickSite/data/packages.json";
+                    var url = "https://raw.githubusercontent.com/nvisionative/nvQuickSite/main/nvQuickSite/data/packages.json";
                     string result = client.DownloadString(url);
                     var packages = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Package>>(result);
                     Log.Logger.Information("Loaded remote packages");
