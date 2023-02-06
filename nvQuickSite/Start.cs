@@ -26,6 +26,7 @@ namespace nvQuickSite
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Security.Cryptography.X509Certificates;
     using System.Windows.Forms;
 
     using Ionic.Zip;
@@ -52,6 +53,7 @@ namespace nvQuickSite
         private long total;
         private long lastVal;
         private long sum;
+        private List<X509Certificate2> certificates;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Start"/> class.
@@ -128,6 +130,12 @@ namespace nvQuickSite
                 this.txtSiteNameSuffix.Text = Properties.Settings.Default.SiteNameSuffixRecent;
                 this.chkSiteSpecificAppPool.Checked = Properties.Settings.Default.AppPoolRecent;
                 this.chkDeleteSiteIfExists.Checked = Properties.Settings.Default.DeleteSiteInIISRecent;
+                this.chkEnableSsl.Checked = Properties.Settings.Default.EnableSsl;
+                if (Properties.Settings.Default.CertificateFriendlyName != string.Empty)
+                {
+                    this.cboCertificates.SelectedItem = Properties.Settings.Default.CertificateFriendlyName;
+                }
+
                 this.txtInstallBaseFolder.Text = Properties.Settings.Default.InstallBaseFolderRecent;
 
                 this.txtDBServerName.Text = Properties.Settings.Default.DatabaseServerNameRecent;
@@ -144,6 +152,12 @@ namespace nvQuickSite
                 Properties.Settings.Default.SiteNameSuffixRecent = this.txtSiteNameSuffix.Text;
                 Properties.Settings.Default.AppPoolRecent = this.chkSiteSpecificAppPool.Checked;
                 Properties.Settings.Default.DeleteSiteInIISRecent = this.chkDeleteSiteIfExists.Checked;
+                Properties.Settings.Default.EnableSsl = this.chkEnableSsl.Checked;
+                if (this.cboCertificates.SelectedItem != null)
+                {
+                    Properties.Settings.Default.CertificateFriendlyName = this.cboCertificates.SelectedItem.ToString();
+                }
+
                 Properties.Settings.Default.InstallBaseFolderRecent = this.txtInstallBaseFolder.Text;
 
                 Properties.Settings.Default.DatabaseServerNameRecent = this.txtDBServerName.Text;
@@ -412,6 +426,31 @@ namespace nvQuickSite
             this.txtDBName.Text = this.txtSiteNamePrefix.Text;
         }
 
+        private void chkEnableSsl_CheckedChanged(object sender, EventArgs e)
+        {
+            this.cboCertificates.Visible = false;
+            if (this.chkEnableSsl.Checked)
+            {
+                this.LoadSslCertificates();
+                this.cboCertificates.Visible = true;
+            }
+        }
+
+        private void LoadSslCertificates()
+        {
+            this.cboCertificates.Items.Clear();
+            this.certificates = IISController.GetSslCertificates();
+            this.certificates.ForEach(c => this.cboCertificates.Items.Add(c.FriendlyName != string.Empty ? c.FriendlyName : c.Subject.Split(',')[0].Split('=')[1]));
+            if (this.cboCertificates.Items.Count > 0)
+            {
+                this.cboCertificates.SelectedIndex = 0;
+                if (Properties.Settings.Default.CertificateFriendlyName != string.Empty)
+                {
+                    this.cboCertificates.SelectedItem = Properties.Settings.Default.CertificateFriendlyName;
+                }
+            }
+        }
+
         private void btnSiteInfoNext_Click(object sender, EventArgs e)
         {
             bool proceed;
@@ -549,7 +588,8 @@ namespace nvQuickSite
                     this.SiteName,
                     this.InstallFolder,
                     this.chkSiteSpecificAppPool.Checked,
-                    this.chkDeleteSiteIfExists.Checked);
+                    this.chkDeleteSiteIfExists.Checked,
+                    this.certificates[this.cboCertificates.SelectedIndex]);
 
                 FileSystemController.UpdateHostsFile(this.SiteName);
 
@@ -668,7 +708,8 @@ namespace nvQuickSite
 
         private void btnVisitSite_Click(object sender, EventArgs e)
         {
-            var url = "http://" + this.SiteName;
+            var protocol = this.chkEnableSsl.Checked ? "https://" : "http://";
+            var url = protocol + this.SiteName;
             Log.Logger.Information("Visiting {url}", url);
             Process.Start(url);
             Log.Logger.Information("Closing application");

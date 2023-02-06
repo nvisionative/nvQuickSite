@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.tabSiteInfo = new MetroFramework.Controls.MetroTabPage();
+            this.cboCertificates = new MetroFramework.Controls.MetroComboBox();
+            this.chkEnableSsl = new MetroFramework.Controls.MetroCheckBox();
             this.lblInstallSubFolder = new MetroFramework.Controls.MetroLabel();
             this.txtInstallSubFolder = new MetroFramework.Controls.MetroTextBox();
             this.txtSiteNameSuffix = new MetroFramework.Controls.MetroTextBox();
@@ -87,6 +89,8 @@
             // 
             // tabSiteInfo
             // 
+            this.tabSiteInfo.Controls.Add(this.cboCertificates);
+            this.tabSiteInfo.Controls.Add(this.chkEnableSsl);
             this.tabSiteInfo.Controls.Add(this.lblInstallSubFolder);
             this.tabSiteInfo.Controls.Add(this.txtInstallSubFolder);
             this.tabSiteInfo.Controls.Add(this.txtSiteNameSuffix);
@@ -107,6 +111,28 @@
             this.tabSiteInfo.Text = "Site Info";
             this.tabSiteInfo.VerticalScrollbarBarColor = true;
             // 
+            // cboCertificates
+            // 
+            this.cboCertificates.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboCertificates.FormattingEnabled = true;
+            this.cboCertificates.ItemHeight = 23;
+            this.cboCertificates.Location = new System.Drawing.Point(323, 99);
+            this.cboCertificates.Name = "cboCertificates";
+            this.cboCertificates.Size = new System.Drawing.Size(273, 29);
+            this.cboCertificates.TabIndex = 31;
+            this.cboCertificates.Visible = false;
+            // 
+            // chkEnableSsl
+            // 
+            this.chkEnableSsl.AutoSize = true;
+            this.chkEnableSsl.Location = new System.Drawing.Point(323, 82);
+            this.chkEnableSsl.Name = "chkEnableSsl";
+            this.chkEnableSsl.Size = new System.Drawing.Size(79, 15);
+            this.chkEnableSsl.TabIndex = 15;
+            this.chkEnableSsl.Text = "Enable SSL";
+            this.chkEnableSsl.UseVisualStyleBackColor = true;
+            this.chkEnableSsl.CheckedChanged += new System.EventHandler(this.chkEnableSsl_CheckedChanged);
+            // 
             // lblInstallSubFolder
             // 
             this.lblInstallSubFolder.AutoSize = true;
@@ -120,7 +146,7 @@
             // 
             this.txtInstallSubFolder.Location = new System.Drawing.Point(323, 169);
             this.txtInstallSubFolder.Name = "txtInstallSubFolder";
-            this.txtInstallSubFolder.Size = new System.Drawing.Size(217, 23);
+            this.txtInstallSubFolder.Size = new System.Drawing.Size(273, 23);
             this.txtInstallSubFolder.TabIndex = 13;
             // 
             // txtSiteNameSuffix
@@ -128,7 +154,7 @@
             this.txtSiteNameSuffix.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
             this.txtSiteNameSuffix.Location = new System.Drawing.Point(323, 37);
             this.txtSiteNameSuffix.Name = "txtSiteNameSuffix";
-            this.txtSiteNameSuffix.Size = new System.Drawing.Size(217, 23);
+            this.txtSiteNameSuffix.Size = new System.Drawing.Size(273, 23);
             this.txtSiteNameSuffix.TabIndex = 12;
             this.txtSiteNameSuffix.Text = ".dnndev.me";
             // 
@@ -364,7 +390,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 14);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
+            this.tabControl.SelectedIndex = 1;
             this.tabControl.Size = new System.Drawing.Size(607, 294);
             this.tabControl.TabIndex = 26;
             // 
@@ -737,5 +763,7 @@
         private MetroFramework.Controls.MetroComboBox cboProductVersion;
         private MetroFramework.Controls.MetroTile tileDNNCommunity;
         private MetroFramework.Controls.MetroButton btnViewExistingSites;
+        private MetroFramework.Controls.MetroCheckBox chkEnableSsl;
+        private MetroFramework.Controls.MetroComboBox cboCertificates;
     }
 }
