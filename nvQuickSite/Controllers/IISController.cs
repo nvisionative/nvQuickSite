@@ -22,6 +22,7 @@ namespace nvQuickSite.Controllers
     using System.Globalization;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Security.Cryptography.X509Certificates;
 
     using Microsoft.Web.Administration;
     using nvQuickSite.Controllers.Exceptions;
@@ -39,7 +40,8 @@ namespace nvQuickSite.Controllers
         /// <param name="installFolder">The path to the hosting folder for the site.</param>
         /// <param name="useSiteSpecificAppPool">A value indicating whether to use a site specific App Pool.</param>
         /// <param name="deleteSiteIfExists">If true will delete and recreate the site.</param>
-        internal static void CreateSite(string siteName, string installFolder, bool useSiteSpecificAppPool, bool deleteSiteIfExists)
+        /// <param name="certificate">The certificate to use for the site.</param>
+        internal static void CreateSite(string siteName, string installFolder, bool useSiteSpecificAppPool, bool deleteSiteIfExists, X509Certificate2 certificate = null)
         {
             Log.Logger.Information("Creating site {siteName} in {installFolder}", siteName, installFolder);
             if (SiteExists(siteName, deleteSiteIfExists))
@@ -51,10 +53,18 @@ namespace nvQuickSite.Controllers
             try
             {
                 var bindingInfo = "*:80:" + siteName;
+                var protocol = "http";
 
                 using (ServerManager iisManager = new ServerManager())
                 {
-                    Site site = iisManager.Sites.Add(siteName, "http", bindingInfo, installFolder + "\\Website");
+                    Site site = iisManager.Sites.Add(siteName, protocol, bindingInfo, installFolder + "\\Website");
+                    if (certificate != null)
+                    {
+                        bindingInfo = "*:443:" + siteName;
+                        protocol = "https";
+                    }
+
+                    site.Bindings.Add(bindingInfo, protocol);
                     site.TraceFailedRequestsLogging.Enabled = true;
                     site.TraceFailedRequestsLogging.Directory = installFolder + "\\Logs";
                     site.LogFile.Directory = installFolder + "\\Logs" + "\\W3svc" + site.Id.ToString(CultureInfo.InvariantCulture);
@@ -149,6 +159,46 @@ namespace nvQuickSite.Controllers
                 var message = $"There was an error deleting the application pool {appPoolName}";
                 Log.Logger.Error(message, ex);
                 throw new ArgumentException(message, ex) { Source = "Delete AppPool Error" };
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of SSL certificates available for use within IIS.
+        /// </summary>
+        /// <returns>An enumeration of SSL certificates.</returns>
+        internal static List<X509Certificate2> GetSslCertificates()
+        {
+            Log.Logger.Information("Getting a list of SSL certificates");
+            var certificates = new List<X509Certificate2>();
+
+            var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            try
+            {
+                store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
+
+                foreach (var certificate in store.Certificates)
+                {
+                    foreach (var extension in certificate.Extensions)
+                    {
+                        if (extension.Oid.FriendlyName == "Enhanced Key Usage" && extension is X509EnhancedKeyUsageExtension enhancedKeyUsageExtension)
+                        {
+                            foreach (var item in enhancedKeyUsageExtension.EnhancedKeyUsages)
+                            {
+                                if (item.FriendlyName == "Server Authentication")
+                                {
+                                    certificates.Add(certificate);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Log.Logger.Debug("Found the following SSL certificates {@certicates}", certificates);
+                return certificates;
+            }
+            finally
+            {
+                store.Close();
             }
         }
 
