@@ -589,7 +589,7 @@ namespace nvQuickSite
                     this.InstallFolder,
                     this.chkSiteSpecificAppPool.Checked,
                     this.chkDeleteSiteIfExists.Checked,
-                    this.certificates[this.cboCertificates.SelectedIndex]);
+                    this.chkEnableSsl.Checked ? this.certificates[this.cboCertificates.SelectedIndex] : null);
 
                 FileSystemController.UpdateHostsFile(this.SiteName);
 
