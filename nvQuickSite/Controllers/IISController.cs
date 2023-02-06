@@ -62,9 +62,9 @@ namespace nvQuickSite.Controllers
                     {
                         bindingInfo = "*:443:" + siteName;
                         protocol = "https";
+                        site.Bindings.Add(bindingInfo, protocol);
                     }
 
-                    site.Bindings.Add(bindingInfo, protocol);
                     site.TraceFailedRequestsLogging.Enabled = true;
                     site.TraceFailedRequestsLogging.Directory = installFolder + "\\Logs";
                     site.LogFile.Directory = installFolder + "\\Logs" + "\\W3svc" + site.Id.ToString(CultureInfo.InvariantCulture);
