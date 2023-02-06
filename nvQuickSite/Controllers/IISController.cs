@@ -61,8 +61,7 @@ namespace nvQuickSite.Controllers
                     if (certificate != null)
                     {
                         bindingInfo = "*:443:" + siteName;
-                        protocol = "https";
-                        site.Bindings.Add(bindingInfo, protocol);
+                        site.Bindings.Add(bindingInfo, certificate.GetCertHash(), "My");
                     }
 
                     site.TraceFailedRequestsLogging.Enabled = true;
