@@ -207,7 +207,7 @@ namespace nvQuickSite.Controllers
                             installPackage != null)
                         {
                             ghPackage.did = "dnn-platform-rc";
-                            ghPackage.name = "DNN Platform Release Candidate";
+                            ghPackage.name = "DNN Platform Release Candidate " + release.TagName.Split('-')[1].ToUpperInvariant().Substring(2);
                             ghPackage.url = installPackage.BrowserDownloadUrl;
                             ghPackage.upgradeurl = upgradePackage.BrowserDownloadUrl;
                             packages.Add(ghPackage);
