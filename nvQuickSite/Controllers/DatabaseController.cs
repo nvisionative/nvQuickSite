@@ -208,7 +208,7 @@ namespace nvQuickSite.Controllers
                 SqlCommand grantLogin = new SqlCommand($"sp_grantlogin '{appPoolNameFull}'", myConn);
                 SqlCommand useDb = new SqlCommand($"USE [{this.dbName}]", myConn);
                 SqlCommand grantDbAccess = new SqlCommand($"sp_grantdbaccess '{appPoolNameFull}', '{appPoolName}'", myConn);
-                SqlCommand addRoleMember = new SqlCommand($"sp_addrolemember 'db_owner', '{appPoolName}'", myConn);
+                SqlCommand addRoleMember = new SqlCommand($"ALTER ROLE [db_owner] ADD MEMBER [{appPoolName}] ", myConn);
 
                 try
                 {
