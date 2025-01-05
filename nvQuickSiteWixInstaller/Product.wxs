@@ -36,12 +36,15 @@
     </DirectoryRef>
 
     <DirectoryRef Id="ApplicationRootDirectory">
-      <Component Id="Analytics.NET">
+	  <Component Id="Analytics.NET">
         <File Source="$(var.nvQuickSite.TargetDir)\Analytics.NET.dll" />
       </Component>
-      <Component Id="DotNetZip">
-        <File Source="$(var.nvQuickSite.TargetDir)\DotNetZip.dll" />
-      </Component>
+		<Component Id="Azure.Core">
+			<File Source="$(var.nvQuickSite.TargetDir)\Azure.Core.dll" />
+		</Component>
+		<Component Id="Azure.Identity">
+			<File Source="$(var.nvQuickSite.TargetDir)\Azure.Identity.dll" />
+		</Component>
       <Component Id="MetroFramework.Design">
         <File Source="$(var.nvQuickSite.TargetDir)\MetroFramework.Design.dll" />
       </Component>
@@ -51,27 +54,66 @@
       <Component Id="MetroFramework.Fonts">
         <File Source="$(var.nvQuickSite.TargetDir)\MetroFramework.Fonts.dll" />
       </Component>
-      <Component Id="Newtonsoft.Json">
-        <File Source="$(var.nvQuickSite.TargetDir)\Newtonsoft.Json.dll" />
-      </Component>
-      <Component Id="Octokit">
-        <File Source="$(var.nvQuickSite.TargetDir)\Octokit.dll" />
-      </Component>
-      <Component Id="Ookii.Dialogs">
-        <File Source="$(var.nvQuickSite.TargetDir)\Ookii.Dialogs.dll" />
-      </Component>
-      <Component Id="OSVersionInfo">
-        <File Source="$(var.nvQuickSite.TargetDir)\OSVersionInfo.dll" />
-      </Component>
-      <Component Id="Microsoft.Web.Administration">
+		<Component Id="Microsoft.Bcl.AsyncInterfaces">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.Bcl.AsyncInterfaces.dll" />
+		</Component>
+		<Component Id="Microsoft.Data.SqlClient">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.Data.SqlClient.dll" />
+		</Component>
+		<Component Id="Microsoft.Data.SqlClient.SNI.arm64">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.Data.SqlClient.SNI.arm64.dll" />
+		</Component>
+		<Component Id="Microsoft.Data.SqlClient.SNI.x64">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.Data.SqlClient.SNI.x64.dll" />
+		</Component>
+		<Component Id="Microsoft.Data.SqlClient.SNI.x86">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.Data.SqlClient.SNI.x86.dll" />
+		</Component>
+		<Component Id="Microsoft.Identity.Client">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.Identity.Client.dll" />
+		</Component>
+		<Component Id="Microsoft.Identity.Client.Extensions.Msal">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.Identity.Client.Extensions.Msal.dll" />
+		</Component>
+		<Component Id="Microsoft.IdentityModel.Abstractions">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.IdentityModel.Abstractions.dll" />
+		</Component>
+		<Component Id="Microsoft.IdentityModel.JsonWebTokens">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.IdentityModel.JsonWebTokens.dll" />
+		</Component>
+		<Component Id="Microsoft.IdentityModel.Logging">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.IdentityModel.Logging.dll" />
+		</Component>
+		<Component Id="Microsoft.IdentityModel.Protocols">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.IdentityModel.Protocols.dll" />
+		</Component>
+		<Component Id="Microsoft.IdentityModel.Protocols.OpenIdConnect">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll" />
+		</Component>
+		<Component Id="Microsoft.IdentityModel.Tokens">
+			<File Source="$(var.nvQuickSite.TargetDir)\Microsoft.IdentityModel.Tokens.dll" />
+		</Component>
+	  <Component Id="Microsoft.Web.Administration">
         <File Source="$(var.nvQuickSite.TargetDir)\Microsoft.Web.Administration.dll" />
       </Component>
-      <Component Id="nvQuickSite">
-        <File Source="$(var.nvQuickSite.TargetPath)" />
-      </Component>
-      <Component Id="nvQuickSite.exe.config">
-        <File Source="$(var.nvQuickSite.TargetDir)\nvQuickSite.exe.config" />
-      </Component>
+		<Component Id="Newtonsoft.Json">
+			<File Source="$(var.nvQuickSite.TargetDir)\Newtonsoft.Json.dll" />
+		</Component>
+		<Component Id="nvQuickSite">
+			<File Source="$(var.nvQuickSite.TargetPath)" />
+		</Component>
+		<Component Id="nvQuickSite.exe.config">
+			<File Source="$(var.nvQuickSite.TargetDir)\nvQuickSite.exe.config" />
+		</Component>
+		<Component Id="Octokit">
+			<File Source="$(var.nvQuickSite.TargetDir)\Octokit.dll" />
+		</Component>
+		<Component Id="Ookii.Dialogs">
+			<File Source="$(var.nvQuickSite.TargetDir)\Ookii.Dialogs.dll" />
+		</Component>
+		<Component Id="OSVersionInfo">
+			<File Source="$(var.nvQuickSite.TargetDir)\OSVersionInfo.dll" />
+		</Component>
       <Component Id="Serilog">
         <File Source="$(var.nvQuickSite.TargetDir)\Serilog.dll" />
       </Component>
@@ -84,27 +126,113 @@
       <Component Id="Serilog.Sinks.File">
         <File Source="$(var.nvQuickSite.TargetDir)\Serilog.Sinks.File.dll" />
       </Component>
-    </DirectoryRef>
+		<Component Id="System.Buffers">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Buffers.dll" />
+		</Component>
+		<Component Id="System.ClientModel">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.ClientModel.dll" />
+		</Component>
+		<Component Id="System.Configuration.ConfigurationManager">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Configuration.ConfigurationManager.dll" />
+		</Component>
+		<Component Id="System.Diagnostics.DiagnosticSource">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Diagnostics.DiagnosticSource.dll" />
+		</Component>
+		<Component Id="System.IdentityModel.Tokens.Jwt">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.IdentityModel.Tokens.Jwt.dll" />
+		</Component>
+		<Component Id="System.IO.FileSystem.AccessControl">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.IO.FileSystem.AccessControl.dll" />
+		</Component>
+		<Component Id="System.Memory.Data">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Memory.Data.dll" />
+		</Component>
+		<Component Id="System.Memory">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Memory.dll" />
+		</Component>
+		<Component Id="System.Numerics.Vectors">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Numerics.Vectors.dll" />
+		</Component>
+	  <Component Id="System.Runtime.CompilerServices.Unsafe">
+		<File Source="$(var.nvQuickSite.TargetDir)\System.Runtime.CompilerServices.Unsafe.dll" />
+	  </Component>
+		<Component Id="System.Security.AccessControl">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Security.AccessControl.dll" />
+		</Component>
+		<Component Id="System.Security.Cryptography.ProtectedData">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Security.Cryptography.ProtectedData.dll" />
+		</Component>
+		<Component Id="System.Security.Permissions">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Security.Permissions.dll" />
+		</Component>
+		<Component Id="System.Security.Principal.Windows">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Security.Principal.Windows.dll" />
+		</Component>
+		<Component Id="System.Text.Encodings.Web">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Text.Encodings.Web.dll" />
+		</Component>
+		<Component Id="System.Text.Json">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Text.Json.dll" />
+		</Component>
+		<Component Id="System.Threading.Tasks.Extensions">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.Threading.Tasks.Extensions.dll" />
+		</Component>
+		<Component Id="System.ValueTuple">
+			<File Source="$(var.nvQuickSite.TargetDir)\System.ValueTuple.dll" />
+		</Component>		
+	</DirectoryRef>
 
     <Feature Id="MainApplication" Title="Main Application" Level="1">
-      <ComponentRef Id="ApplicationShortcut" />
-      <ComponentRef Id="Analytics.NET" />
-      <ComponentRef Id="DotNetZip" />
-      <ComponentRef Id="MetroFramework.Design" />
-      <ComponentRef Id="MetroFramework" />
-      <ComponentRef Id="MetroFramework.Fonts" />
-      <ComponentRef Id="Newtonsoft.Json" />
-      <ComponentRef Id="Octokit" />
-      <ComponentRef Id="Ookii.Dialogs" />
-      <ComponentRef Id="OSVersionInfo" />
-      <ComponentRef Id="Microsoft.Web.Administration" />
-      <ComponentRef Id="nvQuickSite" />
-      <ComponentRef Id="nvQuickSite.exe.config" />
-      <ComponentRef Id="Serilog" />
-      <ComponentRef Id="Serilog.Sinks.Console" />
-      <ComponentRef Id="Serilog.Sinks.Debug" />
-      <ComponentRef Id="Serilog.Sinks.File" />
-    </Feature>
+        <ComponentRef Id="ApplicationShortcut" />
+        <ComponentRef Id="Analytics.NET" />
+		<ComponentRef Id="Azure.Core"/>
+		<ComponentRef Id="Azure.Identity" />	
+        <ComponentRef Id="MetroFramework.Design" />
+        <ComponentRef Id="MetroFramework" />
+        <ComponentRef Id="MetroFramework.Fonts" />
+		<ComponentRef Id="Microsoft.Bcl.AsyncInterfaces"/>
+        <ComponentRef Id="Microsoft.Data.SqlClient" />
+        <ComponentRef Id="Microsoft.Data.SqlClient.SNI.arm64"/>
+		<ComponentRef Id="Microsoft.Data.SqlClient.SNI.x64"/>
+		<ComponentRef Id="Microsoft.Data.SqlClient.SNI.x86"/>
+		<ComponentRef Id="Microsoft.Identity.Client"/>
+		<ComponentRef Id="Microsoft.Identity.Client.Extensions.Msal"/>
+		<ComponentRef Id="Microsoft.IdentityModel.Abstractions"/>
+		<ComponentRef Id="Microsoft.IdentityModel.JsonWebTokens"/>
+		<ComponentRef Id="Microsoft.IdentityModel.Logging"/>
+		<ComponentRef Id="Microsoft.IdentityModel.Protocols"/>
+		<ComponentRef Id="Microsoft.IdentityModel.Protocols.OpenIdConnect"/>
+		<ComponentRef Id="Microsoft.IdentityModel.Tokens"/>
+		<ComponentRef Id="Microsoft.Web.Administration" />
+		<ComponentRef Id="Newtonsoft.Json" />
+		<ComponentRef Id="nvQuickSite" />
+		<ComponentRef Id="nvQuickSite.exe.config" />
+		<ComponentRef Id="Octokit" />
+		<ComponentRef Id="Ookii.Dialogs" />
+		<ComponentRef Id="OSVersionInfo" />
+        <ComponentRef Id="Serilog" />
+        <ComponentRef Id="Serilog.Sinks.Console" />
+        <ComponentRef Id="Serilog.Sinks.Debug" />
+        <ComponentRef Id="Serilog.Sinks.File" />
+		<ComponentRef Id="System.Buffers" />
+		<ComponentRef Id="System.ClientModel" />
+		<ComponentRef Id="System.Configuration.ConfigurationManager" />
+		<ComponentRef Id="System.Diagnostics.DiagnosticSource" />
+		<ComponentRef Id="System.IdentityModel.Tokens.Jwt" />
+		<ComponentRef Id="System.IO.FileSystem.AccessControl" />
+		<ComponentRef Id="System.Memory.Data" />
+		<ComponentRef Id="System.Memory" />
+		<ComponentRef Id="System.Numerics.Vectors" />
+		<ComponentRef Id="System.Runtime.CompilerServices.Unsafe" />
+		<ComponentRef Id="System.Security.AccessControl" />
+		<ComponentRef Id="System.Security.Cryptography.ProtectedData" />
+		<ComponentRef Id="System.Security.Permissions" />
+		<ComponentRef Id="System.Security.Principal.Windows" />
+		<ComponentRef Id="System.Text.Encodings.Web" />
+		<ComponentRef Id="System.Text.Json" />
+		<ComponentRef Id="System.Threading.Tasks.Extensions" />
+		<ComponentRef Id="System.ValueTuple" />
+	</Feature>
 
     <UI>
       <UIRef Id="WixUI_Minimal" />

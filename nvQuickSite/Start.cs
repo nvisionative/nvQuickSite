@@ -24,12 +24,12 @@ namespace nvQuickSite
     using System.Diagnostics;
     using System.Drawing;
     using System.IO;
+    using System.IO.Compression;
     using System.Linq;
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
     using System.Windows.Forms;
 
-    using Ionic.Zip;
     using MetroFramework.Controls;
     using nvQuickSite.Controllers;
     using nvQuickSite.Controllers.Exceptions;
@@ -663,47 +663,30 @@ namespace nvQuickSite
 
         private void ReadAndExtract(string openPath, string savePath)
         {
+            var extractor = new PackageExtractorController();
+            extractor.ProgressUpdated += this.UpdateProgressStatus;
+            extractor.ProgressValueUpdated += this.UpdateProgressBar;
+
             try
             {
-                Log.Logger.Information("Extracting package");
-                var myZip = ZipFile.Read(openPath);
-                foreach (var entry in myZip)
-                {
-                    this.totalSize += entry.UncompressedSize;
-                }
-
-                this.progressBar.Maximum = (int)this.totalSize;
-                myZip.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(this.myZip_ExtractProgress);
-                myZip.ExtractAll(savePath, ExtractExistingFileAction.OverwriteSilently);
-                this.lblProgressStatus.Text = "Congratulations! Your new site is now ready to visit!";
+                extractor.ExtractPackage(openPath, savePath);
             }
-            catch (Exception ex)
+            catch (ReadAndExtractException ex)
             {
-                var message = "Error attempting to read and extract the package";
-                Log.Error(ex, message);
-                throw new ReadAndExtractException(message, ex) { Source = "Read And Extract Package" };
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            Log.Logger.Information("Extracted package from {openPath} to {savePath}", openPath, savePath);
         }
 
-        private void myZip_ExtractProgress(object sender, ExtractProgressEventArgs e)
+        private void UpdateProgressStatus(string status)
         {
-            System.Windows.Forms.Application.DoEvents();
-            if (this.total != e.TotalBytesToTransfer)
-            {
-                this.sum += this.total - this.lastVal + e.BytesTransferred;
-                this.total = e.TotalBytesToTransfer;
-                this.lblProgressStatus.Text = "Copying: " + e.CurrentEntry.FileName;
-            }
-            else
-            {
-                this.sum += e.BytesTransferred - this.lastVal;
-            }
+            this.lblProgressStatus.Text = status;
+            Application.DoEvents();
+        }
 
-            this.lastVal = e.BytesTransferred;
-
-            this.progressBar.Value = (int)this.sum;
+        private void UpdateProgressBar(int value)
+        {
+            this.progressBar.Value = value;
+            Application.DoEvents();
         }
 
         private void btnVisitSite_Click(object sender, EventArgs e)
