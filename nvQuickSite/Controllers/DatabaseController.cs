@@ -91,7 +91,10 @@ namespace nvQuickSite.Controllers
             {
                 string useMaster = @"USE master";
                 string dropDatabase = $@"IF EXISTS(SELECT name FROM sys.databases WHERE name = '{this.dbName}') " +
-                    $"DROP DATABASE [{this.dbName}]";
+                    $"BEGIN " +
+                    $"ALTER DATABASE [{this.dbName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; " +
+                    $"DROP DATABASE [{this.dbName}]; " +
+                    $"END";
 
                 SqlCommand useMasterCommand = new SqlCommand(useMaster, myConn);
                 SqlCommand dropDatabaseCommand = new SqlCommand(dropDatabase, myConn);
