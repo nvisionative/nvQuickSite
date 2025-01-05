@@ -13,16 +13,20 @@
 
 		<DirectoryRef Id="ApplicationProgramsFolder">
 			<Component Id="ApplicationShortcut">
-				<Shortcut Id="ApplicationStartMenuShortcut" Name="nvQuickSite" Description="Really Quick DNN Installer" Target="nvQuickSite.exe" WorkingDirectory="ApplicationRootDirectory" />
+				<Shortcut Id="ApplicationStartMenuShortcut" Name="nvQuickSite" Description="Really Quick DNN Installer" Target="[#nvQuickSite]" WorkingDirectory="ApplicationRootDirectory" />
 				<RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall" />
 				<RegistryValue Root="HKCU" Key="Software\nvisionative\nvQuickSite" Name="installed" Type="integer" Value="1" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 
 		<ComponentGroup Id="ApplicationFiles" Directory="ApplicationRootDirectory">
-			<Files Include="$(var.nvQuickSite.TargetDir)\**" />
+			<Files Include="$(var.nvQuickSite.TargetDir)\**">
+				<Exclude Files="$(var.nvQuickSite.TargetDir)\nvQuickSite.exe" />
+			</Files> 
+			<Component>
+				<File Id="nvQuickSite" Source="$(var.nvQuickSite.TargetDir)\nvQuickSite.exe" />
+			</Component>
 		</ComponentGroup>
-			
 
 		<Feature Id="MainApplication" Title="Main Application" Level="1">
 			<ComponentGroupRef Id="ApplicationFiles" />
@@ -35,7 +39,7 @@
 		</UI>
 		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch nvQuickSite" />
 
-		<Property Id="WixShellExecTarget" Value="nvQuickSite.exe" />
+		<Property Id="WixShellExecTarget" Value="[#nvQuickSite]" />
 		<CustomAction Id="LaunchApplication" DllEntry="WixShellExec" Impersonate="yes" BinaryRef="Wix4UtilCA_X86" />
 	
 			<StandardDirectory Id="ProgramMenuFolder">
