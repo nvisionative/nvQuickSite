@@ -19,8 +19,8 @@ namespace nvQuickSite.Controllers
 {
     using System;
     using System.Data;
-    using System.Data.SqlClient;
 
+    using Microsoft.Data.SqlClient;
     using nvQuickSite.Controllers.Exceptions;
     using Serilog;
 
@@ -77,6 +77,7 @@ namespace nvQuickSite.Controllers
         {
             Log.Logger.Information("Dropping database {dbName}", this.dbName);
             string myDBServerName = this.dbServerName;
+            string connectionStringTrustServerCertificate = "TrustServerCertificate=True;";
             string connectionStringAuthSection = string.Empty;
             if (this.usesWindowsAuthentication)
             {
@@ -87,7 +88,7 @@ namespace nvQuickSite.Controllers
                 connectionStringAuthSection = "User ID=" + this.dbUserName + ";Password=" + this.dbPassword + ";";
             }
 
-            using (SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection))
+            using (SqlConnection myConn = new SqlConnection($"Server={myDBServerName}; Initial Catalog=master; {connectionStringTrustServerCertificate} {connectionStringAuthSection}"))
             {
                 string useMaster = @"USE master";
                 string dropDatabase = $@"IF EXISTS(SELECT name FROM sys.databases WHERE name = '{this.dbName}') " +
@@ -131,6 +132,7 @@ namespace nvQuickSite.Controllers
         public void CreateDatabase()
         {
             Log.Logger.Information("Creating database {dbName}", this.dbName);
+            string connectionStringTrustServerCertificate = "TrustServerCertificate=True;";
             string connectionStringAuthSection = string.Empty;
             string connectionTimeout = "Connection Timeout=5;";
             if (this.usesWindowsAuthentication)
@@ -142,7 +144,7 @@ namespace nvQuickSite.Controllers
                 connectionStringAuthSection = $"User ID={this.dbUserName};Password={this.dbPassword};";
             }
 
-            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master;{connectionStringAuthSection}{connectionTimeout}"))
+            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master; {connectionStringTrustServerCertificate} {connectionStringAuthSection} {connectionTimeout}"))
             {
                 string str = $"CREATE DATABASE [{this.dbName}] ON PRIMARY " +
                     $"(NAME = [{this.dbName}_Data], " +
@@ -186,6 +188,7 @@ namespace nvQuickSite.Controllers
         internal void SetDatabasePermissions()
         {
             Log.Logger.Information("Setting permissions on database {dbName}", this.dbName);
+            string connectionStringTrustServerCertificate = "TrustServerCertificate=True;";
             string connectionStringAuthSection = string.Empty;
             if (this.usesWindowsAuthentication)
             {
@@ -196,7 +199,7 @@ namespace nvQuickSite.Controllers
                 connectionStringAuthSection = $"User ID={this.dbUserName};Password={this.dbPassword};";
             }
 
-            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master;{connectionStringAuthSection}"))
+            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master; {connectionStringTrustServerCertificate} {connectionStringAuthSection}"))
             {
                 var appPoolNameFull = @"IIS APPPOOL\DefaultAppPool";
                 var appPoolName = "DefaultAppPool";
