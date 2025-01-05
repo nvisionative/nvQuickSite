@@ -8,8 +8,8 @@
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 
-		<PropertyRef Id="NETFRAMEWORK45" />
-		<Launch Condition="Installed OR NETFRAMEWORK45" Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again." />
+		<PropertyRef Id="WIX_IS_NETFRAMEWORK_472_OR_LATER_INSTALLED" />
+		<Launch Condition="Installed OR WIX_IS_NETFRAMEWORK_472_OR_LATER_INSTALLED" Message="This application requires .NET Framework 4.7.2 or later. Please install .NET Framework 4.72 or later and run this installer again." />
 
 		<DirectoryRef Id="ApplicationProgramsFolder">
 			<Component Id="ApplicationShortcut">
