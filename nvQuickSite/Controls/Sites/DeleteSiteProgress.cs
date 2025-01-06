@@ -187,7 +187,8 @@ namespace nvQuickSite.Controls.Sites
                     ex.Source,
                     ex.Message,
                     SystemIcons.Error,
-                    DialogController.DialogButtons.OK);
+                    DialogController.DialogButtons.OK,
+                    true);
                 }
             }
 
@@ -233,7 +234,8 @@ namespace nvQuickSite.Controls.Sites
                 errorTitle,
                 errorDescription,
                 SystemIcons.Error,
-                DialogController.DialogButtons.OK);
+                DialogController.DialogButtons.OK,
+                true);
 
             this.DialogResult = DialogResult.OK;
             this.Close();

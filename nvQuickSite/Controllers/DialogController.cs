@@ -61,8 +61,9 @@ namespace nvQuickSite.Controllers
         /// <param name="icon">Icon for the bitmap image (e.g., SystemIcons.Error, SystemIcons.Warning, SystemIcons.Information).</param>
         /// <param name="dialogButtons">Type of buttons to use for the custom message box.</param>
         /// <param name="doNotWarnAgain">User preference for not warning again with a dialog (i.e., no longer show the dialog).</param>
+        /// <param name="exception">A value indicating whether the dialog is for an exception.</param>
         /// <returns>DialogResult.</returns>
-        internal static DialogResult ShowMessage(string title, string message, Icon icon, DialogButtons dialogButtons, bool doNotWarnAgain = false)
+        internal static DialogResult ShowMessage(string title, string message, Icon icon, DialogButtons dialogButtons, bool exception = false, bool doNotWarnAgain = false)
         {
             var dialogTitle = title;
             var dialogMessage = message;
@@ -71,7 +72,7 @@ namespace nvQuickSite.Controllers
             switch (dialogButtons)
             {
                 case DialogButtons.OK:
-                    using (var messageBox = new MsgBoxOk(dialogTitle, dialogMessage, dialogIcon))
+                    using (var messageBox = new MsgBoxOk(dialogTitle, dialogMessage, dialogIcon, exception))
                     {
                         result = messageBox.ShowDialog();
                     }
