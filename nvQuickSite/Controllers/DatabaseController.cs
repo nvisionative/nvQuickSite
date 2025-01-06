@@ -19,8 +19,8 @@ namespace nvQuickSite.Controllers
 {
     using System;
     using System.Data;
-    using System.Data.SqlClient;
 
+    using Microsoft.Data.SqlClient;
     using nvQuickSite.Controllers.Exceptions;
     using Serilog;
 
@@ -77,6 +77,7 @@ namespace nvQuickSite.Controllers
         {
             Log.Logger.Information("Dropping database {dbName}", this.dbName);
             string myDBServerName = this.dbServerName;
+            string connectionStringTrustServerCertificate = "TrustServerCertificate=True;";
             string connectionStringAuthSection = string.Empty;
             if (this.usesWindowsAuthentication)
             {
@@ -87,11 +88,14 @@ namespace nvQuickSite.Controllers
                 connectionStringAuthSection = "User ID=" + this.dbUserName + ";Password=" + this.dbPassword + ";";
             }
 
-            using (SqlConnection myConn = new SqlConnection("Server=" + myDBServerName + "; Initial Catalog=master;" + connectionStringAuthSection))
+            using (SqlConnection myConn = new SqlConnection($"Server={myDBServerName}; Initial Catalog=master; {connectionStringTrustServerCertificate} {connectionStringAuthSection}"))
             {
                 string useMaster = @"USE master";
                 string dropDatabase = $@"IF EXISTS(SELECT name FROM sys.databases WHERE name = '{this.dbName}') " +
-                    $"DROP DATABASE [{this.dbName}]";
+                    $"BEGIN " +
+                    $"ALTER DATABASE [{this.dbName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; " +
+                    $"DROP DATABASE [{this.dbName}]; " +
+                    $"END";
 
                 SqlCommand useMasterCommand = new SqlCommand(useMaster, myConn);
                 SqlCommand dropDatabaseCommand = new SqlCommand(dropDatabase, myConn);
@@ -128,6 +132,7 @@ namespace nvQuickSite.Controllers
         public void CreateDatabase()
         {
             Log.Logger.Information("Creating database {dbName}", this.dbName);
+            string connectionStringTrustServerCertificate = "TrustServerCertificate=True;";
             string connectionStringAuthSection = string.Empty;
             string connectionTimeout = "Connection Timeout=5;";
             if (this.usesWindowsAuthentication)
@@ -139,7 +144,7 @@ namespace nvQuickSite.Controllers
                 connectionStringAuthSection = $"User ID={this.dbUserName};Password={this.dbPassword};";
             }
 
-            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master;{connectionStringAuthSection}{connectionTimeout}"))
+            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master; {connectionStringTrustServerCertificate} {connectionStringAuthSection} {connectionTimeout}"))
             {
                 string str = $"CREATE DATABASE [{this.dbName}] ON PRIMARY " +
                     $"(NAME = [{this.dbName}_Data], " +
@@ -183,6 +188,7 @@ namespace nvQuickSite.Controllers
         internal void SetDatabasePermissions()
         {
             Log.Logger.Information("Setting permissions on database {dbName}", this.dbName);
+            string connectionStringTrustServerCertificate = "TrustServerCertificate=True;";
             string connectionStringAuthSection = string.Empty;
             if (this.usesWindowsAuthentication)
             {
@@ -193,7 +199,7 @@ namespace nvQuickSite.Controllers
                 connectionStringAuthSection = $"User ID={this.dbUserName};Password={this.dbPassword};";
             }
 
-            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master;{connectionStringAuthSection}"))
+            using (SqlConnection myConn = new SqlConnection($"Server={this.dbServerName}; Initial Catalog=master; {connectionStringTrustServerCertificate} {connectionStringAuthSection}"))
             {
                 var appPoolNameFull = @"IIS APPPOOL\DefaultAppPool";
                 var appPoolName = "DefaultAppPool";
@@ -208,7 +214,7 @@ namespace nvQuickSite.Controllers
                 SqlCommand grantLogin = new SqlCommand($"sp_grantlogin '{appPoolNameFull}'", myConn);
                 SqlCommand useDb = new SqlCommand($"USE [{this.dbName}]", myConn);
                 SqlCommand grantDbAccess = new SqlCommand($"sp_grantdbaccess '{appPoolNameFull}', '{appPoolName}'", myConn);
-                SqlCommand addRoleMember = new SqlCommand($"sp_addrolemember 'db_owner', '{appPoolName}'", myConn);
+                SqlCommand addRoleMember = new SqlCommand($"ALTER ROLE [db_owner] ADD MEMBER [{appPoolName}] ", myConn);
 
                 try
                 {

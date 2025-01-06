@@ -17,6 +17,7 @@
 
 namespace nvQuickSite.Controls.Dialogs
 {
+    using System;
     using System.Drawing;
 
     using MetroFramework.Forms;
@@ -32,12 +33,23 @@ namespace nvQuickSite.Controls.Dialogs
         /// <param name="dialogTitle">The title to show in the dialog.</param>
         /// <param name="dialogMessage">The message to show in the dialog.</param>
         /// <param name="dialogIconImage">The image to use as the dialog icon.</param>
-        public MsgBoxOk(string dialogTitle, string dialogMessage, Image dialogIconImage)
+        /// <param name="exception">Whether or not the dialog is an exception.</param>
+        public MsgBoxOk(string dialogTitle, string dialogMessage, Image dialogIconImage, bool exception = false)
         {
             this.InitializeComponent();
             this.lblTitle.Text = dialogTitle;
             this.lblMessage.Text = dialogMessage;
             this.dialogIcon.Image = dialogIconImage;
+            this.btnGetHelp.Visible = exception;
+            this.btnGetHelp.Click += (sender, e) =>
+            {
+                this.linkLabelReportIssue.Visible = true;
+                System.Diagnostics.Process.Start($"https://github.com/nvisionative/nvQuickSite/issues?q=is%3Aissue+{dialogTitle}+{dialogMessage}");
+            };
+            this.linkLabelReportIssue.Click += (sender, e) =>
+            {
+                System.Diagnostics.Process.Start($"https://github.com/nvisionative/nvQuickSite/issues/new?title=[In-App%20Issue]{dialogTitle}&body={dialogMessage}");
+            };
         }
     }
 }

@@ -86,7 +86,7 @@ namespace nvQuickSite
             }
             catch (VersionControllerException ex)
             {
-                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK, true);
             }
 
             Start control = new Start(loggingLevelSwitch);
