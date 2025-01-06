@@ -477,6 +477,7 @@ namespace nvQuickSite
                         "The entered location does not exist. Do you wish to create it?",
                         SystemIcons.Warning,
                         DialogController.DialogButtons.YesNoIgnore,
+                        false,
                         Properties.Settings.Default.LocationDoNotWarnAgain);
 
                     if (result == DialogResult.Yes)
@@ -640,23 +641,23 @@ namespace nvQuickSite
             }
             catch (SiteExistsException ex)
             {
-                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Warning, DialogController.DialogButtons.OK);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Warning, DialogController.DialogButtons.OK, true);
             }
             catch (IISControllerException ex)
             {
-                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK, true);
             }
             catch (FileSystemControllerException ex)
             {
-                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK, true);
             }
             catch (DatabaseControllerException ex)
             {
-                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
+                DialogController.ShowMessage(ex.Source, ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK, true);
             }
             catch (Exception ex)
             {
-                DialogController.ShowMessage("Database Info Next", ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK);
+                DialogController.ShowMessage("Database Info Next", ex.Message, SystemIcons.Error, DialogController.DialogButtons.OK, true);
                 throw;
             }
         }
