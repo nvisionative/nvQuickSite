@@ -36,6 +36,7 @@ namespace nvQuickSite
     using nvQuickSite.Controls.Settings;
     using nvQuickSite.Controls.Sites;
     using nvQuickSite.Exceptions;
+    using nvQuickSite.Extensions;
     using nvQuickSite.Models;
     using Ookii.Dialogs;
     using Serilog;
@@ -190,7 +191,7 @@ namespace nvQuickSite
             this.cboProductVersion.Items.Clear();
             foreach (var package in this.Packages.Where(p => p.did == packageId).OrderByDescending(p => p.version))
             {
-                this.cboProductVersion.Items.Add(new ComboItem(package.version.ToString(), package.version.ToString()));
+                this.cboProductVersion.Items.Add(new ComboItem(package.version.ToSemanticString(), package.version.ToString()));
             }
 
             if (this.cboProductVersion.Items.Count > 0)
@@ -222,7 +223,9 @@ namespace nvQuickSite
             Package package;
             var fileName = string.Empty;
 
-            package = this.Packages.FirstOrDefault(p => p.did == ((ComboItem)this.cboProductName.SelectedItem).Value && p.version == new System.Version(((ComboItem)this.cboProductVersion.SelectedItem).Value));
+            package = this.Packages.FirstOrDefault(p =>
+                p.did == ((ComboItem)this.cboProductName.SelectedItem).Value &&
+                p.version == new System.Version(((ComboItem)this.cboProductVersion.SelectedItem).Value));
             fileName = package.url.Split('/').Last();
 
             var downloadDirectory = FileSystemController.GetDownloadDirectory();
