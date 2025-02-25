@@ -103,6 +103,15 @@ namespace nvQuickSite.Controllers
                 }
             }
 
+            // Remove RCs if they already have a non-RC version.
+            packages.RemoveAll(p =>
+                p.did == "dnn-platform-rc" &&
+                packages.Any(p2 =>
+                    p2.version.Major == p.version.Major &&
+                    p2.version.Minor == p2.version.Minor &&
+                    p2.version.Build == p2.version.Build &&
+                    p2.did != "dnn-platform-rc"));
+
             SaveLocalPackagesFile(packages);
             Log.Logger.Information("Saved local packages file");
             Log.Logger.Debug("Saved packages to local packages file: {@packages}", packages);
@@ -201,15 +210,26 @@ namespace nvQuickSite.Controllers
 
                         ghPackage.version = new System.Version(release.TagName.TrimStart('v').Split('-')[0]);
 
-                        if (index == 0 &&
-                            release.Name.IndexOf("rc", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                        if (release.Name.IndexOf("rc", StringComparison.OrdinalIgnoreCase) >= 0 &&
                             Properties.Settings.Default.ShowReleaseCandidates &&
                             installPackage != null)
                         {
                             ghPackage.did = "dnn-platform-rc";
-                            ghPackage.name = "DNN Platform Release Candidate " + release.TagName.Split('-')[1].ToUpperInvariant().Substring(2);
+                            ghPackage.name = "DNN Platform Release Candidate";
                             ghPackage.url = installPackage.BrowserDownloadUrl;
                             ghPackage.upgradeurl = upgradePackage.BrowserDownloadUrl;
+
+                            var preReleaseTag = release.TagName.TrimStart('v').Split('-')[1];
+                            var rcSuffix = preReleaseTag.Replace("rc", string.Empty);
+                            if (int.TryParse(rcSuffix, out int preReleaseNumber))
+                            {
+                                ghPackage.version = new System.Version(
+                                    ghPackage.version.Major,
+                                    ghPackage.version.Minor,
+                                    ghPackage.version.Build,
+                                    preReleaseNumber);
+                            }
+
                             packages.Add(ghPackage);
                         }
                         else if (!release.Name.ToUpperInvariant().Contains("RC") &&

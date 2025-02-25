@@ -17,12 +17,15 @@
 
 namespace nvQuickSite.Models
 {
+    using System.Diagnostics;
+
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Represents one package.
     /// </summary>
+    [DebuggerDisplay("{did} {version}")]
     public class Package
     {
         /// <summary>
