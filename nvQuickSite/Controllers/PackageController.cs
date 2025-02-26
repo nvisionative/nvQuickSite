@@ -108,8 +108,8 @@ namespace nvQuickSite.Controllers
                 p.did == "dnn-platform-rc" &&
                 packages.Any(p2 =>
                     p2.version.Major == p.version.Major &&
-                    p2.version.Minor == p2.version.Minor &&
-                    p2.version.Build == p2.version.Build &&
+                    p2.version.Minor == p.version.Minor &&
+                    p2.version.Build == p.version.Build &&
                     p2.did != "dnn-platform-rc"));
 
             SaveLocalPackagesFile(packages);
