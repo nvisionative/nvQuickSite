@@ -22,6 +22,7 @@ namespace nvQuickSite.Controllers
     using System.Globalization;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
 
     using Microsoft.Web.Administration;
@@ -33,6 +34,9 @@ namespace nvQuickSite.Controllers
     /// </summary>
     public static class IISController
     {
+        // EKU OID for "Server Authentication". Using OID avoids locale-dependent FriendlyName matching.
+        private const string ServerAuthenticationEkuOid = "1.3.6.1.5.5.7.3.1";
+
         /// <summary>
         /// Creates a site in IIS.
         /// </summary>
@@ -177,18 +181,14 @@ namespace nvQuickSite.Controllers
 
                 foreach (var certificate in store.Certificates)
                 {
-                    foreach (var extension in certificate.Extensions)
+                    var hasServerAuthEku = certificate.Extensions
+                        .OfType<X509EnhancedKeyUsageExtension>()
+                        .Any(ext => ext.EnhancedKeyUsages.Cast<Oid>()
+                            .Any(oid => string.Equals(oid?.Value, ServerAuthenticationEkuOid, StringComparison.Ordinal)));
+
+                    if (hasServerAuthEku)
                     {
-                        if (extension.Oid.FriendlyName == "Enhanced Key Usage" && extension is X509EnhancedKeyUsageExtension enhancedKeyUsageExtension)
-                        {
-                            foreach (var item in enhancedKeyUsageExtension.EnhancedKeyUsages)
-                            {
-                                if (item.FriendlyName == "Server Authentication")
-                                {
-                                    certificates.Add(certificate);
-                                }
-                            }
-                        }
+                        certificates.Add(certificate);
                     }
                 }
 
